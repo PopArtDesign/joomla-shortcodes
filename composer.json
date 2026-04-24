@@ -1,0 +1,43 @@
+{
+    "name": "popartdesign/joomla-shortcodes",
+    "description": "A shortcodes pack for Joomla Shortcoder.",
+    "homepage": "https://github.com/PopArtDesign/joomla-shortcodes",
+    "type": "joomla-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Oleg Voronkovich",
+            "email": "oleg-voronkovich@yandex.ru",
+            "homepage": "https://github.com/voronkovich"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "PopArtDesign\\JoomlaShortcodes\\Plugin\\Content\\Shortcodes\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PopArtDesign\\JoomlaShortcodes\\Plugin\\Content\\Shortcodes\\Test\\": "tests/"
+        }
+    },
+    "require": {
+        "php": ">=7.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0",
+        "friendsofphp/php-cs-fixer": "^3.95",
+        "popartdesign/joomla-shortcoder": "^0.0.2"
+    },
+    "scripts": {
+        "cs": "php-cs-fixer fix -v --dry-run --allow-risky=yes",
+        "cs-fix": "php-cs-fixer fix -v --allow-risky=yes"
+    },
+    "repositories": [
+        {
+            "name": "popartdesign/joomla-shortcoder",
+            "type": "vcs",
+            "url": "https://github.com/PopArtDesign/joomla-shortcoder"
+        }
+    ]
+}
