@@ -8,7 +8,7 @@ This project is a Joomla plugin that provides a pack of shortcodes for the `joom
 
 Shortcodes are implemented as PHP files in the `shortcodes` directory. Each file defines a shortcode and its attributes. For example, the `youtube.php` file implements the `{youtube}` shortcode, which allows users to embed YouTube videos into their articles.
 
-The main plugin class, `PopArtDesign\JoomlaShortcodes\Plugin\Content\Shortcodes\Extension\Shortcodes`, registers the `shortcodes` directory with the `joomla-shortcoder` extension. This makes the shortcodes available to Joomla.
+The main plugin class, `JoomlaShortcoder\Plugin\Content\Shortcodes\Extension\Shortcodes`, registers the `shortcodes` directory with the `joomla-shortcoder` extension. This makes the shortcodes available to Joomla.
 
 ## Building and Running
 

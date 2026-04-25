@@ -7,7 +7,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
-use PopArtDesign\JoomlaShortcodes\Plugin\Content\Shortcodes\Extension\Shortcodes;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Extension\Shortcodes;
 
 return new class () implements ServiceProviderInterface {
     public function register(Container $container): void

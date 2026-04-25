@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "001056672989ee11b7852f198256838f",
+    "content-hash": "3b45c093dd41f4dfa74154d2565b21d0",
     "packages": [],
     "packages-dev": [
         {
@@ -1243,16 +1243,16 @@
         },
         {
             "name": "popartdesign/joomla-shortcoder",
-            "version": "v0.0.2",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PopArtDesign/joomla-shortcoder.git",
-                "reference": "5c1f489449a50c0e893e711afceaaa30cfcf59fc"
+                "reference": "bb13f4c176a398243c9e069b7b18a23e02eaa6f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PopArtDesign/joomla-shortcoder/zipball/5c1f489449a50c0e893e711afceaaa30cfcf59fc",
-                "reference": "5c1f489449a50c0e893e711afceaaa30cfcf59fc",
+                "url": "https://api.github.com/repos/PopArtDesign/joomla-shortcoder/zipball/bb13f4c176a398243c9e069b7b18a23e02eaa6f7",
+                "reference": "bb13f4c176a398243c9e069b7b18a23e02eaa6f7",
                 "shasum": ""
             },
             "require": {
@@ -1262,15 +1262,16 @@
                 "friendsofphp/php-cs-fixer": "^3.95",
                 "phpunit/phpunit": "^10.0"
             },
+            "default-branch": true,
             "type": "joomla-plugin",
             "autoload": {
                 "psr-4": {
-                    "PopArtDesign\\JoomlaShortcoder\\Plugin\\Content\\Shortcoder\\": "src/"
+                    "JoomlaShortcoder\\Plugin\\Content\\Shortcoder\\": "src/"
                 }
             },
             "autoload-dev": {
                 "psr-4": {
-                    "PopArtDesign\\JoomlaShortcoder\\Plugin\\Content\\Shortcoder\\Test\\": "tests/"
+                    "JoomlaShortcoder\\Plugin\\Content\\Shortcoder\\Test\\": "tests/"
                 }
             },
             "scripts": {
@@ -1294,10 +1295,10 @@
             "description": "A lightweight, template-based shortcode engine for Joomla.",
             "homepage": "https://github.com/PopArtDesign/joomla-shortcoder",
             "support": {
-                "source": "https://github.com/PopArtDesign/joomla-shortcoder/tree/v0.0.2",
+                "source": "https://github.com/PopArtDesign/joomla-shortcoder/tree/main",
                 "issues": "https://github.com/PopArtDesign/joomla-shortcoder/issues"
             },
-            "time": "2026-04-24T01:55:59+00:00"
+            "time": "2026-04-25T14:16:44+00:00"
         },
         {
             "name": "psr/container",
@@ -4398,7 +4399,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": {
+        "popartdesign/joomla-shortcoder": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

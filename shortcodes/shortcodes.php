@@ -1,6 +1,6 @@
 <?php
 
-namespace PopArtDesign\JoomlaShortcoder\Plugin\Content\Shortcoder\Shortcodes;
+namespace JoomlaShortcoder\Plugin\Content\Shortcoder\Shortcodes;
 
 \defined('_JEXEC') or die;
 

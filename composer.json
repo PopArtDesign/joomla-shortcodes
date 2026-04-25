@@ -13,12 +13,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "PopArtDesign\\JoomlaShortcodes\\Plugin\\Content\\Shortcodes\\": "src/"
+            "JoomlaShortcoder\\Plugin\\Content\\Shortcodes\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "PopArtDesign\\JoomlaShortcodes\\Plugin\\Content\\Shortcodes\\Test\\": "tests/"
+            "JoomlaShortcoder\\Plugin\\Content\\Shortcodes\\Test\\": "tests/"
         }
     },
     "require": {
@@ -27,7 +27,7 @@
     "require-dev": {
         "phpunit/phpunit": "^10.0",
         "friendsofphp/php-cs-fixer": "^3.95",
-        "popartdesign/joomla-shortcoder": "^0.0.2"
+        "popartdesign/joomla-shortcoder": "dev-main"
     },
     "scripts": {
         "cs": "php-cs-fixer fix -v --dry-run --allow-risky=yes",

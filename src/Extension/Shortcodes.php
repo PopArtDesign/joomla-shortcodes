@@ -1,10 +1,10 @@
 <?php
 
-namespace PopArtDesign\JoomlaShortcodes\Plugin\Content\Shortcodes\Extension;
+namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Extension;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\SubscriberInterface;
-use PopArtDesign\JoomlaShortcoder\Plugin\Content\Shortcoder\Event\ShortcoderPathsEvent;
+use JoomlaShortcoder\Plugin\Content\Shortcoder\Event\ShortcoderPathsEvent;
 
 \defined('_JEXEC') or die;
 

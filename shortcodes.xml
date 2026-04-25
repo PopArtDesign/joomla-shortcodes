@@ -8,7 +8,7 @@
     <version>0.0.1</version>
     <copyright>popartdesign.ru</copyright>
     <license>MIT</license>
-    <namespace path="src">PopArtDesign\JoomlaShortcodes\Plugin\Content\Shortcodes</namespace>
+    <namespace path="src">JoomlaShortcoder\Plugin\Content\Shortcodes</namespace>
     <description>A shortcodes pack for Joomla Shortcoder</description>
     <files>
         <folder plugin="shortcodes">services</folder>

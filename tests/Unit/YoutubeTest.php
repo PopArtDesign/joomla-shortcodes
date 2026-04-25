@@ -1,8 +1,8 @@
 <?php
 
-namespace PopArtDesign\JoomlaShortcodes\Plugin\Content\Shortcodes\Test\Unit;
+namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Test\Unit;
 
-use PopArtDesign\JoomlaShortcoder\Plugin\Content\Shortcoder\ShortcodeProcessor;
+use JoomlaShortcoder\Plugin\Content\Shortcoder\ShortcodeProcessor;
 use PHPUnit\Framework\TestCase;
 
 class YoutubeTest extends TestCase

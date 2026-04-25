@@ -1,9 +1,9 @@
 <?php
 
-namespace PopArtDesign\JoomlaShortcodes\Plugin\Content\Shortcodes\Test\Unit;
+namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Test\Unit;
 
 use PHPUnit\Framework\TestCase;
-use PopArtDesign\JoomlaShortcoder\Plugin\Content\Shortcoder\ShortcodeProcessor;
+use JoomlaShortcoder\Plugin\Content\Shortcoder\ShortcodeProcessor;
 
 class LoremIpsumTest extends TestCase
 {
