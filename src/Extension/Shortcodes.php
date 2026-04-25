@@ -4,7 +4,7 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Extension;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\SubscriberInterface;
-use JoomlaShortcoder\Plugin\Content\Shortcoder\Event\ShortcoderPathsEvent;
+use JoomlaShortcoder\Plugin\Content\Shortcoder\Event\LoadShortcodesEvent;
 
 \defined('_JEXEC') or die;
 
@@ -21,11 +21,11 @@ class Shortcodes extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'onShortcoderRegisterPaths' => 'onShortcoderRegisterPaths',
+            'onShortcoderLoadShortcodes' => 'loadShortcodes',
         ];
     }
 
-    public function onShortcoderRegisterPaths(ShortcoderPathsEvent $event): void
+    public function loadShortcodes(LoadShortcodesEvent $event): void
     {
         $event->addPath(\dirname(__DIR__, 2) . '/shortcodes');
     }
