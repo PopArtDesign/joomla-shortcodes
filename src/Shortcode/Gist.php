@@ -15,20 +15,18 @@ class Gist
             return '';
         }
 
-        if (strpos($idOrUrl, 'https://gist.github.com/') === 0) {
-            $scriptUrl = rtrim($idOrUrl, '/') . '.js';
-        } elseif (strpos($idOrUrl, '://') !== false) {
+        if (\strpos($idOrUrl, 'https://gist.github.com/') === 0) {
+            $scriptUrl = \rtrim($idOrUrl, '/') . '.js';
+        } elseif (\strpos($idOrUrl, '://') !== false) {
             return '';
         } else {
             $scriptUrl = 'https://gist.github.com/' . $idOrUrl . '.js';
         }
 
         if ($file) {
-            $scriptUrl .= '?file=' . urlencode($file);
+            $scriptUrl .= '?file=' . \urlencode($file);
         }
 
-        return <<<HTML
-<script src="{$scriptUrl}"></script>
-HTML;
+        return \sprintf('<script src="%s"></script>', $scriptUrl);
     }
 }
