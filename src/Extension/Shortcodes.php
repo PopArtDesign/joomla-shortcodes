@@ -2,6 +2,10 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Extension;
 
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode\Gist;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode\LoremIpsum;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode\Repeat;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode\Youtube;
 use JoomlaShortcoder\Plugin\Content\Shortcoder\Event\LoadShortcodesEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\DI\Container;
@@ -48,6 +52,9 @@ class Shortcodes extends CMSPlugin implements SubscriberInterface
 
     public function loadShortcodes(LoadShortcodesEvent $event): void
     {
-        $event->addPath(\dirname(__DIR__, 2) . '/shortcodes');
+        $event->addShortcode('youtube', new Youtube());
+        $event->addShortcode('gist', new Gist());
+        $event->addShortcode('loremipsum', new LoremIpsum());
+        $event->addShortcode('repeat', new Repeat());
     }
 }

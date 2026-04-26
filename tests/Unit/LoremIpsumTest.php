@@ -4,6 +4,7 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Test\Unit;
 
 use PHPUnit\Framework\TestCase;
 use JoomlaShortcoder\Plugin\Content\Shortcoder\ShortcodeProcessor;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode\LoremIpsum;
 
 class LoremIpsumTest extends TestCase
 {
@@ -11,9 +12,9 @@ class LoremIpsumTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        $shortcodes = require \dirname(__DIR__, 2) . '/shortcodes/shortcodes.php';
-
-        self::$processor = new ShortcodeProcessor($shortcodes);
+        self::$processor = new ShortcodeProcessor([
+            'loremipsum' => new LoremIpsum(),
+        ]);
     }
 
     private function processShortcodes(string $text): string

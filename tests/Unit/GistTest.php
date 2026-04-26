@@ -3,6 +3,7 @@
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Test\Unit;
 
 use JoomlaShortcoder\Plugin\Content\Shortcoder\ShortcodeProcessor;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode\Gist;
 use PHPUnit\Framework\TestCase;
 
 class GistTest extends TestCase
@@ -12,7 +13,7 @@ class GistTest extends TestCase
     protected function setUp(): void
     {
         $this->processor = new ShortcodeProcessor([
-            'gist' => \dirname(__DIR__, 2) . '/shortcodes/gist.php',
+            'gist' => new Gist(),
         ]);
     }
 

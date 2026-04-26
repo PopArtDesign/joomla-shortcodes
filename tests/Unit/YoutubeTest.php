@@ -3,6 +3,7 @@
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Test\Unit;
 
 use JoomlaShortcoder\Plugin\Content\Shortcoder\ShortcodeProcessor;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode\Youtube;
 use PHPUnit\Framework\TestCase;
 
 class YoutubeTest extends TestCase
@@ -12,7 +13,7 @@ class YoutubeTest extends TestCase
     protected function setUp(): void
     {
         $this->processor = new ShortcodeProcessor([
-            'youtube' => \dirname(__DIR__, 2) . '/shortcodes/youtube.php',
+            'youtube' => new Youtube(),
         ]);
     }
 
@@ -21,6 +22,7 @@ class YoutubeTest extends TestCase
         $content = $this->processor->processShortcodes('{youtube}', new \stdClass());
         $this->assertEquals('', $content);
     }
+
 
     public function testBasicUsage()
     {
