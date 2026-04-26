@@ -63,14 +63,21 @@ LOREMIPSUM
         $currentParagraphWords = array_slice(self::$words, 0, $wordCount);
         $text = implode(' ', $currentParagraphWords);
 
-        // Ensure it ends with a dot
-        if (substr($text, -1) !== '.') {
-            if (substr($text, -1) === ',') {
-                $text = substr($text, 0, -1);
-            }
-            $text .= '.';
+        return $this->ensureEndsWithDot($text);
+    }
+
+    private function ensureEndsWithDot(string $text): string
+    {
+        $last = substr($text, -1, 1);
+
+        if ($last === '.') {
+            return $text;
         }
 
-        return $text;
+        if ($last === ',') {
+            return substr_replace($text, '.', -1);
+        }
+
+        return $text . '.';
     }
 }
