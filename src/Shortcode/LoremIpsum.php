@@ -4,6 +4,11 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode;
 
 \defined('_JEXEC') or die;
 
+/**
+ * A shortcode for generating Lorem Ipsum text.
+ *
+ * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
+ */
 class LoremIpsum
 {
     public const LOREMIPSUM = <<<LOREMIPSUM
@@ -16,8 +21,18 @@ eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim
 qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
 LOREMIPSUM;
 
+    /**
+     * @var array|null
+     */
     private static ?array $words = null;
 
+    /**
+     * Invoke the LoremIpsum shortcode.
+     *
+     * @param array $attributes The attributes of the shortcode.
+     *
+     * @return string
+     */
     public function __invoke(array $attributes): string
     {
         $wordsAttr = $attributes['words'] ?? '100';
@@ -63,6 +78,9 @@ LOREMIPSUM;
         return $this->ensureEndsWithDot($text);
     }
 
+    /**
+     * Extract words from the Lorem Ipsum text.
+     */
     private function extractWords(): void
     {
         if (self::$words === null) {
@@ -70,6 +88,13 @@ LOREMIPSUM;
         }
     }
 
+    /**
+     * Ensure the text ends with a dot.
+     *
+     * @param string $text The text to check.
+     *
+     * @return string
+     */
     private function ensureEndsWithDot(string $text): string
     {
         $last = \substr($text, -1, 1);

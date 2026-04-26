@@ -4,8 +4,20 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode;
 
 \defined('_JEXEC') or die;
 
+/**
+ * A shortcode for embedding GitHub Gists.
+ *
+ * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
+ */
 class Gist
 {
+    /**
+     * Invoke the shortcode.
+     *
+     * @param array $attributes The attributes of the shortcode.
+     *
+     * @return string
+     */
     public function __invoke(array $attributes): string
     {
         $idOrUrl = $attributes[0] ?? '';

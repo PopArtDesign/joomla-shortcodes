@@ -25,6 +25,9 @@ class Shortcodes extends CMSPlugin implements SubscriberInterface
 
     /**
      * Shortcodes constructor.
+     *
+     * @param Container $container The DI container.
+     * @param array     $config    The plugin configuration.
      */
     public function __construct(Container $container, array $config = [])
     {
@@ -50,6 +53,11 @@ class Shortcodes extends CMSPlugin implements SubscriberInterface
         ];
     }
 
+    /**
+     * Load the shortcodes.
+     *
+     * @param LoadShortcodesEvent $event The event.
+     */
     public function loadShortcodes(LoadShortcodesEvent $event): void
     {
         $event->addShortcode('youtube', fn (...$args) => $this->container->get(Youtube::class)(...$args));
