@@ -17,12 +17,10 @@ return new class () implements ServiceProviderInterface {
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
-                return new Shortcodes(
-                    $container,
-                    (array) PluginHelper::getPlugin('content', 'shortcodes'),
-                );
-            }
+            fn () => new Shortcodes(
+                $container,
+                (array) PluginHelper::getPlugin('content', 'shortcodes'),
+            )
         );
 
         $container->share(Gist::class, fn() => new Gist(), true);
