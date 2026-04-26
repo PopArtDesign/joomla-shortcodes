@@ -6,6 +6,16 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode;
 
 class LoremIpsum
 {
+    public const LOREMIPSUM = <<<LOREMIPSUM
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
+nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut
+wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis
+nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor
+in hendrerit in vulputate velit esse molestie consequat, vel illum dolore
+eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim
+qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
+LOREMIPSUM;
+
     private static ?array $words = null;
 
     public function __invoke(array $attributes): string
@@ -33,49 +43,43 @@ class LoremIpsum
             $chosenWordCount = rand($minWordCount, $maxWordCount);
         }
 
-        return $this->generateLoremIpsum($chosenWordCount);
+        return $this->words($chosenWordCount);
     }
 
     /**
      * Generates a Lorem Ipsum paragraph with a specified word count.
      *
-     * @param int $wordCount The exact number of words for the paragraph.
+     * @param int $words The exact number of words for the paragraph.
      *
      * @return string A Lorem Ipsum paragraph.
      */
-    private function generateLoremIpsum(int $wordCount = 1): string
+    private function words(int $words = 1): string
     {
-        if (self::$words === null) {
-            self::$words = explode(
-                ' ',
-                <<<LOREMIPSUM
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
-nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut
-wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis
-nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor
-in hendrerit in vulputate velit esse molestie consequat, vel illum dolore
-eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim
-qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
-LOREMIPSUM
-            );
-        }
+        $this->extractWords();
 
-        $currentParagraphWords = array_slice(self::$words, 0, $wordCount);
-        $text = implode(' ', $currentParagraphWords);
+        $textWords = \array_slice(self::$words, 0, $words);
+        $text = \implode(' ', $textWords);
 
         return $this->ensureEndsWithDot($text);
     }
 
+    private function extractWords(): void
+    {
+        if (self::$words === null) {
+            self::$words = \explode(' ', self::LOREMIPSUM);
+        }
+    }
+
     private function ensureEndsWithDot(string $text): string
     {
-        $last = substr($text, -1, 1);
+        $last = \substr($text, -1, 1);
 
         if ($last === '.') {
             return $text;
         }
 
         if ($last === ',') {
-            return substr_replace($text, '.', -1);
+            return \substr_replace($text, '.', -1);
         }
 
         return $text . '.';
