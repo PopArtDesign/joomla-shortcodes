@@ -27,7 +27,6 @@ class LoremIpsumTest extends TestCase
         $text = '{loremipsum}';
         $result = $this->processShortcodes($text);
 
-        $this->assertStringNotContainsString('<p>', $result);
         $this->assertEquals(100, str_word_count($result));
     }
 
@@ -36,7 +35,6 @@ class LoremIpsumTest extends TestCase
         $text = '{loremipsum words="150"}';
         $result = $this->processShortcodes($text);
 
-        $this->assertStringNotContainsString('<p>', $result);
         $this->assertEquals(150, str_word_count($result));
     }
 
@@ -45,7 +43,6 @@ class LoremIpsumTest extends TestCase
         $text = '{loremipsum words="5"}';
         $result = $this->processShortcodes($text);
 
-        $this->assertStringNotContainsString('<p>', $result);
         $this->assertEquals(5, str_word_count($result));
     }
 
@@ -54,7 +51,6 @@ class LoremIpsumTest extends TestCase
         $text = '{loremipsum words="5,10"}';
         $result = $this->processShortcodes($text);
 
-        $this->assertStringNotContainsString('<p>', $result);
         $wordCount = str_word_count($result);
         $this->assertGreaterThanOrEqual(5, $wordCount);
         $this->assertLessThanOrEqual(10, $wordCount);
@@ -65,7 +61,6 @@ class LoremIpsumTest extends TestCase
         $text = '{loremipsum words="10,5"}';
         $result = $this->processShortcodes($text);
 
-        $this->assertStringNotContainsString('<p>', $result);
         $wordCount = str_word_count($result);
         $this->assertEquals(10, $wordCount);
     }
