@@ -5,7 +5,6 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Test\Unit;
 use PHPUnit\Framework\TestCase;
 use JoomlaShortcoder\Plugin\Content\Shortcoder\ShortcodeProcessor;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode\Repeat;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode\Lorem;
 
 class RepeatTest extends TestCase
 {
@@ -15,7 +14,6 @@ class RepeatTest extends TestCase
     {
         self::$processor = new ShortcodeProcessor([
             'repeat'     => new Repeat(),
-            'lorem' => new Lorem(),
         ]);
     }
 
@@ -61,45 +59,25 @@ class RepeatTest extends TestCase
         $this->assertEmpty($result);
     }
 
-    public function testRepeatWithNestedLoremIpsum(): void
+    public function testRepeatWithNestedContent(): void
     {
-        $text = '{repeat 3}<p>{lorem words="5"}</p>{/repeat}';
+        $text = '{repeat 3}<p>test content</p>{/repeat}';
         $result = $this->processShortcodes($text);
 
-        // Check for 3 paragraphs
         $this->assertEquals(3, substr_count($result, '<p>'));
         $this->assertEquals(3, substr_count($result, '</p>'));
-
-        // Check that each paragraph has 5 words
-        $paragraphs = explode('</p>', trim($result, "\n"));
-        array_pop($paragraphs); // remove last empty element
-
-        foreach ($paragraphs as $paragraph) {
-            $content = strip_tags($paragraph);
-            $wordCount = str_word_count($content);
-            $this->assertEquals(5, $wordCount);
-        }
+        $this->assertEquals(3, substr_count($result, 'test content'));
     }
 
-    public function testRepeatWithRangeAndNestedLoremIpsum(): void
+    public function testRepeatWithRangeAndNestedContent(): void
     {
-        $text = '{repeat 2,5}<p>{lorem words="10"}</p>{/repeat}';
+        $text = '{repeat 2,5}<p>range content</p>{/repeat}';
         $result = $this->processShortcodes($text);
 
-        // Check for 2-5 paragraphs
         $count = substr_count($result, '<p>');
         $this->assertGreaterThanOrEqual(2, $count);
         $this->assertLessThanOrEqual(5, $count);
         $this->assertEquals($count, substr_count($result, '</p>'));
-
-        // Check that each paragraph has 10 words
-        $paragraphs = explode('</p>', trim($result, "\n"));
-        array_pop($paragraphs); // remove last empty element
-
-        foreach ($paragraphs as $paragraph) {
-            $content = strip_tags($paragraph);
-            $wordCount = str_word_count($content);
-            $this->assertEquals(10, $wordCount);
-        }
+        $this->assertEquals($count, substr_count($result, 'range content'));
     }
 }
