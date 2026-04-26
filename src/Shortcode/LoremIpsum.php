@@ -22,28 +22,28 @@ LOREMIPSUM;
     {
         $wordsAttr = $attributes['words'] ?? '100';
 
-        $minWordCount = 1;
-        $maxWordCount = null;
+        $minWords = 1;
+        $maxWords = null;
 
         if (\is_string($wordsAttr) && \strpos($wordsAttr, ',') !== false) {
             [$min, $max] = explode(',', $wordsAttr);
-            $minWordCount = (int) $min;
-            $maxWordCount = (int) $max;
+            $minWords = (int) $min;
+            $maxWords = (int) $max;
 
-            if ($maxWordCount < $minWordCount) {
-                $maxWordCount = $minWordCount;
+            if ($maxWords < $minWords) {
+                $maxWords = $minWords;
             }
         } else {
-            $minWordCount = (int) $wordsAttr;
-            $maxWordCount = $minWordCount;
+            $minWords = (int) $wordsAttr;
+            $maxWords = $minWords;
         }
 
-        $chosenWordCount = $minWordCount;
-        if ($maxWordCount !== null && $maxWordCount > $minWordCount) {
-            $chosenWordCount = rand($minWordCount, $maxWordCount);
+        $chosenWords = $minWords;
+        if ($maxWords !== null && $maxWords > $minWords) {
+            $chosenWords = \rand($minWords, $maxWords);
         }
 
-        return $this->words($chosenWordCount);
+        return $this->words($chosenWords);
     }
 
     /**
