@@ -8,14 +8,20 @@ class Gist
 {
     public function __invoke(array $attributes): string
     {
-        $url = $attributes[0] ?? '';
+        $idOrUrl = $attributes[0] ?? '';
         $file = $attributes['file'] ?? '';
 
-        if (!$url || strpos($url, 'https://gist.github.com') !== 0) {
+        if (!$idOrUrl) {
             return '';
         }
 
-        $scriptUrl = rtrim($url, '/') . '.js';
+        if (strpos($idOrUrl, 'https://gist.github.com/') === 0) {
+            $scriptUrl = rtrim($idOrUrl, '/') . '.js';
+        } elseif (strpos($idOrUrl, '://') !== false) {
+            return '';
+        } else {
+            $scriptUrl = 'https://gist.github.com/' . $idOrUrl . '.js';
+        }
 
         if ($file) {
             $scriptUrl .= '?file=' . urlencode($file);
