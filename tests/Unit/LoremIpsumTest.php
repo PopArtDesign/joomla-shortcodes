@@ -28,7 +28,16 @@ class LoremIpsumTest extends TestCase
         $result = $this->processShortcodes($text);
 
         $this->assertStringNotContainsString('<p>', $result);
-        $this->assertEquals(84, str_word_count($result));
+        $this->assertEquals(100, str_word_count($result));
+    }
+
+    public function testLoremIpsumWithMoreWordsThanInSource(): void
+    {
+        $text = '{loremipsum words="150"}';
+        $result = $this->processShortcodes($text);
+
+        $this->assertStringNotContainsString('<p>', $result);
+        $this->assertEquals(150, str_word_count($result));
     }
 
     public function testLoremIpsumWithWordsAttribute(): void

@@ -70,9 +70,22 @@ LOREMIPSUM;
      */
     private function words(int $words = 1): string
     {
+        if ($words <= 0) {
+            return '';
+        }
+
         $this->extractWords();
 
-        $textWords = \array_slice(self::$words, 0, $words);
+        $wordCount = \count(self::$words);
+        if ($wordCount === 0) {
+            return '';
+        }
+
+        $textWords = [];
+        for ($i = 0; $i < $words; $i++) {
+            $textWords[] = self::$words[$i % $wordCount];
+        }
+
         $text = \implode(' ', $textWords);
 
         return $this->ensureEndsWithDot($text);
@@ -84,7 +97,7 @@ LOREMIPSUM;
     private function extractWords(): void
     {
         if (self::$words === null) {
-            self::$words = \explode(' ', self::LOREMIPSUM);
+            self::$words = \preg_split('/\s+/', self::LOREMIPSUM, -1, PREG_SPLIT_NO_EMPTY);
         }
     }
 
