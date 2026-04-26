@@ -27,7 +27,7 @@ LOREMIPSUM;
     private static ?array $words = null;
 
     /**
-     * Invoke the LoremIpsum shortcode.
+     * Invoke the shortcode.
      *
      * @param array $attributes The attributes of the shortcode.
      *

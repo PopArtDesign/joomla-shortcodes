@@ -2,10 +2,7 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Extension;
 
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode\Gist;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode\LoremIpsum;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode\Repeat;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode\Youtube;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode;
 use JoomlaShortcoder\Plugin\Content\Shortcoder\Event\LoadShortcodesEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\DI\Container;
@@ -60,9 +57,17 @@ class Shortcodes extends CMSPlugin implements SubscriberInterface
      */
     public function loadShortcodes(LoadShortcodesEvent $event): void
     {
-        $event->addShortcode('youtube', fn (...$args) => $this->container->get(Youtube::class)(...$args));
-        $event->addShortcode('gist', fn (...$args) => $this->container->get(Gist::class)(...$args));
-        $event->addShortcode('loremipsum', fn (...$args) => $this->container->get(LoremIpsum::class)(...$args));
-        $event->addShortcode('repeat', fn (...$args) => $this->container->get(Repeat::class)(...$args));
+        $event->addShortcode('youtube', fn (...$args) =>
+            $this->container->get(Shortcode\Youtube::class)(...$args)
+        );
+        $event->addShortcode('gist', fn (...$args) =>
+            $this->container->get(Shortcode\Gist::class)(...$args)
+        );
+        $event->addShortcode('lorem', fn (...$args) =>
+            $this->container->get(Shortcode\Lorem::class)(...$args)
+        );
+        $event->addShortcode('repeat', fn (...$args) =>
+            $this->container->get(Shortcode\Repeat::class)(...$args)
+        );
     }
 }
