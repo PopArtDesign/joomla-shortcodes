@@ -9,7 +9,7 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-class LoremIpsum
+class Lorem
 {
     public const LOREMIPSUM = <<<LOREMIPSUM
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy

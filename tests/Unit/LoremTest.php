@@ -4,16 +4,16 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Test\Unit;
 
 use PHPUnit\Framework\TestCase;
 use JoomlaShortcoder\Plugin\Content\Shortcoder\ShortcodeProcessor;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode\LoremIpsum;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode\Lorem;
 
-class LoremIpsumTest extends TestCase
+class LoremTest extends TestCase
 {
     private static ShortcodeProcessor $processor;
 
     public static function setUpBeforeClass(): void
     {
         self::$processor = new ShortcodeProcessor([
-            'loremipsum' => new LoremIpsum(),
+            'lorem' => new Lorem(),
         ]);
     }
 
@@ -24,7 +24,7 @@ class LoremIpsumTest extends TestCase
 
     public function testDefaultLoremIpsumShortcode(): void
     {
-        $text = '{loremipsum}';
+        $text = '{lorem}';
         $result = $this->processShortcodes($text);
 
         $this->assertEquals(100, str_word_count($result));
@@ -32,7 +32,7 @@ class LoremIpsumTest extends TestCase
 
     public function testLoremIpsumWithMoreWordsThanInSource(): void
     {
-        $text = '{loremipsum words="150"}';
+        $text = '{lorem words="150"}';
         $result = $this->processShortcodes($text);
 
         $this->assertEquals(150, str_word_count($result));
@@ -40,7 +40,7 @@ class LoremIpsumTest extends TestCase
 
     public function testLoremIpsumWithWordsAttribute(): void
     {
-        $text = '{loremipsum words="5"}';
+        $text = '{lorem words="5"}';
         $result = $this->processShortcodes($text);
 
         $this->assertEquals(5, str_word_count($result));
@@ -48,7 +48,7 @@ class LoremIpsumTest extends TestCase
 
     public function testLoremIpsumWithWordsRangeAttribute(): void
     {
-        $text = '{loremipsum words="5,10"}';
+        $text = '{lorem words="5,10"}';
         $result = $this->processShortcodes($text);
 
         $wordCount = str_word_count($result);
@@ -58,7 +58,7 @@ class LoremIpsumTest extends TestCase
 
     public function testLoremIpsumWithInvalidWordsRange(): void
     {
-        $text = '{loremipsum words="10,5"}';
+        $text = '{lorem words="10,5"}';
         $result = $this->processShortcodes($text);
 
         $wordCount = str_word_count($result);

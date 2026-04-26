@@ -5,7 +5,7 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Test\Unit;
 use PHPUnit\Framework\TestCase;
 use JoomlaShortcoder\Plugin\Content\Shortcoder\ShortcodeProcessor;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode\Repeat;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode\LoremIpsum;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode\Lorem;
 
 class RepeatTest extends TestCase
 {
@@ -15,7 +15,7 @@ class RepeatTest extends TestCase
     {
         self::$processor = new ShortcodeProcessor([
             'repeat'     => new Repeat(),
-            'loremipsum' => new LoremIpsum(),
+            'lorem' => new Lorem(),
         ]);
     }
 
@@ -63,7 +63,7 @@ class RepeatTest extends TestCase
 
     public function testRepeatWithNestedLoremIpsum(): void
     {
-        $text = '{repeat 3}<p>{loremipsum words="5"}</p>{/repeat}';
+        $text = '{repeat 3}<p>{lorem words="5"}</p>{/repeat}';
         $result = $this->processShortcodes($text);
 
         // Check for 3 paragraphs
@@ -83,7 +83,7 @@ class RepeatTest extends TestCase
 
     public function testRepeatWithRangeAndNestedLoremIpsum(): void
     {
-        $text = '{repeat 2,5}<p>{loremipsum words="10"}</p>{/repeat}';
+        $text = '{repeat 2,5}<p>{lorem words="10"}</p>{/repeat}';
         $result = $this->processShortcodes($text);
 
         // Check for 2-5 paragraphs
