@@ -37,7 +37,7 @@ LOREMIPSUM;
      */
     public function __invoke(array $attributes): string
     {
-        if (!isset($attributes['words'])) {
+        if (\count($attributes) === 1) {
             // Return full Lorem Ipsum text
             return $this->ensureEndsWithDot(self::LOREMIPSUM);
         }
