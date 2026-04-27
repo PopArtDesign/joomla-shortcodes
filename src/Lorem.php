@@ -62,11 +62,13 @@ LOREMIPSUM;
      */
     private function processWrappedContent(array $attributes, int $minWords, int $maxWords): string
     {
-        [$tag, $count] = AttributeHelper::parseTag($attributes['wrap'], ['p', 1]);
+        [$tag, $class, $count] = AttributeHelper::parseTag($attributes['wrap'], ['p', '', 1]);
         $output = [];
 
+        $classAttr = $class ? " class=\"{$class}\"" : '';
+
         if ($tag === 'ul' || $tag === 'ol') {
-            $output[] = "<{$tag}>";
+            $output[] = "<{$tag}{$classAttr}>";
             for ($i = 0; $i < $count; $i++) {
                 $loremText = $this->generateLoremText($minWords, $maxWords);
                 $output[] = "<li>{$loremText}</li>";
@@ -75,7 +77,7 @@ LOREMIPSUM;
         } else {
             for ($i = 0; $i < $count; $i++) {
                 $loremText = $this->generateLoremText($minWords, $maxWords);
-                $output[] = "<{$tag}>{$loremText}</{$tag}>";
+                $output[] = "<{$tag}{$classAttr}>{$loremText}</{$tag}>";
             }
         }
 

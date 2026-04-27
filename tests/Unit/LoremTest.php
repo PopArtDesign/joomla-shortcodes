@@ -141,4 +141,16 @@ class LoremTest extends TestCase
             $this->assertLessThanOrEqual(10, $wordCount);
         }
     }
+
+    public function testWrapAttributeWithClass(): void
+    {
+        $text = '{lorem wrap="ul.todos,3"}';
+        $result = $this->processShortcodes($text);
+
+        $this->assertStringStartsWith('<ul class="todos">', $result);
+        $this->assertStringEndsWith('</ul>', $result);
+        $this->assertEquals(1, substr_count($result, '<ul class="todos">'));
+        $this->assertEquals(3, substr_count($result, '<li>'));
+        $this->assertGreaterThan(0, str_word_count(strip_tags($result)));
+    }
 }

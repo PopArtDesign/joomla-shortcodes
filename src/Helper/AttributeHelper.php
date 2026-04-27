@@ -66,8 +66,18 @@ class AttributeHelper
         }
 
         $parts = \explode(',', $value);
-        $tag = \trim($parts[0]);
+        $tagAndClass = \trim($parts[0]);
         $count = 1;
+        $class = '';
+
+        // Extract class if present (e.g., "ul.todos")
+        if (\strpos($tagAndClass, '.') !== false) {
+            [$tag, $class] = \explode('.', $tagAndClass, 2);
+            $tag = \trim($tag);
+            $class = \trim($class);
+        } else {
+            $tag = $tagAndClass;
+        }
 
         if (isset($parts[1]) && \is_numeric($parts[1])) {
             $count = (int) $parts[1];
@@ -77,6 +87,6 @@ class AttributeHelper
             $count = 1;
         }
 
-        return [$tag, $count];
+        return [$tag, $class, $count];
     }
 }
