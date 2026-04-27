@@ -4,7 +4,7 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Test\Unit;
 
 use PHPUnit\Framework\TestCase;
 use JoomlaShortcoder\Plugin\Content\Shortcoder\ShortcodeProcessor;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode\Lorem;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Lorem;
 
 class LoremTest extends TestCase
 {

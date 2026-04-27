@@ -4,7 +4,7 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Test\Unit;
 
 use PHPUnit\Framework\TestCase;
 use JoomlaShortcoder\Plugin\Content\Shortcoder\ShortcodeProcessor;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode\Repeat;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Repeat;
 
 class RepeatTest extends TestCase
 {

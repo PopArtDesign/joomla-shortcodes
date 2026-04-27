@@ -1,6 +1,6 @@
 <?php
 
-namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode;
+namespace JoomlaShortcoder\Plugin\Content\Shortcodes;
 
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
 

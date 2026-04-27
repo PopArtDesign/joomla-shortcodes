@@ -7,10 +7,10 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Extension\Shortcodes;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode\Gist;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode\Lorem;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode\Repeat;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode\Youtube;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Gist;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Lorem;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Repeat;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Youtube;
 
 return new class () implements ServiceProviderInterface {
     public function register(Container $container): void

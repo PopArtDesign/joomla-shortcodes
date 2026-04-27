@@ -3,7 +3,7 @@
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Test\Unit;
 
 use JoomlaShortcoder\Plugin\Content\Shortcoder\ShortcodeProcessor;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode\Youtube;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Youtube;
 use PHPUnit\Framework\TestCase;
 
 class YoutubeTest extends TestCase
