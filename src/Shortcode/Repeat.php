@@ -2,6 +2,8 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode;
 
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
+
 \defined('_JEXEC') or die;
 
 /**
@@ -23,26 +25,9 @@ class Repeat
     {
         $repeatAttr = $attributes[0] ?? '1';
 
-        $minRepeats = 1;
-        $maxRepeats = null;
+        [$minRepeats, $maxRepeats] = AttributeHelper::parseRange($repeatAttr, [0, 0]);
 
-        if (\is_string($repeatAttr) && \strpos($repeatAttr, ',') !== false) {
-            [$min, $max] = explode(',', $repeatAttr);
-            $minRepeats = (int) $min;
-            $maxRepeats = (int) $max;
-
-            if ($maxRepeats < $minRepeats) {
-                $maxRepeats = $minRepeats;
-            }
-        } else {
-            $minRepeats = (int) $repeatAttr;
-            $maxRepeats = $minRepeats;
-        }
-
-        $numberOfRepeats = $minRepeats;
-        if ($maxRepeats !== null && $maxRepeats > $minRepeats) {
-            $numberOfRepeats = rand($minRepeats, $maxRepeats);
-        }
+        $numberOfRepeats = \rand($minRepeats, $maxRepeats);
 
         if ($numberOfRepeats <= 0) {
             return '';

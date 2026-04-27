@@ -2,6 +2,8 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Shortcode;
 
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
+
 \defined('_JEXEC') or die;
 
 /**
@@ -42,26 +44,9 @@ LOREMIPSUM;
 
         $wordsAttr = $attributes['words'];
 
-        $minWords = 1;
-        $maxWords = null;
+        [$minWords, $maxWords] = AttributeHelper::parseRange($wordsAttr, [0, 0]);
 
-        if (\is_string($wordsAttr) && \strpos($wordsAttr, ',') !== false) {
-            [$min, $max] = explode(',', $wordsAttr);
-            $minWords = (int) $min;
-            $maxWords = (int) $max;
-
-            if ($maxWords < $minWords) {
-                $maxWords = $minWords;
-            }
-        } else {
-            $minWords = (int) $wordsAttr;
-            $maxWords = $minWords;
-        }
-
-        $chosenWords = $minWords;
-        if ($maxWords !== null && $maxWords > $minWords) {
-            $chosenWords = \rand($minWords, $maxWords);
-        }
+        $chosenWords = \rand($minWords, $maxWords);
 
         return $this->words($chosenWords);
     }
