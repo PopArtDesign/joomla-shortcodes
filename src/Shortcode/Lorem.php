@@ -35,7 +35,12 @@ LOREMIPSUM;
      */
     public function __invoke(array $attributes): string
     {
-        $wordsAttr = $attributes['words'] ?? '100';
+        if (!isset($attributes['words'])) {
+            // Return full Lorem Ipsum text
+            return $this->ensureEndsWithDot(self::LOREMIPSUM);
+        }
+
+        $wordsAttr = $attributes['words'];
 
         $minWords = 1;
         $maxWords = null;

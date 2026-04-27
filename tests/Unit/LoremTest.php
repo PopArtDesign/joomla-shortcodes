@@ -27,7 +27,7 @@ class LoremTest extends TestCase
         $text = '{lorem}';
         $result = $this->processShortcodes($text);
 
-        $this->assertEquals(100, str_word_count($result));
+        $this->assertEquals(84, str_word_count($result));
     }
 
     public function testLoremIpsumWithMoreWordsThanInSource(): void
