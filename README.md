@@ -60,19 +60,48 @@ Embeds a GitHub Gist.
 
 Generates "Lorem Ipsum" placeholder text.
 
-`{lorem words=100}`
+`{lorem words=100 wrap="p.my-class,3"}`
 
--   `words`: The number of words to generate. You can specify a single number or a range (e.g., `words=50,100` to get a random number of words between 50 and 100). Defaults to `100`.
+-   `words`: The number of words to generate. You can specify a single number or a range (e.g., `words=50,100` to get a random number of words between 50 and 100). Defaults to `84` (full default text).
+-   `wrap`: Wraps the generated Lorem Ipsum text in HTML tags.
+    -   **Format:** `tag.class,count` or `tag,count` or `tag.class` or `tag`.
+    -   `tag`: The HTML tag to use (e.g., `p`, `div`, `ul`, `ol`).
+    -   `class`: (Optional) A CSS class to apply to the wrapper tag (e.g., `my-class`).
+    -   `count`: (Optional) The number of times to repeat the wrapper tag. Defaults to `1`. If the tag is `ul` or `ol`, this count specifies the number of `<li>` items to generate within the list.
 
-**Example:**
+**Examples:**
+
+```
+{lorem}
+```
+Generates the full default Lorem Ipsum text.
 
 ```
 {lorem words=50}
 ```
+Generates 50 words of Lorem Ipsum text.
 
 ```
 {lorem words=20,30}
 ```
+Generates a random number of words (between 20 and 30) of Lorem Ipsum text.
+
+```
+{lorem wrap="p"}
+```
+Generates a single paragraph (`<p>`) containing the full Lorem Ipsum text.
+
+```
+{lorem wrap="p,3"}
+```
+Generates three paragraphs (`<p>`) each containing the full Lorem Ipsum text.
+
+```
+{lorem wrap="ul.my-list,5" words="5,10"}
+```
+Generates an unordered list (`<ul class="my-list">`) with five list items (`<li>`), where each list item contains 5 to 10 words of Lorem Ipsum text.
+
+
 
 ### `repeat`
 
