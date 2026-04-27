@@ -57,16 +57,24 @@ class Shortcodes extends CMSPlugin implements SubscriberInterface
      */
     public function loadShortcodes(LoadShortcodesEvent $event): void
     {
-        $event->addShortcode('youtube', fn (...$args) =>
+        $event->addShortcode(
+            'youtube',
+            fn (...$args) =>
             $this->container->get(Shortcode\Youtube::class)(...$args)
         );
-        $event->addShortcode('gist', fn (...$args) =>
+        $event->addShortcode(
+            'gist',
+            fn (...$args) =>
             $this->container->get(Shortcode\Gist::class)(...$args)
         );
-        $event->addShortcode('lorem', fn (...$args) =>
+        $event->addShortcode(
+            'lorem',
+            fn (...$args) =>
             $this->container->get(Shortcode\Lorem::class)(...$args)
         );
-        $event->addShortcode('repeat', fn (...$args) =>
+        $event->addShortcode(
+            'repeat',
+            fn (...$args) =>
             $this->container->get(Shortcode\Repeat::class)(...$args)
         );
     }
