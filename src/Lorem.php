@@ -37,14 +37,64 @@ LOREMIPSUM;
      */
     public function __invoke(array $attributes): string
     {
-        if (\count($attributes) === 1) {
-            // Return full Lorem Ipsum text
-            return $this->ensureEndsWithDot(self::LOREMIPSUM);
+        $minWords = 0;
+        $maxWords = 0;
+
+        if (isset($attributes['words'])) {
+            [$minWords, $maxWords] = AttributeHelper::parseRange($attributes['words'], [0, 0]);
         }
 
-        $wordsAttr = $attributes['words'];
+        if (isset($attributes['wrap'])) {
+            return $this->processWrappedContent($attributes, $minWords, $maxWords);
+        }
 
-        [$minWords, $maxWords] = AttributeHelper::parseRange($wordsAttr, [0, 0]);
+        return $this->generateLoremText($minWords, $maxWords);
+    }
+
+    /**
+     * Processes content to be wrapped in HTML tags.
+     *
+     * @param array $attributes The attributes of the shortcode.
+     * @param int   $minWords   The minimum number of words for each wrapped item.
+     * @param int   $maxWords   The maximum number of words for each wrapped item.
+     *
+     * @return string The generated HTML with wrapped Lorem Ipsum text.
+     */
+    private function processWrappedContent(array $attributes, int $minWords, int $maxWords): string
+    {
+        [$tag, $count] = AttributeHelper::parseTag($attributes['wrap'], ['p', 1]);
+        $output = [];
+
+        if ($tag === 'ul' || $tag === 'ol') {
+            $output[] = "<{$tag}>";
+            for ($i = 0; $i < $count; $i++) {
+                $loremText = $this->generateLoremText($minWords, $maxWords);
+                $output[] = "<li>{$loremText}</li>";
+            }
+            $output[] = "</{$tag}>";
+        } else {
+            for ($i = 0; $i < $count; $i++) {
+                $loremText = $this->generateLoremText($minWords, $maxWords);
+                $output[] = "<{$tag}>{$loremText}</{$tag}>";
+            }
+        }
+
+        return \implode('', $output);
+    }
+
+    /**
+     * Generates Lorem Ipsum text based on a word count range.
+     *
+     * @param int $minWords The minimum number of words. If 0, full LOREMIPSUM is used.
+     * @param int $maxWords The maximum number of words. Only used if minWords > 0.
+     *
+     * @return string The generated Lorem Ipsum text.
+     */
+    private function generateLoremText(int $minWords, int $maxWords): string
+    {
+        if ($minWords === 0 && $maxWords === 0) {
+            return $this->ensureEndsWithDot(self::LOREMIPSUM);
+        }
 
         $chosenWords = \rand($minWords, $maxWords);
 

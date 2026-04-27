@@ -48,4 +48,35 @@ class AttributeHelper
 
         return [$min, $max];
     }
+
+    /**
+     * Parses a tag and an optional repeat count from a string.
+     * The format can be 'tag,count' or 'tag'.
+     *
+     * @param string|null $value   The attribute value (e.g., "p,10" or "ul").
+     * @param array|null  $default The default tag and count to return if parsing fails.
+     *
+     * @return null|array{string, int} An array containing [tag, count] or null if the value
+     *                                 cannot be properly parsed and no default is provided.
+     */
+    public static function parseTag(?string $value, ?array $default = null): ?array
+    {
+        if ($value === null || \trim($value) === '') {
+            return $default;
+        }
+
+        $parts = \explode(',', $value);
+        $tag = \trim($parts[0]);
+        $count = 1;
+
+        if (isset($parts[1]) && \is_numeric($parts[1])) {
+            $count = (int) $parts[1];
+        }
+
+        if ($count < 1) {
+            $count = 1;
+        }
+
+        return [$tag, $count];
+    }
 }
