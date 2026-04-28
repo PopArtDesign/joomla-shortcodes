@@ -43,9 +43,13 @@ class Vimeo implements EmbedInterface
         $autoplay = !empty($attributes['autoplay']);
         $loop = !empty(!empty($attributes['loop']));
         $start = null;
-
         if (isset($attributes['start'])) {
             $start = AttributeHelper::parseTime((string) $attributes['start']);
+        }
+
+        $end = null;
+        if (isset($attributes['end'])) {
+            $end = AttributeHelper::parseTime((string) $attributes['end']);
         }
 
         $src = sprintf(
@@ -55,12 +59,18 @@ class Vimeo implements EmbedInterface
             (int) $loop
         );
 
+        $fragment = [];
         if ($start !== null) {
-            $src .= '#t=' . $start . 's';
+            $fragment[] = 't=' . $start . 's';
         }
 
-        // Note: Vimeo embed URLs do not directly support an 'end' time parameter.
-        // To implement an end time, JavaScript API would be required.
+        if ($end !== null) {
+            $fragment[] = 'end=' . $end;
+        }
+
+        if (!empty($fragment)) {
+            $src .= '#' . implode('&', $fragment);
+        }
 
         return Iframe::render($src, [
             'width' => $attributes['width'] ?? '560',

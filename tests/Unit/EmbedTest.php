@@ -138,6 +138,13 @@ class EmbedTest extends TestCase
         $this->assertStringContainsString('player.vimeo.com/video/123456789?autoplay=0&loop=0#t=90s', $result);
     }
 
+    public function testEmbedVimeoWithStartAndEnd()
+    {
+        $text = '{embed url="https://vimeo.com/123456789" start="1:30" end="180"}{/embed}';
+        $result = $this->processShortcodes($text);
+        $this->assertStringContainsString('player.vimeo.com/video/123456789?autoplay=0&loop=0#t=90s&end=180', $result);
+    }
+
     public function testEmbedGenericUrl()
     {
         $text = '{embed}https://example.com/article{/embed}';
