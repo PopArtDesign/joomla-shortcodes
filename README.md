@@ -13,47 +13,65 @@ A shortcodes pack for [Joomla Shortcoder](https://github.com/PopArtDesign/joomla
 
 ## Usage
 
-### `youtube`
+### `embed`
 
-Embeds a YouTube video.
+Embeds remote resources (YouTube videos, GitHub Gists, Vimeo videos, or any URL as iframe).
 
-`{youtube videoId|url width=560 height=315 start=0 ...}`
+`{embed url="..." width=... height=... class=... title=...}...{/embed}`
 
--   `videoId|url`: The YouTube video ID or full YouTube URL. This is the first parameter and is required.
--   `width`: The width of the video player. Defaults to `560`.
--   `height`: The height of the video player. Defaults to `315`.
--   `start`: The time in seconds or in `MM:SS` format from which to start the video. Defaults to `0`.
--   `allow`: The `allow` attribute for the iframe.
+The URL can be provided either as a `url` attribute or as the content between the tags:
+
+-   `url`: The URL to embed (YouTube, Gist, Vimeo, or any URL). Required if not using nested content.
+-   `width`: The width of the embed. Defaults to `100%` (iframe) or type-specific default.
+-   `height`: The height of the embed. Defaults to `500` (iframe) or type-specific default.
+-   `class`: A CSS class for the container `div`.
 -   `title`: The `title` attribute for the iframe.
--   `class`: A CSS class for the container `div`. Defaults to `youtube-container`.
 
-**Example:**
+The embed shortcode automatically detects the URL type and uses the appropriate handler:
 
-```
-{youtube oHg5SJYRHA0}
-```
+- **YouTube** (`youtube.com`, `youtu.be`): Embeds as YouTube video player
+- **GitHub Gist** (`gist.github.com`): Embeds as Gist script
+- **Vimeo** (`vimeo.com`): Embeds as Vimeo player
+- **Other URLs**: Falls back to generic iframe
 
-```
-{youtube https://www.youtube.com/watch?v=oHg5SJYRHA0 width=800 height=600}
-```
-
-### `gist`
-
-Embeds a GitHub Gist.
-
-`{gist id|url file=...}`
-
--   `id|url`: The Gist ID or the full URL of the Gist.
--   `file`: (Optional) The specific file within the Gist to display.
-
-**Example:**
+**YouTube Examples:**
 
 ```
-{gist 1234567890abcdef}
+{embed}https://www.youtube.com/watch?v=dQw4w9WgXcQ{/embed}
 ```
 
 ```
-{gist https://gist.github.com/user/1234567890abcdef file=my-file.js}
+{embed url="https://www.youtube.com/watch?v=dQw4w9WgXcQ" width="800" height="600"}
+```
+
+```
+{embed}https://youtu.be/dQw4w9WgXcQ{/embed}
+```
+
+**Gist Example:**
+
+```
+{embed}https://gist.github.com/user/12345{/embed}
+```
+
+```
+{embed url="https://gist.github.com/user/12345" file="example.php"}
+```
+
+**Vimeo Example:**
+
+```
+{embed}https://vimeo.com/123456789{/embed}
+```
+
+**Generic URL (iframe fallback):**
+
+```
+{embed}https://example.com/article{/embed}
+```
+
+```
+{embed url="https://example.com" width="800" height="600" class="my-embed"}
 ```
 
 ### `lorem`
@@ -100,7 +118,6 @@ Generates three paragraphs (`<p>`) each containing the full Lorem Ipsum text.
 {lorem wrap="ul.my-list,5" words="5,10"}
 ```
 Generates an unordered list (`<ul class="my-list">`) with five list items (`<li>`), where each list item contains 5 to 10 words of Lorem Ipsum text.
-
 
 
 ### `repeat`
