@@ -119,4 +119,35 @@ class AttributeHelper
 
         return $default; // If format is not recognized
     }
+
+    /**
+     * Parses a boolean value from an attribute.
+     * Considers "true", "1", "yes" as true.
+     * Considers "false", "0", "no" as false.
+     *
+     * @param string $value The attribute value to parse.
+     * @param bool|null $default The default boolean to return if parsing fails or value is empty.
+     *
+     * @return bool|null The parsed boolean, or null if parsing fails and no default is provided.
+     */
+    public static function parseBoolean(string $value, ?bool $default = null): ?bool
+    {
+        $value = strtolower(trim($value));
+
+        if ($value === '') {
+            return $default;
+        }
+
+        if (in_array($value, ['true', '1', 'yes'], true)) {
+            return true;
+        }
+
+        if (in_array($value, ['false', '0', 'no'], true)) {
+            return false;
+        }
+
+        return $default; // If format is not recognized
+    }
+
+
 }

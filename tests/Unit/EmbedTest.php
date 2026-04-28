@@ -113,7 +113,7 @@ class EmbedTest extends TestCase
     {
         $text = '{embed}https://vimeo.com/123456789{/embed}';
         $result = $this->processShortcodes($text);
-        $this->assertStringContainsString('player.vimeo.com/video/123456789', $result);
+        $this->assertStringContainsString('player.vimeo.com/video/123456789?autoplay=0&loop=0', $result);
     }
 
     public function testEmbedVimeoWithCustomDimensions()

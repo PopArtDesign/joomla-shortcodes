@@ -123,4 +123,39 @@ class AttributeHelperTest extends TestCase
         $this->assertNull(AttributeHelper::parseTime(''));
         $this->assertEquals(20, AttributeHelper::parseTime('', 20));
     }
+
+    /**
+     * Test cases for parseBoolean method.
+     */
+    public function testParseBooleanWithTrueValues(): void
+    {
+        $this->assertTrue(AttributeHelper::parseBoolean('true'));
+        $this->assertTrue(AttributeHelper::parseBoolean('1'));
+        $this->assertTrue(AttributeHelper::parseBoolean('yes'));
+        $this->assertTrue(AttributeHelper::parseBoolean('true', false)); // With default
+    }
+
+    public function testParseBooleanWithFalseValues(): void
+    {
+        $this->assertFalse(AttributeHelper::parseBoolean('false'));
+        $this->assertFalse(AttributeHelper::parseBoolean('0'));
+        $this->assertFalse(AttributeHelper::parseBoolean('no'));
+        $this->assertFalse(AttributeHelper::parseBoolean('false', true)); // With default
+    }
+
+    public function testParseBooleanWithEmptyStringReturnsDefault(): void
+    {
+        $this->assertNull(AttributeHelper::parseBoolean(''));
+        $this->assertTrue(AttributeHelper::parseBoolean('', true));
+        $this->assertFalse(AttributeHelper::parseBoolean('', false));
+    }
+
+    public function testParseBooleanWithUnrecognizedStringReturnsDefault(): void
+    {
+        $this->assertNull(AttributeHelper::parseBoolean('any_string'));
+        $this->assertTrue(AttributeHelper::parseBoolean('any_string', true));
+        $this->assertFalse(AttributeHelper::parseBoolean('any_string', false));
+    }
+
+
 }
