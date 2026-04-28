@@ -26,13 +26,9 @@ class Embed
     /** @var EmbedInterface[] */
     private array $handlers;
 
-    public function __construct(
-        Youtube $youtube,
-        Gist $gist,
-        Vimeo $vimeo,
-        Iframe $iframe
-    ) {
-        $this->handlers = [$youtube, $gist, $vimeo, $iframe];
+    public function __construct(array $handlers)
+    {
+        $this->handlers = $handlers;
     }
 
     public function __invoke(array $attributes, string $content): string

@@ -17,12 +17,12 @@ class EmbedTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         self::$processor = new ShortcodeProcessor([
-            'embed' => new Embed(
+            'embed' => new Embed([
                 new Youtube(),
                 new Gist(),
                 new Vimeo(),
                 new Iframe()
-            ),
+            ]),
         ]);
     }
 
