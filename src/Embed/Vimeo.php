@@ -2,6 +2,8 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
 
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
+
 \defined('_JEXEC') or die;
 
 /**
@@ -39,7 +41,12 @@ class Vimeo implements EmbedInterface
         }
 
         $autoplay = !empty($attributes['autoplay']);
-        $loop = !empty($attributes['loop']);
+        $loop = !empty(!empty($attributes['loop']));
+        $start = null;
+
+        if (isset($attributes['start'])) {
+            $start = AttributeHelper::parseTime((string) $attributes['start']);
+        }
 
         $src = sprintf(
             'https://player.vimeo.com/video/%s?autoplay=%d&loop=%d',
@@ -47,6 +54,13 @@ class Vimeo implements EmbedInterface
             (int) $autoplay,
             (int) $loop
         );
+
+        if ($start !== null) {
+            $src .= '#t=' . $start . 's';
+        }
+
+        // Note: Vimeo embed URLs do not directly support an 'end' time parameter.
+        // To implement an end time, JavaScript API would be required.
 
         return Iframe::render($src, [
             'width' => $attributes['width'] ?? '560',

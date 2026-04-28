@@ -124,6 +124,20 @@ class EmbedTest extends TestCase
         $this->assertStringContainsString('height="600"', $result);
     }
 
+    public function testEmbedVimeoWithStartTime()
+    {
+        $text = '{embed url="https://vimeo.com/123456789" start="60"}{/embed}';
+        $result = $this->processShortcodes($text);
+        $this->assertStringContainsString('player.vimeo.com/video/123456789?autoplay=0&loop=0#t=60s', $result);
+    }
+
+    public function testEmbedVimeoWithStartTimeFormatted()
+    {
+        $text = '{embed url="https://vimeo.com/123456789" start="1:30"}{/embed}';
+        $result = $this->processShortcodes($text);
+        $this->assertStringContainsString('player.vimeo.com/video/123456789?autoplay=0&loop=0#t=90s', $result);
+    }
+
     public function testEmbedGenericUrl()
     {
         $text = '{embed}https://example.com/article{/embed}';
