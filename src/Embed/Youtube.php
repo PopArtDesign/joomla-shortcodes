@@ -64,12 +64,6 @@ class Youtube implements EmbedInterface
             'allowfullscreen' => $attributes['allowfullscreen'] ?? '',
         ];
 
-        // The original code passed 'start' as an iframe attribute if not '0'.
-        // Keeping this behavior for backward compatibility, although it's not a standard iframe attribute.
-        if ($start !== '0' && isset($attributes['start'])) {
-            $iframeAttributes['start'] = $attributes['start'];
-        }
-
         $iframeAttributes['class'] = $attributes['class'] ?? 'youtube-container';
         $iframeAttributes['allow'] = $attributes['allow'] ?? 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
         $iframeAttributes['referrerpolicy'] = 'strict-origin-when-cross-origin';

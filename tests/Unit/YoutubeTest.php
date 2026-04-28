@@ -37,14 +37,14 @@ class YoutubeTest extends TestCase
     public function testStartTimeInSeconds()
     {
         $result = $this->youtube->process('kBddBRQ-xic', ['start' => '90']);
-        $expected = '<iframe src="https://www.youtube.com/embed/kBddBRQ-xic?start=90" width="560" height="315" title="YouTube video player" frameborder="0" allowfullscreen start="90" class="youtube-container" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>';
+        $expected = '<iframe src="https://www.youtube.com/embed/kBddBRQ-xic?start=90" width="560" height="315" title="YouTube video player" frameborder="0" allowfullscreen class="youtube-container" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>';
         $this->assertEquals($expected, $result);
     }
 
     public function testStartTimeInMmSs()
     {
         $result = $this->youtube->process('kBddBRQ-xic', ['start' => '1:30']);
-        $expected = '<iframe src="https://www.youtube.com/embed/kBddBRQ-xic?start=90" width="560" height="315" title="YouTube video player" frameborder="0" allowfullscreen start="1:30" class="youtube-container" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>';
+        $expected = '<iframe src="https://www.youtube.com/embed/kBddBRQ-xic?start=90" width="560" height="315" title="YouTube video player" frameborder="0" allowfullscreen class="youtube-container" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>';
         $this->assertEquals($expected, $result);
     }
 
@@ -58,7 +58,7 @@ class YoutubeTest extends TestCase
             'title' => 'My Video',
             'allow' => 'autoplay'
         ]);
-        $expected = '<iframe src="https://www.youtube.com/embed/kBddBRQ-xic?start=42" width="1024" height="768" title="My Video" frameborder="0" allowfullscreen start="0:42" class="my-class" allow="autoplay" referrerpolicy="strict-origin-when-cross-origin"></iframe>';
+        $expected = '<iframe src="https://www.youtube.com/embed/kBddBRQ-xic?start=42" width="1024" height="768" title="My Video" frameborder="0" allowfullscreen class="my-class" allow="autoplay" referrerpolicy="strict-origin-when-cross-origin"></iframe>';
         $this->assertEquals($expected, $result);
     }
 
