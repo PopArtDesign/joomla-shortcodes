@@ -35,7 +35,7 @@ class Vimeo implements EmbedInterface
      */
     public function process(string $url, array $attributes): string
     {
-        $videoId = $this->extractVimeoId($url);
+        $videoId = $this->getVideoId($url);
 
         if (!$videoId) {
             return '';
@@ -70,7 +70,7 @@ class Vimeo implements EmbedInterface
      *
      * @return string|null The video ID, or null if not found.
      */
-    private function extractVimeoId(string $url): ?string
+    private function getVideoId(string $url): ?string
     {
         $urlParts = parse_url($url);
         $path = $urlParts['path'] ?? '';
