@@ -125,7 +125,7 @@ class AttributeHelper
      * Considers "true", "1", "yes" as true.
      * Considers "false", "0", "no" as false.
      *
-     * @param string $value The attribute value to parse.
+     * @param string    $value   The attribute value to parse.
      * @param bool|null $default The default boolean to return if parsing fails or value is empty.
      *
      * @return bool|null The parsed boolean, or null if parsing fails and no default is provided.
