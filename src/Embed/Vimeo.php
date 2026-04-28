@@ -6,6 +6,13 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
 
 class Vimeo implements EmbedInterface
 {
+    private IframeRenderer $iframeRenderer;
+
+    public function __construct()
+    {
+        $this->iframeRenderer = new IframeRenderer();
+    }
+
     public function supports(string $url): bool
     {
         $urlParts = parse_url($url);
@@ -21,12 +28,15 @@ class Vimeo implements EmbedInterface
             return '';
         }
 
-        $width = $attributes['width'] ?? '560';
-        $height = $attributes['height'] ?? '315';
-        $class = $attributes['class'] ?? 'vimeo-container';
-        $title = $attributes['title'] ?? 'Vimeo video player';
+        $attributes['width'] = $attributes['width'] ?? '560';
+        $attributes['height'] = $attributes['height'] ?? '315';
+        $attributes['title'] = $attributes['title'] ?? 'Vimeo video player';
+        $attributes['class'] = $attributes['class'] ?? 'vimeo-container';
+
         $autoplay = isset($attributes['autoplay']) ? (int) $attributes['autoplay'] : 0;
         $loop = isset($attributes['loop']) ? (int) $attributes['loop'] : 0;
+
+        $attributes['allow'] = 'autoplay; fullscreen; picture-in-picture';
 
         $src = sprintf(
             'https://player.vimeo.com/video/%s?autoplay=%d&loop=%d',
@@ -35,21 +45,7 @@ class Vimeo implements EmbedInterface
             $loop
         );
 
-        return <<<HTML
-<div class="{$class}-wrapper">
-    <div class="{$class}">
-        <iframe
-            src="{$src}"
-            width="{$width}"
-            height="{$height}"
-            title="{$title}"
-            frameborder="0"
-            allow="autoplay; fullscreen; picture-in-picture"
-            allowfullscreen>
-        </iframe>
-    </div>
-</div>
-HTML;
+        return $this->iframeRenderer->render($src, $attributes);
     }
 
     private function extractVimeoId(string $url): ?string

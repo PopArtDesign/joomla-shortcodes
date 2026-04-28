@@ -6,6 +6,13 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
 
 class Youtube implements EmbedInterface
 {
+    private IframeRenderer $iframeRenderer;
+
+    public function __construct()
+    {
+        $this->iframeRenderer = new IframeRenderer();
+    }
+
     public function supports(string $url): bool
     {
         $urlParts = parse_url($url);
@@ -58,33 +65,21 @@ class Youtube implements EmbedInterface
 
         $videoId = strtok($videoId, '?');
 
-        $width   = $attributes['width'] ?? '560';
-        $height  = $attributes['height'] ?? '315';
-        $start   = $attributes['start'] ?? '0';
-        $allow   = $attributes['allow'] ?? 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-        $title   = $attributes['title'] ?? 'YouTube video player';
-        $class   = $attributes['class'] ?? 'youtube-container';
-
+        $start = $attributes['start'] ?? '0';
         $startParts = explode(':', $start);
         if (count($startParts) == 2) {
             $start = (int) $startParts[0] * 60 + (int) $startParts[1];
         }
 
+        $attributes['width'] = $attributes['width'] ?? '560';
+        $attributes['height'] = $attributes['height'] ?? '315';
+        $attributes['title'] = $attributes['title'] ?? 'YouTube video player';
+        $attributes['class'] = $attributes['class'] ?? 'youtube-container';
+        $attributes['allow'] = $attributes['allow'] ?? 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+        $attributes['referrerpolicy'] = 'strict-origin-when-cross-origin';
+
         $src = sprintf('https://www.youtube.com/embed/%s?start=%d', htmlspecialchars($videoId), (int) $start);
 
-        return <<<HTML
-<div class="{$class}">
-    <iframe
-        src="{$src}"
-        width="{$width}"
-        height="{$height}"
-        allow="{$allow}"
-        title="{$title}"
-        referrerpolicy="strict-origin-when-cross-origin"
-        frameborder="0"
-        allowfullscreen>
-    </iframe>
-</div>
-HTML;
+        return $this->iframeRenderer->render($src, $attributes);
     }
 }

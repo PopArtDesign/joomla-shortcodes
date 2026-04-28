@@ -6,6 +6,13 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
 
 class Iframe implements EmbedInterface
 {
+    private IframeRenderer $iframeRenderer;
+
+    public function __construct()
+    {
+        $this->iframeRenderer = new IframeRenderer();
+    }
+
     public function supports(string $url): bool
     {
         return true;
@@ -13,22 +20,11 @@ class Iframe implements EmbedInterface
 
     public function process(string $url, array $attributes): string
     {
-        $width = $attributes['width'] ?? '100%';
-        $height = $attributes['height'] ?? '500';
-        $class = $attributes['class'] ?? 'embed-container';
-        $title = $attributes['title'] ?? 'Embedded content';
+        $attributes['width'] = $attributes['width'] ?? '100%';
+        $attributes['height'] = $attributes['height'] ?? '500';
+        $attributes['title'] = $attributes['title'] ?? 'Embedded content';
+        $attributes['class'] = $attributes['class'] ?? 'embed-container';
 
-        return <<<HTML
-<div class="{$class}">
-    <iframe
-        src="{$url}"
-        width="{$width}"
-        height="{$height}"
-        title="{$title}"
-        frameborder="0"
-        allowfullscreen>
-    </iframe>
-</div>
-HTML;
+        return $this->iframeRenderer->render($url, $attributes);
     }
 }
