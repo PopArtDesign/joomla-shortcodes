@@ -45,7 +45,22 @@ class Youtube implements EmbedInterface
         $start = $attributes['start'] ?? '0';
         $startSeconds = AttributeHelper::parseTime($start, 0);
 
-        $src = sprintf('https://www.youtube.com/embed/%s?start=%d', htmlspecialchars($videoId), $startSeconds);
+        $autoplay = false;
+        if (array_key_exists('autoplay', $attributes)) {
+            $autoplay = AttributeHelper::parseBoolean($attributes['autoplay'], false);
+        } elseif (isset($attributes['_']) && in_array('autoplay', $attributes['_'], true)) {
+            $autoplay = true;
+        }
+
+        $queryParams = [
+            'start' => $startSeconds,
+        ];
+
+        if ($autoplay) {
+            $queryParams['autoplay'] = 1;
+        }
+
+        $src = sprintf('https://www.youtube.com/embed/%s?%s', htmlspecialchars($videoId), http_build_query($queryParams));
 
         $iframeAttributes = [
             'width' => $attributes['width'] ?? '100%',
