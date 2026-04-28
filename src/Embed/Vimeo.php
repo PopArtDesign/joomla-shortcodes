@@ -40,8 +40,6 @@ class Vimeo implements EmbedInterface
             return '';
         }
 
-        $autoplay = !empty($attributes['autoplay']);
-        $loop = !empty($attributes['loop']);
         $start = null;
         if (isset($attributes['start'])) {
             $start = AttributeHelper::parseTime((string) $attributes['start']);
@@ -55,8 +53,8 @@ class Vimeo implements EmbedInterface
         $src = sprintf(
             'https://player.vimeo.com/video/%s?autoplay=%d&loop=%d',
             htmlspecialchars($videoId),
-            (int) $autoplay,
-            (int) $loop
+            (int) ($attributes['autoplay'] ?? 0),
+            (int) ($attributes['loop'] ?? 0),
         );
 
         $fragment = [];
