@@ -5,6 +5,10 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Test\Unit;
 use PHPUnit\Framework\TestCase;
 use JoomlaShortcoder\Plugin\Content\Shortcoder\ShortcodeProcessor;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Youtube;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Gist;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Vimeo;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Iframe;
 
 class EmbedTest extends TestCase
 {
@@ -13,7 +17,12 @@ class EmbedTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         self::$processor = new ShortcodeProcessor([
-            'embed' => new Embed(),
+            'embed' => new Embed(
+                new Youtube(),
+                new Gist(),
+                new Vimeo(),
+                new Iframe()
+            ),
         ]);
     }
 
@@ -95,7 +104,9 @@ class EmbedTest extends TestCase
     {
         $text = '{embed}testuser/12345{/embed}';
         $result = $this->processShortcodes($text);
-        $this->assertStringContainsString('gist.github.com/testuser/12345.js', $result);
+        // Short syntax no longer supported - falls back to iframe
+        $this->assertStringContainsString('embed-container', $result);
+        $this->assertStringContainsString('testuser/12345', $result);
     }
 
     public function testEmbedVimeo()

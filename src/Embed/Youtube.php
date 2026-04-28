@@ -4,25 +4,27 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
 
 \defined('_JEXEC') or die;
 
-/**
- * A shortcode for embedding YouTube videos.
- *
- * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
- */
-class Youtube
+class Youtube implements EmbedInterface
 {
-    /**
-     * Invoke the shortcode.
-     *
-     * @param array $attributes The attributes of the shortcode.
-     *
-     * @return string
-     */
-    public function __invoke(array $attributes): string
+    public function supports(string $url): bool
     {
-        $videoId = $attributes[0] ?? '';
+        $urlParts = parse_url($url);
+        $host = $urlParts['host'] ?? '';
 
-        // Check if the input is a URL and parse it
+        if ($host !== '') {
+            $host = strtolower($host);
+            return in_array($host, ['youtube.com', 'www.youtube.com', 'm.youtube.com', 'youtu.be'], true);
+        }
+
+        $path = $urlParts['path'] ?? $url;
+        $firstSegment = strtok($path, '/');
+        return in_array($firstSegment, ['youtube.com', 'www.youtube.com', 'm.youtube.com', 'youtu.be'], true);
+    }
+
+    public function process(string $url, array $attributes): string
+    {
+        $videoId = $url;
+
         if (strpos($videoId, 'youtu') !== false) {
             $url = $videoId;
             if (strpos($url, 'http') !== 0) {
@@ -54,7 +56,6 @@ class Youtube
             return '';
         }
 
-        // Clean up video ID from any potential leftover query parameters from short URLs
         $videoId = strtok($videoId, '?');
 
         $width   = $attributes['width'] ?? '560';

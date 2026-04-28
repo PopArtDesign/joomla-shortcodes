@@ -4,36 +4,34 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
 
 \defined('_JEXEC') or die;
 
-/**
- * A shortcode for embedding GitHub Gists.
- *
- * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
- */
-class Gist
+class Gist implements EmbedInterface
 {
-    /**
-     * Invoke the shortcode.
-     *
-     * @param array $attributes The attributes of the shortcode.
-     *
-     * @return string
-     */
-    public function __invoke(array $attributes): string
+    public function supports(string $url): bool
     {
-        $idOrUrl = $attributes[0] ?? '';
+        if (strpos($url, '://') === false) {
+            return false;
+        }
+
+        $urlParts = parse_url($url);
+        $host = $urlParts['host'] ?? '';
+
+        return strtolower($host) === 'gist.github.com';
+    }
+
+    public function process(string $url, array $attributes): string
+    {
+        $idOrUrl = $url;
         $file = $attributes['file'] ?? '';
 
         if (!$idOrUrl) {
             return '';
         }
 
-        if (\strpos($idOrUrl, 'https://gist.github.com/') === 0) {
-            $scriptUrl = \rtrim($idOrUrl, '/') . '.js';
-        } elseif (\strpos($idOrUrl, '://') !== false) {
+        if (\strpos($idOrUrl, 'https://gist.github.com/') !== 0) {
             return '';
-        } else {
-            $scriptUrl = 'https://gist.github.com/' . $idOrUrl . '.js';
         }
+
+        $scriptUrl = \rtrim($idOrUrl, '/') . '.js';
 
         if ($file) {
             $scriptUrl .= '?file=' . \urlencode($file);

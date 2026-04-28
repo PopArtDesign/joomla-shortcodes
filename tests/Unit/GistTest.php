@@ -2,58 +2,61 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Test\Unit;
 
-use JoomlaShortcoder\Plugin\Content\Shortcoder\ShortcodeProcessor;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Gist;
 use PHPUnit\Framework\TestCase;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Gist;
 
 class GistTest extends TestCase
 {
-    private ShortcodeProcessor $processor;
+    private Gist $gist;
 
     protected function setUp(): void
     {
-        $this->processor = new ShortcodeProcessor([
-            'gist' => new Gist(),
-        ]);
+        $this->gist = new Gist();
     }
 
     public function testNoUrl()
     {
-        $content = $this->processor->processShortcodes('{gist}', new \stdClass());
-        $this->assertEquals('', $content);
+        $result = $this->gist->process('', []);
+        $this->assertEquals('', $result);
     }
 
     public function testBasicUsage()
     {
-        $content = $this->processor->processShortcodes('{gist https://gist.github.com/testuser/12345}', new \stdClass());
+        $result = $this->gist->process('https://gist.github.com/testuser/12345', []);
         $expected = '<script src="https://gist.github.com/testuser/12345.js"></script>';
-        $this->assertEquals($expected, trim($content));
+        $this->assertEquals($expected, trim($result));
     }
 
     public function testUsageWithFile()
     {
-        $content = $this->processor->processShortcodes('{gist https://gist.github.com/testuser/12345 file="test.php"}', new \stdClass());
+        $result = $this->gist->process(
+            'https://gist.github.com/testuser/12345',
+            ['file' => 'test.php']
+        );
         $expected = '<script src="https://gist.github.com/testuser/12345.js?file=test.php"></script>';
-        $this->assertEquals($expected, trim($content));
+        $this->assertEquals($expected, trim($result));
     }
 
     public function testInvalidUrl()
     {
-        $content = $this->processor->processShortcodes('{gist https://example.com/testuser/12345}', new \stdClass());
-        $this->assertEquals('', $content);
+        $result = $this->gist->process('https://example.com/testuser/12345', []);
+        $this->assertEquals('', $result);
     }
 
     public function testShortSyntax()
     {
-        $content = $this->processor->processShortcodes('{gist voronkovich/0ee5c78d7b1a61c7e8f3cd6eedd2e3dc}', new \stdClass());
-        $expected = '<script src="https://gist.github.com/voronkovich/0ee5c78d7b1a61c7e8f3cd6eedd2e3dc.js"></script>';
-        $this->assertEquals($expected, trim($content));
+        // Short syntax (user/hash) is no longer supported - requires full URL
+        $result = $this->gist->process('voronkovich/0ee5c78d7b1a61c7e8f3cd6eedd2e3dc', []);
+        $this->assertEquals('', $result);
     }
 
     public function testShortSyntaxWithFile()
     {
-        $content = $this->processor->processShortcodes('{gist voronkovich/0ee5c78d7b1a61c7e8f3cd6eedd2e3dc file="test.php"}', new \stdClass());
-        $expected = '<script src="https://gist.github.com/voronkovich/0ee5c78d7b1a61c7e8f3cd6eedd2e3dc.js?file=test.php"></script>';
-        $this->assertEquals($expected, trim($content));
+        // Short syntax (user/hash) with file is no longer supported
+        $result = $this->gist->process(
+            'voronkovich/0ee5c78d7b1a61c7e8f3cd6eedd2e3dc',
+            ['file' => 'test.php']
+        );
+        $this->assertEquals('', $result);
     }
 }

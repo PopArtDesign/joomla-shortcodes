@@ -4,23 +4,14 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
 
 \defined('_JEXEC') or die;
 
-/**
- * A shortcode for embedding generic URLs as iframes.
- * Used as a fallback when no specific handler is available.
- *
- * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
- */
-class Iframe
+class Iframe implements EmbedInterface
 {
-    /**
-     * Invoke the shortcode.
-     *
-     * @param array  $attributes The attributes of the shortcode.
-     * @param string $url        The URL to embed.
-     *
-     * @return string
-     */
-    public function __invoke(array $attributes, string $url = ''): string
+    public function supports(string $url): bool
+    {
+        return true;
+    }
+
+    public function process(string $url, array $attributes): string
     {
         $width = $attributes['width'] ?? '100%';
         $height = $attributes['height'] ?? '500';
