@@ -93,4 +93,27 @@ class AttributeHelperTest extends TestCase
     {
         $this->assertEquals(['ul', 'my-class', 5], AttributeHelper::parseTag(' ul . my-class , 5 '));
     }
+
+    /**
+     * Test cases for parseTime method.
+     */
+    public function testParseTimeWithSeconds(): void
+    {
+        $this->assertEquals(60, AttributeHelper::parseTime('60'));
+    }
+
+    public function testParseTimeWithMinutesAndSeconds(): void
+    {
+        $this->assertEquals(90, AttributeHelper::parseTime('1:30'));
+    }
+
+    public function testParseTimeWithHoursMinutesAndSeconds(): void
+    {
+        $this->assertEquals(3723, AttributeHelper::parseTime('1:02:03')); // 1 hour, 2 minutes, 3 seconds
+    }
+
+    public function testParseTimeWithInvalidFormatReturnsZero(): void
+    {
+        $this->assertEquals(0, AttributeHelper::parseTime('invalid-time'));
+    }
 }

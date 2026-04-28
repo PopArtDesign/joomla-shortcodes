@@ -99,11 +99,15 @@ class AttributeHelper
      */
     public static function parseTime(string $time): int
     {
-        if (str_contains($time, ':')) {
-            $parts = explode(':', $time, 2);
+        $parts = explode(':', $time);
+        $numParts = count($parts);
+
+        if ($numParts === 3) { // hh:mm:ss
+            return (int) $parts[0] * 3600 + (int) $parts[1] * 60 + (int) $parts[2];
+        } elseif ($numParts === 2) { // mm:ss
             return (int) $parts[0] * 60 + (int) $parts[1];
         }
 
-        return (int) $time;
+        return (int) $time; // seconds
     }
 }
