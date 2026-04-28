@@ -89,4 +89,21 @@ class AttributeHelper
 
         return [$tag, $class, $count];
     }
+
+    /**
+     * Parse start time string (e.g., "1:23") into seconds.
+     *
+     * @param string $time
+     *
+     * @return int
+     */
+    public static function parseTime(string $time): int
+    {
+        if (str_contains($time, ':')) {
+            $parts = explode(':', $time, 2);
+            return (int) $parts[0] * 60 + (int) $parts[1];
+        }
+
+        return (int) $time;
+    }
 }

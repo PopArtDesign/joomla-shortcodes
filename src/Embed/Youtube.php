@@ -4,6 +4,8 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
 
 \defined('_JEXEC') or die;
 
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
+
 /**
  * Embed handler for YouTube videos.
  *
@@ -11,6 +13,8 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
  */
 class Youtube implements EmbedInterface
 {
+    private const SUPPORTED_HOSTS = ['youtube.com', 'www.youtube.com', 'm.youtube.com', 'youtu.be'];
+
     /**
      * Check if this handler supports the given URL.
      *
@@ -20,17 +24,15 @@ class Youtube implements EmbedInterface
      */
     public function supports(string $url): bool
     {
-        $urlParts = parse_url($url);
-        $host = $urlParts['host'] ?? '';
-
-        if ($host !== '') {
-            $host = strtolower($host);
-            return in_array($host, ['youtube.com', 'www.youtube.com', 'm.youtube.com', 'youtu.be'], true);
+        // Add a scheme if missing to help parse_url.
+        // This is to correctly extract the host from URLs that might be protocol-relative or missing protocol.
+        if (!preg_match('~^https?://~', $url)) {
+            $url = 'https://' . $url;
         }
 
-        $path = $urlParts['path'] ?? $url;
-        $firstSegment = strtok($path, '/');
-        return in_array($firstSegment, ['youtube.com', 'www.youtube.com', 'm.youtube.com', 'youtu.be'], true);
+        $host = strtolower(parse_url($url, PHP_URL_HOST) ?? '');
+
+        return in_array($host, self::SUPPORTED_HOSTS, true);
     }
 
     /**
@@ -43,78 +45,55 @@ class Youtube implements EmbedInterface
      */
     public function process(string $url, array $attributes): string
     {
-        $videoId = $url;
-
-        if (strpos($videoId, 'youtu') !== false) {
-            $url = $videoId;
-            if (strpos($url, 'http') !== 0) {
-                $url = 'https://' . $url;
-            }
-
-            $urlParts = parse_url($url);
-
-            if ($urlParts && isset($urlParts['host'])) {
-                $host = strtolower($urlParts['host']);
-                $path = $urlParts['path'] ?? '';
-
-                if (in_array($host, ['youtube.com', 'www.youtube.com', 'm.youtube.com'], true)) {
-                    if (isset($urlParts['query'])) {
-                        parse_str($urlParts['query'], $query);
-                        if (isset($query['v'])) {
-                            $videoId = $query['v'];
-                        }
-                    } elseif (strpos($path, '/embed/') === 0) {
-                        $videoId = substr($path, strlen('/embed/'));
-                    }
-                } elseif ($host === 'youtu.be') {
-                    $videoId = ltrim($path, '/');
-                }
-            }
-        }
+        $videoId = $this->getVideoId($url);
 
         if (!$videoId) {
             return '';
         }
 
-        $videoId = strtok($videoId, '?');
-
         $start = $attributes['start'] ?? '0';
-        $startSeconds = $start;
-        $startParts = explode(':', $startSeconds);
-        if (count($startParts) == 2) {
-            $startSeconds = (int) $startParts[0] * 60 + (int) $startParts[1];
-        }
+        $startSeconds = AttributeHelper::parseTime($start);
 
-        // Save original values before rebuild
-        $originalWidth = $attributes['width'] ?? null;
-        $originalHeight = $attributes['height'] ?? null;
-        $originalTitle = $attributes['title'] ?? null;
-        $originalClass = $attributes['class'] ?? null;
-        $originalAllow = $attributes['allow'] ?? null;
-        $originalFrameborder = $attributes['frameborder'] ?? null;
-        $originalAllowfullscreen = $attributes['allowfullscreen'] ?? null;
-        $startValue = $attributes['start'] ?? '0';
+        $src = sprintf('https://www.youtube.com/embed/%s?start=%d', htmlspecialchars($videoId), $startSeconds);
 
-        // Rebuild attributes array in correct order
-        $attributes = [
-            'width' => $originalWidth ?? '560',
-            'height' => $originalHeight ?? '315',
-            'title' => $originalTitle ?? 'YouTube video player',
-            'frameborder' => $originalFrameborder ?? 0,
-            'allowfullscreen' => $originalAllowfullscreen ?? '',
+        $iframeAttributes = [
+            'width' => $attributes['width'] ?? '560',
+            'height' => $attributes['height'] ?? '315',
+            'title' => $attributes['title'] ?? 'YouTube video player',
+            'frameborder' => $attributes['frameborder'] ?? '0',
+            'allowfullscreen' => $attributes['allowfullscreen'] ?? '',
         ];
 
-        // Only include start if it's non-default (in the correct position)
-        if ($startValue !== '0') {
-            $attributes['start'] = $startValue;
+        // The original code passed 'start' as an iframe attribute if not '0'.
+        // Keeping this behavior for backward compatibility, although it's not a standard iframe attribute.
+        if ($start !== '0' && isset($attributes['start'])) {
+            $iframeAttributes['start'] = $attributes['start'];
         }
 
-        $attributes['class'] = $originalClass ?? 'youtube-container';
-        $attributes['allow'] = $originalAllow ?? 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-        $attributes['referrerpolicy'] = 'strict-origin-when-cross-origin';
+        $iframeAttributes['class'] = $attributes['class'] ?? 'youtube-container';
+        $iframeAttributes['allow'] = $attributes['allow'] ?? 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+        $iframeAttributes['referrerpolicy'] = 'strict-origin-when-cross-origin';
 
-        $src = sprintf('https://www.youtube.com/embed/%s?start=%d', htmlspecialchars($videoId), (int) $startSeconds);
+        return Iframe::render($src, $iframeAttributes);
+    }
 
-        return Iframe::render($src, $attributes);
+    /**
+     * Extract YouTube video ID from a URL or a string.
+     *
+     * @param string $url
+     *
+     * @return string
+     */
+    private function getVideoId(string $url): string
+    {
+        $pattern = '%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i';
+
+        if (preg_match($pattern, $url, $matches)) {
+            return $matches[1];
+        }
+
+        // Fallback for cases where just the video ID is provided.
+        // It's assumed to be the video ID if no YouTube URL pattern matches.
+        return strtok($url, '?');
     }
 }
