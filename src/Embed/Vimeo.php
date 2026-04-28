@@ -41,7 +41,7 @@ class Vimeo implements EmbedInterface
         }
 
         $autoplay = !empty($attributes['autoplay']);
-        $loop = !empty(!empty($attributes['loop']));
+        $loop = !empty($attributes['loop']);
         $start = null;
         if (isset($attributes['start'])) {
             $start = AttributeHelper::parseTime((string) $attributes['start']);
