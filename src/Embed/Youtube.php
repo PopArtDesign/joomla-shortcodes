@@ -73,9 +73,9 @@ class Youtube implements EmbedInterface
      *
      * @param string $url
      *
-     * @return string
+     * @return ?string
      */
-    private function getVideoId(string $url): string
+    private function getVideoId(string $url): ?string
     {
         $pattern = '%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i';
 
@@ -83,8 +83,6 @@ class Youtube implements EmbedInterface
             return $matches[1];
         }
 
-        // Fallback for cases where just the video ID is provided.
-        // It's assumed to be the video ID if no YouTube URL pattern matches.
-        return strtok($url, '?');
+        return null;
     }
 }
