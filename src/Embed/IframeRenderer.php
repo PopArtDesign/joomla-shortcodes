@@ -11,28 +11,62 @@ class IframeRenderer
      * Render an iframe with the given attributes.
      *
      * @param string $url The iframe source URL.
-     * @param array $attributes The iframe attributes (width, height, title, class, and any extra).
+     * @param array $attributes The iframe attributes (width, height, title, class, allow, referrerpolicy, frameborder, allowfullscreen).
      * @return string The rendered iframe HTML.
      */
     public function render(string $url, array $attributes): string
     {
-        $width  = $attributes['width'] ?? '100%';
+        $width = $attributes['width'] ?? '100%';
         $height = $attributes['height'] ?? '500';
-        $title  = $attributes['title'] ?? 'Embedded content';
-        $class  = $attributes['class'] ?? 'embed-container';
+        $title = $attributes['title'] ?? 'Embedded content';
+        $class = $attributes['class'] ?? 'embed-container';
 
-        $allowLine = isset($attributes['allow']) ? "        allow=\"{$attributes['allow']}\"\n" : '';
-        $referrerLine = isset($attributes['referrerpolicy']) ? "        referrerpolicy=\"{$attributes['referrerpolicy']}\"\n" : '';
+        $lines = [
+            "        src=\"{$url}\"",
+            "        width=\"{$width}\"",
+            "        height=\"{$height}\"",
+        ];
+
+        $afterTitle = [];
+        $frameborder = "        frameborder=\"0\"";
+        $allowfullscreen = "        allowfullscreen>";
+
+        foreach ($attributes as $name => $value) {
+            if ($name === 'referrerpolicy') {
+                $afterTitle[] = "        {$name}=\"{$value}\"";
+                continue;
+            }
+            if ($name === 'frameborder') {
+                $frameborder = "        frameborder=\"{$value}\"";
+                continue;
+            }
+            if ($name === 'allowfullscreen') {
+                $allowfullscreen = $value ? "        allowfullscreen>" : "";
+                continue;
+            }
+            if (in_array($name, ['width', 'height', 'title', 'class', 'start'])) {
+                continue;
+            }
+            $lines[] = "        {$name}=\"{$value}\"";
+        }
+
+        $lines[] = "        title=\"{$title}\"";
+
+        foreach ($afterTitle as $line) {
+            $lines[] = $line;
+        }
+
+        $lines[] = $frameborder;
+        if ($allowfullscreen) {
+            $lines[] = $allowfullscreen;
+        }
+
+        $attrs = implode("\n", $lines);
 
         return <<<HTML
 <div class="{$class}">
     <iframe
-        src="{$url}"
-        width="{$width}"
-        height="{$height}"
-{$allowLine}        title="{$title}"
-{$referrerLine}        frameborder="0"
-        allowfullscreen>
+{$attrs}
     </iframe>
 </div>
 HTML;
