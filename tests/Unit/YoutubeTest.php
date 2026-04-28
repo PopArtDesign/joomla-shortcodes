@@ -23,7 +23,7 @@ class YoutubeTest extends TestCase
     public function testBasicUsage()
     {
         $result = $this->youtube->process('https://www.youtube.com/watch?v=kBddBRQ-xic', []);
-        $expected = '<iframe src="https://www.youtube.com/embed/kBddBRQ-xic?start=0" title="YouTube video player" frameborder="0" allowfullscreen class="youtube-container" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" style="aspect-ratio: 16 / 9;"></iframe>';
+        $expected = '<iframe src="https://www.youtube.com/embed/kBddBRQ-xic?start=0" width="100%" height="auto" title="YouTube video player" frameborder="0" allowfullscreen class="youtube-container" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" style="aspect-ratio: 16 / 9;"></iframe>';
         $this->assertEquals($expected, $result);
     }
 
@@ -37,14 +37,14 @@ class YoutubeTest extends TestCase
     public function testStartTimeInSeconds()
     {
         $result = $this->youtube->process('https://www.youtube.com/watch?v=kBddBRQ-xic', ['start' => '90']);
-        $expected = '<iframe src="https://www.youtube.com/embed/kBddBRQ-xic?start=90" title="YouTube video player" frameborder="0" allowfullscreen class="youtube-container" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" style="aspect-ratio: 16 / 9;"></iframe>';
+        $expected = '<iframe src="https://www.youtube.com/embed/kBddBRQ-xic?start=90" width="100%" height="auto" title="YouTube video player" frameborder="0" allowfullscreen class="youtube-container" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" style="aspect-ratio: 16 / 9;"></iframe>';
         $this->assertEquals($expected, $result);
     }
 
     public function testStartTimeInMmSs()
     {
         $result = $this->youtube->process('https://www.youtube.com/watch?v=kBddBRQ-xic', ['start' => '1:30']);
-        $expected = '<iframe src="https://www.youtube.com/embed/kBddBRQ-xic?start=90" title="YouTube video player" frameborder="0" allowfullscreen class="youtube-container" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" style="aspect-ratio: 16 / 9;"></iframe>';
+        $expected = '<iframe src="https://www.youtube.com/embed/kBddBRQ-xic?start=90" width="100%" height="auto" title="YouTube video player" frameborder="0" allowfullscreen class="youtube-container" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" style="aspect-ratio: 16 / 9;"></iframe>';
         $this->assertEquals($expected, $result);
     }
 

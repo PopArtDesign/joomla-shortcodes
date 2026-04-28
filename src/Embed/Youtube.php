@@ -47,7 +47,7 @@ class Youtube implements EmbedInterface
 
         $src = sprintf('https://www.youtube.com/embed/%s?start=%d', htmlspecialchars($videoId), $startSeconds);
 
-        return Iframe::render($src, [
+        $iframeAttributes = [
             'width' => $attributes['width'] ?? '100%',
             'height' => $attributes['height'] ?? 'auto',
             'title' => $attributes['title'] ?? 'YouTube video player',
@@ -56,8 +56,13 @@ class Youtube implements EmbedInterface
             'class' => $attributes['class'] ?? 'youtube-container',
             'allow' => $attributes['allow'] ?? 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share',
             'referrerpolicy' => 'strict-origin-when-cross-origin',
-            'aspect-ratio' => $attributes['aspect-ratio'] ?? '16 / 9',
-        ]);
+        ];
+
+        if (($attributes['height'] ?? 'auto') === 'auto') {
+            $iframeAttributes['aspect-ratio'] = $attributes['aspect-ratio'] ?? '16 / 9';
+        }
+
+        return Iframe::render($src, $iframeAttributes);
     }
 
     /**
