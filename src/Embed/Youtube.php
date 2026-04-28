@@ -56,19 +56,16 @@ class Youtube implements EmbedInterface
 
         $src = sprintf('https://www.youtube.com/embed/%s?start=%d', htmlspecialchars($videoId), $startSeconds);
 
-        $iframeAttributes = [
+        return Iframe::render($src, [
             'width' => $attributes['width'] ?? '560',
             'height' => $attributes['height'] ?? '315',
             'title' => $attributes['title'] ?? 'YouTube video player',
             'frameborder' => $attributes['frameborder'] ?? '0',
             'allowfullscreen' => $attributes['allowfullscreen'] ?? '',
-        ];
-
-        $iframeAttributes['class'] = $attributes['class'] ?? 'youtube-container';
-        $iframeAttributes['allow'] = $attributes['allow'] ?? 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-        $iframeAttributes['referrerpolicy'] = 'strict-origin-when-cross-origin';
-
-        return Iframe::render($src, $iframeAttributes);
+            'class' => $attributes['class'] ?? 'youtube-container',
+            'allow' => $attributes['allow'] ?? 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share',
+            'referrerpolicy' => 'strict-origin-when-cross-origin',
+        ]);
     }
 
     /**
