@@ -1,6 +1,6 @@
 <?php
 
-namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Test\Unit;
+namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Test\Unit\Embed;
 
 use PHPUnit\Framework\TestCase;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Gist;
