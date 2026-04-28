@@ -42,30 +42,24 @@ class Vimeo implements EmbedInterface
 
         $start = null;
         if (isset($attributes['start'])) {
-            $start = AttributeHelper::parseTime((string) $attributes['start']);
+            $start = AttributeHelper::parseTime($attributes['start']);
         }
 
         $end = null;
         if (isset($attributes['end'])) {
-            $end = AttributeHelper::parseTime((string) $attributes['end']);
+            $end = AttributeHelper::parseTime($attributes['end']);
         }
 
         $autoplay = false;
         if (array_key_exists('autoplay', $attributes)) {
-            $parsedAutoplay = AttributeHelper::parseBoolean((string) $attributes['autoplay'], false);
-            if ($parsedAutoplay !== null) {
-                $autoplay = $parsedAutoplay;
-            }
+            $autoplay = AttributeHelper::parseBoolean($attributes['autoplay'], false);
         } elseif (in_array('autoplay', $attributes['_'], true)) {
             $autoplay = true;
         }
 
         $loop = false;
         if (array_key_exists('loop', $attributes)) {
-            $parsedLoop = AttributeHelper::parseBoolean((string) $attributes['loop'], false);
-            if ($parsedLoop !== null) {
-                $loop = $parsedLoop;
-            }
+            $loop = AttributeHelper::parseBoolean($attributes['loop'], false);
         } elseif (in_array('loop', $attributes['_'], true)) {
             $loop = true;
         }
