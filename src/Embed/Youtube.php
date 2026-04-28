@@ -43,7 +43,7 @@ class Youtube implements EmbedInterface
         }
 
         $start = $attributes['start'] ?? '0';
-        $startSeconds = AttributeHelper::parseTime($start);
+        $startSeconds = AttributeHelper::parseTime($start, 0);
 
         $src = sprintf('https://www.youtube.com/embed/%s?start=%d', htmlspecialchars($videoId), $startSeconds);
 

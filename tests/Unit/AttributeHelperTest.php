@@ -112,8 +112,15 @@ class AttributeHelperTest extends TestCase
         $this->assertEquals(3723, AttributeHelper::parseTime('1:02:03')); // 1 hour, 2 minutes, 3 seconds
     }
 
-    public function testParseTimeWithInvalidFormatReturnsZero(): void
+    public function testParseTimeWithInvalidFormatReturnsDefault(): void
     {
-        $this->assertEquals(0, AttributeHelper::parseTime('invalid-time'));
+        $this->assertNull(AttributeHelper::parseTime('invalid-time'));
+        $this->assertEquals(10, AttributeHelper::parseTime('invalid-time', 10));
+    }
+
+    public function testParseTimeWithEmptyStringReturnsDefault(): void
+    {
+        $this->assertNull(AttributeHelper::parseTime(''));
+        $this->assertEquals(20, AttributeHelper::parseTime('', 20));
     }
 }

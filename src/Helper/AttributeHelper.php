@@ -91,14 +91,21 @@ class AttributeHelper
     }
 
     /**
-     * Parse start time string (e.g., "1:23") into seconds.
+     * Parse start time string (e.g., "1:23", "01:02:03") into seconds.
      *
      * @param string $time
+     * @param int|null $default The default time in seconds to return if parsing fails.
      *
-     * @return int
+     * @return int|null The time in seconds, or null if the value cannot be
+     *                  properly parsed and no default is provided.
      */
-    public static function parseTime(string $time): int
+    public static function parseTime(string $time, ?int $default = null): ?int
     {
+        $time = trim($time);
+        if ($time === '') {
+            return $default;
+        }
+
         $parts = explode(':', $time);
         $numParts = count($parts);
 
@@ -106,8 +113,10 @@ class AttributeHelper
             return (int) $parts[0] * 3600 + (int) $parts[1] * 60 + (int) $parts[2];
         } elseif ($numParts === 2) { // mm:ss
             return (int) $parts[0] * 60 + (int) $parts[1];
+        } elseif (is_numeric($time)) { // seconds
+            return (int) $time;
         }
 
-        return (int) $time; // seconds
+        return $default; // If format is not recognized
     }
 }
