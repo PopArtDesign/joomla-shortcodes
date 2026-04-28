@@ -6,9 +6,42 @@ This project is a Joomla plugin that provides a pack of shortcodes for the `joom
 
 ## Shortcode Implementation
 
-Shortcodes are implemented as PHP files in the `shortcodes` directory. Each file defines a shortcode and its attributes. For example, the `youtube.php` file implements the `{youtube}` shortcode, which allows users to embed YouTube videos into their articles.
+Shortcodes are implemented as PHP classes in the `src/` directory, each following the `EmbedInterface` contract. For example, the `Embed\Youtube` class implements the YouTube embed handler.
 
-The main plugin class, `JoomlaShortcoder\Plugin\Content\Shortcodes\Extension\Shortcodes`, registers the `shortcodes` directory with the `joomla-shortcoder` extension. This makes the shortcodes available to Joomla.
+### Architecture
+
+- **Handler Interface**: `src/Embed/EmbedInterface.php` - Defines `supports()` and `process()` methods
+- **Embed Classes**: `src/Embed/` - Individual handlers (Youtube, Gist, Vimeo, Iframe)
+- **Main Dispatcher**: `src/Embed.php` - Delegates to appropriate handler based on URL
+- **Shortcode Registration**: `src/Extension/Shortcodes.php` - Registers `embed` shortcode
+
+### Adding a New Embed Handler
+
+1. Create a new class in `src/Embed/` (e.g., `MyEmbed.php`)
+2. Implement `EmbedInterface`:
+   ```php
+   class MyEmbed implements EmbedInterface
+   {
+       public function supports(string $url): bool
+       {
+           // Return true if this handler supports the URL
+       }
+       
+       public function process(string $url, array $attributes): string
+       {
+           // Return HTML for the embed
+       }
+   }
+   ```
+3. Add the handler to `src/Embed.php` constructor
+4. The container in `src/Extension/Shortcodes.php` will auto-wire the dependency
+
+### Available Shortcodes
+
+- **`embed`** - Universal embed shortcode that delegates to appropriate handler
+  - Supports: YouTube, GitHub Gist, Vimeo, generic URLs (iframe fallback)
+- **`lorem`** - Generates Lorem Ipsum placeholder text
+- **`repeat`** - Repeats enclosed content
 
 ## Building and Running
 
@@ -44,4 +77,3 @@ The code style can be fixed using the following command:
 ```bash
 composer cs-fix
 ```
-
