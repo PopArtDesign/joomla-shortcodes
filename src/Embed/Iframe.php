@@ -55,6 +55,16 @@ class Iframe implements EmbedInterface
     {
         $attributes = \array_merge(['src' => $url], $attributes);
 
+        $styles = [];
+        if (isset($attributes['aspect-ratio'])) {
+            $styles[] = 'aspect-ratio: ' . $attributes['aspect-ratio'];
+            unset($attributes['aspect-ratio']);
+        }
+
+        if (!empty($styles)) {
+            $attributes['style'] = ($attributes['style'] ?? '') . implode('; ', $styles) . ';';
+        }
+
         $attrs = [];
         foreach ($attributes as $name => $value) {
             if (!\is_scalar($value)) {

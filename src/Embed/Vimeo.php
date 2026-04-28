@@ -85,13 +85,15 @@ class Vimeo implements EmbedInterface
         }
 
         return Iframe::render($src, [
-            'width' => $attributes['width'] ?? '560',
-            'height' => $attributes['height'] ?? '315',
+            'width' => $attributes['width'] ?? '100%',
+            'height' => $attributes['height'] ?? 'auto',
             'title' => $attributes['title'] ?? 'Vimeo video player',
             'frameborder' => $attributes['frameborder'] ?? '0',
             'allowfullscreen' => $attributes['allowfullscreen'] ?? '',
             'class' => $attributes['class'] ?? 'vimeo-container',
-            'allow' => $attributes['allow'] ?? 'autoplay; fullscreen; picture-in-picture',
+            'allow' => $attributes['allow'] ?? 'autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share',
+            'referrerpolicy' => $attributes['referrerpolicy'] ?? 'strict-origin-when-cross-origin',
+            'aspect-ratio' => $attributes['aspect-ratio'] ?? '16 / 9',
         ]);
     }
 
