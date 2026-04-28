@@ -51,7 +51,7 @@ class YoutubeTest extends TestCase
     public function testAutoplay()
     {
         $result = $this->youtube->process('https://www.youtube.com/watch?v=kBddBRQ-xic', ['autoplay' => 'true', '_' => []]);
-        $expected = '<iframe src="https://www.youtube.com/embed/kBddBRQ-xic?start=0&autoplay=1" width="100%" height="auto" title="YouTube video player" frameborder="0" allowfullscreen class="youtube-container" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" style="aspect-ratio: 16 / 9;"></iframe>';
+        $expected = '<iframe src="https://www.youtube.com/embed/kBddBRQ-xic?start=0&autoplay=1&mute=1" width="100%" height="auto" title="YouTube video player" frameborder="0" allowfullscreen class="youtube-container" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" style="aspect-ratio: 16 / 9;"></iframe>';
         $this->assertEquals($expected, $result);
     }
 
@@ -67,7 +67,7 @@ class YoutubeTest extends TestCase
             'autoplay' => 'true',
             '_' => [],
         ]);
-        $expected = '<iframe src="https://www.youtube.com/embed/kBddBRQ-xic?start=42&autoplay=1" width="1024" height="768" title="My Video" frameborder="0" allowfullscreen class="my-class" allow="autoplay" referrerpolicy="strict-origin-when-cross-origin"></iframe>';
+        $expected = '<iframe src="https://www.youtube.com/embed/kBddBRQ-xic?start=42&autoplay=1&mute=1" width="1024" height="768" title="My Video" frameborder="0" allowfullscreen class="my-class" allow="autoplay" referrerpolicy="strict-origin-when-cross-origin"></iframe>';
         $this->assertEquals($expected, $result);
     }
 

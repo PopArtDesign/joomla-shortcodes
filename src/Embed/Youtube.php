@@ -58,6 +58,8 @@ class Youtube implements EmbedInterface
 
         if ($autoplay) {
             $queryParams['autoplay'] = 1;
+            // Most browsers require videos to be muted for autoplay to work.
+            $queryParams['mute'] = 1;
         }
 
         $src = sprintf('https://www.youtube.com/embed/%s?%s', htmlspecialchars($videoId), http_build_query($queryParams));
