@@ -4,8 +4,20 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
 
 \defined('_JEXEC') or die;
 
+/**
+ * Embed handler for Vimeo videos.
+ *
+ * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
+ */
 class Vimeo implements EmbedInterface
 {
+    /**
+     * Check if this handler supports the given URL.
+     *
+     * @param string $url The URL to check.
+     *
+     * @return bool True if the URL is a Vimeo URL, false otherwise.
+     */
     public function supports(string $url): bool
     {
         $urlParts = parse_url($url);
@@ -13,6 +25,14 @@ class Vimeo implements EmbedInterface
         return in_array($host, ['vimeo.com', 'www.vimeo.com'], true);
     }
 
+    /**
+     * Process the given URL and return the embed HTML.
+     *
+     * @param string $url        The URL to process.
+     * @param array  $attributes The shortcode attributes.
+     *
+     * @return string The embed HTML.
+     */
     public function process(string $url, array $attributes): string
     {
         $videoId = $this->extractVimeoId($url);
@@ -43,6 +63,13 @@ class Vimeo implements EmbedInterface
         return Iframe::render($src, $attributes);
     }
 
+    /**
+     * Extract the Vimeo video ID from the given URL.
+     *
+     * @param string $url The Vimeo URL.
+     *
+     * @return string|null The video ID, or null if not found.
+     */
     private function extractVimeoId(string $url): ?string
     {
         $urlParts = parse_url($url);

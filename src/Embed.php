@@ -3,10 +3,6 @@
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes;
 
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\EmbedInterface;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Youtube;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Gist;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Vimeo;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Iframe;
 
 \defined('_JEXEC') or die;
 
