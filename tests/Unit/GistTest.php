@@ -3,7 +3,7 @@
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Test\Unit;
 
 use JoomlaShortcoder\Plugin\Content\Shortcoder\ShortcodeProcessor;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Gist;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Gist;
 use PHPUnit\Framework\TestCase;
 
 class GistTest extends TestCase

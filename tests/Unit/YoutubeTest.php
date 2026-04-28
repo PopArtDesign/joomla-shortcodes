@@ -3,7 +3,7 @@
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Test\Unit;
 
 use JoomlaShortcoder\Plugin\Content\Shortcoder\ShortcodeProcessor;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Youtube;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Youtube;
 use PHPUnit\Framework\TestCase;
 
 class YoutubeTest extends TestCase
@@ -22,7 +22,6 @@ class YoutubeTest extends TestCase
         $content = $this->processor->processShortcodes('{youtube}', new \stdClass());
         $this->assertEquals('', $content);
     }
-
 
     public function testBasicUsage()
     {

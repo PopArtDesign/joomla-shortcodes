@@ -2,10 +2,13 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Extension;
 
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Gist;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Gist;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Youtube;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Vimeo;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Iframe;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Lorem;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Repeat;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Youtube;
 use JoomlaShortcoder\Plugin\Content\Shortcoder\Event\LoadShortcodesEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\DI\Container;
@@ -79,6 +82,11 @@ class Shortcodes extends CMSPlugin implements SubscriberInterface
             'repeat',
             fn (...$args) =>
             $this->container->get(Repeat::class)(...$args)
+        );
+        $event->addShortcode(
+            'embed',
+            fn (...$args) =>
+            $this->container->get(Embed::class)(...$args)
         );
     }
 }
