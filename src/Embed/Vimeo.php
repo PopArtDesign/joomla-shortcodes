@@ -12,11 +12,7 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
 class Vimeo implements EmbedInterface
 {
     /**
-     * Check if this handler supports the given URL.
-     *
-     * @param string $url The URL to check.
-     *
-     * @return bool True if the URL is a Vimeo URL, false otherwise.
+     * {@inheritdoc}
      */
     public function supports(string $url): bool
     {
@@ -26,12 +22,7 @@ class Vimeo implements EmbedInterface
     }
 
     /**
-     * Process the given URL and return the embed HTML.
-     *
-     * @param string $url        The URL to process.
-     * @param array  $attributes The shortcode attributes.
-     *
-     * @return string The embed HTML.
+     * {@inheritdoc}
      */
     public function process(string $url, array $attributes): string
     {

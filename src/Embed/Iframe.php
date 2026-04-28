@@ -28,12 +28,7 @@ class Iframe implements EmbedInterface
     }
 
     /**
-     * Process the given URL and return the embed HTML.
-     *
-     * @param string $url        The URL to process.
-     * @param array  $attributes The shortcode attributes.
-     *
-     * @return string The embed HTML.
+     * {@inheritdoc}
      */
     public function process(string $url, array $attributes): string
     {
