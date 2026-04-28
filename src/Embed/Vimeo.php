@@ -11,14 +11,20 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
  */
 class Vimeo implements EmbedInterface
 {
+    private const SUPPORTED_HOSTS = ['vimeo.com', 'www.vimeo.com', 'player.vimeo.com'];
+
     /**
      * {@inheritdoc}
      */
     public function supports(string $url): bool
     {
-        $urlParts = parse_url($url);
-        $host = strtolower($urlParts['host'] ?? '');
-        return in_array($host, ['vimeo.com', 'www.vimeo.com'], true);
+        if (!preg_match('~^https?://~', $url)) {
+            $url = 'https://' . $url;
+        }
+
+        $host = strtolower(parse_url($url, PHP_URL_HOST) ?? '');
+
+        return in_array($host, self::SUPPORTED_HOSTS, true);
     }
 
     /**
@@ -32,26 +38,25 @@ class Vimeo implements EmbedInterface
             return '';
         }
 
-        $attributes['width'] = $attributes['width'] ?? '560';
-        $attributes['height'] = $attributes['height'] ?? '315';
-        $attributes['title'] = $attributes['title'] ?? 'Vimeo video player';
-        $attributes['class'] = $attributes['class'] ?? 'vimeo-container';
-        $attributes['frameborder'] = $attributes['frameborder'] ?? 0;
-        $attributes['allowfullscreen'] = $attributes['allowfullscreen'] ?? '';
-
-        $autoplay = isset($attributes['autoplay']) ? (int) $attributes['autoplay'] : 0;
-        $loop = isset($attributes['loop']) ? (int) $attributes['loop'] : 0;
-
-        $attributes['allow'] = 'autoplay; fullscreen; picture-in-picture';
+        $autoplay = !empty($attributes['autoplay']);
+        $loop = !empty($attributes['loop']);
 
         $src = sprintf(
             'https://player.vimeo.com/video/%s?autoplay=%d&loop=%d',
             htmlspecialchars($videoId),
-            $autoplay,
-            $loop
+            (int) $autoplay,
+            (int) $loop
         );
 
-        return Iframe::render($src, $attributes);
+        return Iframe::render($src, [
+            'width' => $attributes['width'] ?? '560',
+            'height' => $attributes['height'] ?? '315',
+            'title' => $attributes['title'] ?? 'Vimeo video player',
+            'frameborder' => $attributes['frameborder'] ?? '0',
+            'allowfullscreen' => $attributes['allowfullscreen'] ?? '',
+            'class' => $attributes['class'] ?? 'vimeo-container',
+            'allow' => $attributes['allow'] ?? 'autoplay; fullscreen; picture-in-picture',
+        ]);
     }
 
     /**
@@ -63,10 +68,9 @@ class Vimeo implements EmbedInterface
      */
     private function getVideoId(string $url): ?string
     {
-        $urlParts = parse_url($url);
-        $path = $urlParts['path'] ?? '';
+        $pattern = '/(?:vimeo\.com\/|player\.vimeo\.com\/video\/)(\d+)/';
 
-        if (preg_match('~/(\d+)~', $path, $matches)) {
+        if (preg_match($pattern, $url, $matches)) {
             return $matches[1];
         }
 
