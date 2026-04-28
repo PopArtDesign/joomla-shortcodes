@@ -149,5 +149,28 @@ class AttributeHelper
         return $default; // If format is not recognized
     }
 
+    /**
+     * Checks if a flag-like attribute is enabled.
+     *
+     * This method checks for the presence of a key in the attributes array,
+     * and also handles valueless attributes (flags).
+     * e.g. {shortcode autoplay} or {shortcode autoplay="true"}
+     *
+     * @param string $key        The attribute key to check (e.g., 'autoplay').
+     * @param array  $attributes The attributes array from the shortcode.
+     *
+     * @return bool True if the attribute is considered enabled, false otherwise.
+     */
+    public static function isEnabled(string $key, array $attributes): bool
+    {
+        if (array_key_exists($key, $attributes)) {
+            return (bool) self::parseBoolean($attributes[$key], false);
+        }
 
+        if (isset($attributes['_']) && is_array($attributes['_']) && in_array($key, $attributes['_'], true)) {
+            return true;
+        }
+
+        return false;
+    }
 }

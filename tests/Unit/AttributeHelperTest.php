@@ -157,5 +157,53 @@ class AttributeHelperTest extends TestCase
         $this->assertFalse(AttributeHelper::parseBoolean('any_string', false));
     }
 
+    /**
+     * Test cases for isEnabled method.
+     */
+    public function testIsEnabledWithTrueValue(): void
+    {
+        $attributes = ['autoplay' => 'true'];
+        $this->assertTrue(AttributeHelper::isEnabled('autoplay', $attributes));
+    }
 
+    public function testIsEnabledWithFalseValue(): void
+    {
+        $attributes = ['autoplay' => 'false'];
+        $this->assertFalse(AttributeHelper::isEnabled('autoplay', $attributes));
+    }
+
+    public function testIsEnabledWithValuelessAttribute(): void
+    {
+        $attributes = ['_' => ['autoplay']];
+        $this->assertTrue(AttributeHelper::isEnabled('autoplay', $attributes));
+    }
+
+    public function testIsEnabledWhenAttributeMissing(): void
+    {
+        $attributes = [];
+        $this->assertFalse(AttributeHelper::isEnabled('autoplay', $attributes));
+    }
+
+    public function testIsEnabledWhenAttributeMissingAnd_IsEmpty(): void
+    {
+        $attributes = ['_' => []];
+        $this->assertFalse(AttributeHelper::isEnabled('autoplay', $attributes));
+    }
+
+    public function testIsEnabledWithOtherValuelessAttributes(): void
+    {
+        $attributes = ['_' => ['loop', 'autoplay']];
+        $this->assertTrue(AttributeHelper::isEnabled('autoplay', $attributes));
+        $this->assertTrue(AttributeHelper::isEnabled('loop', $attributes));
+        $this->assertFalse(AttributeHelper::isEnabled('random', $attributes));
+    }
+
+    public function testIsEnabledWithMixedAttributes(): void
+    {
+        $attributes = ['autoplay' => 'false', '_' => ['autoplay']]; // Explicit value takes precedence
+        $this->assertFalse(AttributeHelper::isEnabled('autoplay', $attributes));
+
+        $attributes = ['autoplay' => 'true', '_' => ['autoplay']];
+        $this->assertTrue(AttributeHelper::isEnabled('autoplay', $attributes));
+    }
 }

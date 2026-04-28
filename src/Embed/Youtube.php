@@ -45,12 +45,7 @@ class Youtube implements EmbedInterface
         $start = $attributes['start'] ?? '0';
         $startSeconds = AttributeHelper::parseTime($start, 0);
 
-        $autoplay = false;
-        if (array_key_exists('autoplay', $attributes)) {
-            $autoplay = AttributeHelper::parseBoolean($attributes['autoplay'], false);
-        } elseif (isset($attributes['_']) && in_array('autoplay', $attributes['_'], true)) {
-            $autoplay = true;
-        }
+        $autoplay = AttributeHelper::isEnabled('autoplay', $attributes);
 
         $queryParams = [
             'start' => $startSeconds,
