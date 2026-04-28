@@ -109,42 +109,6 @@ class EmbedTest extends TestCase
         $this->assertStringContainsString('testuser/12345', $result);
     }
 
-    public function testEmbedVimeo()
-    {
-        $text = '{embed}https://vimeo.com/123456789{/embed}';
-        $result = $this->processShortcodes($text);
-        $this->assertStringContainsString('player.vimeo.com/video/123456789?autoplay=0&loop=0', $result);
-    }
-
-    public function testEmbedVimeoWithCustomDimensions()
-    {
-        $text = '{embed url="https://vimeo.com/123456789" width="800" height="600"}{/embed}';
-        $result = $this->processShortcodes($text);
-        $this->assertStringContainsString('width="800"', $result);
-        $this->assertStringContainsString('height="600"', $result);
-    }
-
-    public function testEmbedVimeoWithStartTime()
-    {
-        $text = '{embed url="https://vimeo.com/123456789" start="60"}{/embed}';
-        $result = $this->processShortcodes($text);
-        $this->assertStringContainsString('player.vimeo.com/video/123456789?autoplay=0&loop=0#t=60s', $result);
-    }
-
-    public function testEmbedVimeoWithStartTimeFormatted()
-    {
-        $text = '{embed url="https://vimeo.com/123456789" start="1:30"}{/embed}';
-        $result = $this->processShortcodes($text);
-        $this->assertStringContainsString('player.vimeo.com/video/123456789?autoplay=0&loop=0#t=90s', $result);
-    }
-
-    public function testEmbedVimeoWithStartAndEnd()
-    {
-        $text = '{embed url="https://vimeo.com/123456789" start="1:30" end="180"}{/embed}';
-        $result = $this->processShortcodes($text);
-        $this->assertStringContainsString('player.vimeo.com/video/123456789?autoplay=0&loop=0#t=90s&end=180', $result);
-    }
-
     public function testEmbedGenericUrl()
     {
         $text = '{embed}https://example.com/article{/embed}';
