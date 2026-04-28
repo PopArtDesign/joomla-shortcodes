@@ -6,13 +6,6 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
 
 class Vimeo implements EmbedInterface
 {
-    private IframeRenderer $iframeRenderer;
-
-    public function __construct()
-    {
-        $this->iframeRenderer = new IframeRenderer();
-    }
-
     public function supports(string $url): bool
     {
         $urlParts = parse_url($url);
@@ -32,6 +25,8 @@ class Vimeo implements EmbedInterface
         $attributes['height'] = $attributes['height'] ?? '315';
         $attributes['title'] = $attributes['title'] ?? 'Vimeo video player';
         $attributes['class'] = $attributes['class'] ?? 'vimeo-container';
+        $attributes['frameborder'] = $attributes['frameborder'] ?? 0;
+        $attributes['allowfullscreen'] = $attributes['allowfullscreen'] ?? '';
 
         $autoplay = isset($attributes['autoplay']) ? (int) $attributes['autoplay'] : 0;
         $loop = isset($attributes['loop']) ? (int) $attributes['loop'] : 0;
@@ -45,7 +40,7 @@ class Vimeo implements EmbedInterface
             $loop
         );
 
-        return $this->iframeRenderer->render($src, $attributes);
+        return Iframe::render($src, $attributes);
     }
 
     private function extractVimeoId(string $url): ?string

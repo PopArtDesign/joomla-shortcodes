@@ -6,13 +6,6 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
 
 class Youtube implements EmbedInterface
 {
-    private IframeRenderer $iframeRenderer;
-
-    public function __construct()
-    {
-        $this->iframeRenderer = new IframeRenderer();
-    }
-
     public function supports(string $url): bool
     {
         $urlParts = parse_url($url);
@@ -66,20 +59,42 @@ class Youtube implements EmbedInterface
         $videoId = strtok($videoId, '?');
 
         $start = $attributes['start'] ?? '0';
-        $startParts = explode(':', $start);
+        $startSeconds = $start;
+        $startParts = explode(':', $startSeconds);
         if (count($startParts) == 2) {
-            $start = (int) $startParts[0] * 60 + (int) $startParts[1];
+            $startSeconds = (int) $startParts[0] * 60 + (int) $startParts[1];
         }
 
-        $attributes['width'] = $attributes['width'] ?? '560';
-        $attributes['height'] = $attributes['height'] ?? '315';
-        $attributes['title'] = $attributes['title'] ?? 'YouTube video player';
-        $attributes['class'] = $attributes['class'] ?? 'youtube-container';
-        $attributes['allow'] = $attributes['allow'] ?? 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+        // Save original values before rebuild
+        $originalWidth = $attributes['width'] ?? null;
+        $originalHeight = $attributes['height'] ?? null;
+        $originalTitle = $attributes['title'] ?? null;
+        $originalClass = $attributes['class'] ?? null;
+        $originalAllow = $attributes['allow'] ?? null;
+        $originalFrameborder = $attributes['frameborder'] ?? null;
+        $originalAllowfullscreen = $attributes['allowfullscreen'] ?? null;
+        $startValue = $attributes['start'] ?? '0';
+
+        // Rebuild attributes array in correct order
+        $attributes = [
+            'width' => $originalWidth ?? '560',
+            'height' => $originalHeight ?? '315',
+            'title' => $originalTitle ?? 'YouTube video player',
+            'frameborder' => $originalFrameborder ?? 0,
+            'allowfullscreen' => $originalAllowfullscreen ?? '',
+        ];
+        
+        // Only include start if it's non-default (in the correct position)
+        if ($startValue !== '0') {
+            $attributes['start'] = $startValue;
+        }
+        
+        $attributes['class'] = $originalClass ?? 'youtube-container';
+        $attributes['allow'] = $originalAllow ?? 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
         $attributes['referrerpolicy'] = 'strict-origin-when-cross-origin';
 
-        $src = sprintf('https://www.youtube.com/embed/%s?start=%d', htmlspecialchars($videoId), (int) $start);
+        $src = sprintf('https://www.youtube.com/embed/%s?start=%d', htmlspecialchars($videoId), (int) $startSeconds);
 
-        return $this->iframeRenderer->render($src, $attributes);
+        return Iframe::render($src, $attributes);
     }
 }
