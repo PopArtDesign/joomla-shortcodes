@@ -53,6 +53,16 @@ The embed shortcode automatically detects the URL type and uses the appropriate 
 {embed}https://youtu.be/dQw4w9WgXcQ{/embed}
 ```
 
+**Vimeo Example:**
+
+```
+{embed}https://vimeo.com/123456789{/embed}
+```
+
+```
+{embed url="https://vimeo.com/123456789" autoplay start="30" end="60"}
+```
+
 **Rutube Examples:**
 
 ```
@@ -71,12 +81,6 @@ The embed shortcode automatically detects the URL type and uses the appropriate 
 
 ```
 {embed url="https://gist.github.com/user/12345" file="example.php"}
-```
-
-**Vimeo Example:**
-
-```
-{embed}https://vimeo.com/123456789{/embed}
 ```
 
 **Generic URL (iframe fallback):**
