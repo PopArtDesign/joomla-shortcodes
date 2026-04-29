@@ -11,6 +11,9 @@ abstract class AbstractEmbedHandler implements EmbedInterface
 {
     abstract protected function getSupportedHosts(): array;
 
+    /**
+     * {@inheritdoc}
+     */
     public function supports(string $url): bool
     {
         $host = strtolower(parse_url($url, PHP_URL_HOST) ?? '');

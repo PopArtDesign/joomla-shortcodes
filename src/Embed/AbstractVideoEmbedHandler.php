@@ -6,6 +6,9 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
 
 \defined('_JEXEC') or die;
 
+/**
+ * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
+ */
 abstract class AbstractVideoEmbedHandler extends AbstractEmbedHandler
 {
     abstract protected function getEmbedUrl(string $url, array $attributes): string;
@@ -84,6 +87,9 @@ abstract class AbstractVideoEmbedHandler extends AbstractEmbedHandler
         return AttributeHelper::parseTime($attributes['end'], null);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function process(string $url, array $attributes): string
     {
         $src = $this->getEmbedUrl($url, $attributes);
