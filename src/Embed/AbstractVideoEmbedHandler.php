@@ -3,6 +3,7 @@
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
 
 \defined('_JEXEC') or die;
+
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
 
 abstract class AbstractVideoEmbedHandler extends AbstractEmbedHandler
