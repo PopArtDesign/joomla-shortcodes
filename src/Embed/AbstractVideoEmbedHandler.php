@@ -8,9 +8,7 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
 
 abstract class AbstractVideoEmbedHandler extends AbstractEmbedHandler
 {
-    abstract protected function getVideoId(string $url): ?string;
-
-    abstract protected function getEmbedUrl(string $videoId, array $attributes): string;
+    abstract protected function getEmbedUrl(string $url, array $attributes): string;
 
     abstract protected function getDefaults(): array;
 
@@ -81,13 +79,12 @@ abstract class AbstractVideoEmbedHandler extends AbstractEmbedHandler
 
     public function process(string $url, array $attributes): string
     {
-        $videoId = $this->getVideoId($url);
+        $src = $this->getEmbedUrl($url, $attributes);
 
-        if (!$videoId) {
+        if (!$src) {
             return '';
         }
 
-        $src = $this->getEmbedUrl($videoId, $attributes);
         $iframeAttributes = $this->buildIframeAttributes($attributes);
 
         $wrapperStyles = [];

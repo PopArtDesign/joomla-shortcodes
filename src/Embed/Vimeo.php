@@ -18,8 +18,12 @@ class Vimeo extends AbstractVideoEmbedHandler
         return ['vimeo.com', 'www.vimeo.com', 'player.vimeo.com'];
     }
 
-    protected function getEmbedUrl(string $videoId, array $attributes): string
+    protected function getEmbedUrl(string $url, array $attributes): string
     {
+        if (!$videoId = $this->getVideoId($url)) {
+            return '';
+        }
+
         $fragment = [];
 
         $start = $this->getStart($attributes, 0);

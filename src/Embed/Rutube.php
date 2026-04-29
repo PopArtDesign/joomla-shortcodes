@@ -16,8 +16,12 @@ class Rutube extends AbstractVideoEmbedHandler
         return ['rutube.ru', 'www.rutube.ru'];
     }
 
-    protected function getEmbedUrl(string $videoId, array $attributes): string
+    protected function getEmbedUrl(string $url, array $attributes): string
     {
+        if (!$videoId = $this->getVideoId($url)) {
+            return '';
+        }
+
         $queryParams = [];
 
         $autoplay = $this->getAutoplay($attributes);

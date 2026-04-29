@@ -16,8 +16,12 @@ class Youtube extends AbstractVideoEmbedHandler
         return ['youtube.com', 'www.youtube.com', 'm.youtube.com', 'youtu.be'];
     }
 
-    protected function getEmbedUrl(string $videoId, array $attributes): string
+    protected function getEmbedUrl(string $url, array $attributes): string
     {
+        if (!$videoId = $this->getVideoId($url)) {
+            return '';
+        }
+
         $queryParams = [];
 
         $start = $this->getStart($attributes, 0);
