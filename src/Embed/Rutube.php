@@ -2,8 +2,6 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
 
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
-
 \defined('_JEXEC') or die;
 
 /**
@@ -25,24 +23,22 @@ class Rutube extends AbstractVideoEmbedHandler
 
     protected function getEmbedUrl(string $videoId, array $attributes): string
     {
-        $autoplay = AttributeHelper::isEnabled('autoplay', $attributes);
+        $autoplay = $this->getAutoplay($attributes);
         $queryParams = [];
         if ($autoplay) {
             $queryParams['autoplay'] = 'true';
             $queryParams['autostartmute'] = 'true';
         }
 
-        $start = $attributes['start'] ?? '0';
-        $startSeconds = AttributeHelper::parseTime($start, 0);
+        $startSeconds = $this->getStart($attributes, 0);
+        // Skip if zero
         if ($startSeconds > 0) {
             $queryParams['t'] = $startSeconds;
         }
 
-        if (isset($attributes['end'])) {
-            $endSeconds = AttributeHelper::parseTime($attributes['end'], 0);
-            if ($endSeconds > 0) {
-                $queryParams['stopTime'] = $endSeconds;
-            }
+        $endSeconds = $this->getEnd($attributes);
+        if ($endSeconds > 0) {
+            $queryParams['stopTime'] = $endSeconds;
         }
 
         $src = sprintf('https://rutube.ru/play/embed/%s', htmlspecialchars($videoId));

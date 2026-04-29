@@ -3,6 +3,7 @@
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
 
 \defined('_JEXEC') or die;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
 
 abstract class AbstractVideoEmbedHandler extends AbstractEmbedHandler
 {
@@ -43,6 +44,51 @@ abstract class AbstractVideoEmbedHandler extends AbstractEmbedHandler
             'allow' => $attributes['allow'] ?? $this->getDefaultAllow(),
             'referrerpolicy' => $attributes['referrerpolicy'] ?? $this->getDefaultReferrerPolicy(),
         ];
+    }
+
+    /**
+     * Check if autoplay is enabled for the video.
+     *
+     * @param array $attributes The shortcode attributes.
+     *
+     * @return bool True if autoplay is enabled, false otherwise.
+     */
+    protected function getAutoplay(array $attributes): bool
+    {
+        return AttributeHelper::isEnabled('autoplay', $attributes);
+    }
+
+    /**
+     * Get the start time from the attributes.
+     *
+     * @param array   $attributes The shortcode attributes.
+     * @param ?int    $default    The default time in seconds to return if parsing fails or start is not set.
+     *
+     * @return ?int The start time in seconds, or the default value if not set.
+     */
+    protected function getStart(array $attributes, ?int $default = 0): ?int
+    {
+        if (!isset($attributes['start'])) {
+            return $default;
+        }
+
+        return AttributeHelper::parseTime($attributes['start'], $default);
+    }
+
+    /**
+     * Get the end time from the attributes.
+     *
+     * @param array $attributes The shortcode attributes.
+     *
+     * @return ?int The end time in seconds, or null if not set.
+     */
+    protected function getEnd(array $attributes): ?int
+    {
+        if (!isset($attributes['end'])) {
+            return null;
+        }
+
+        return AttributeHelper::parseTime($attributes['end'], null);
     }
 
     public function process(string $url, array $attributes): string

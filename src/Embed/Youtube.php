@@ -2,8 +2,6 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
 
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
-
 \defined('_JEXEC') or die;
 
 /**
@@ -25,13 +23,12 @@ class Youtube extends AbstractVideoEmbedHandler
 
     protected function getEmbedUrl(string $videoId, array $attributes): string
     {
-        $start = $attributes['start'] ?? '0';
-        $startSeconds = AttributeHelper::parseTime($start, 0);
+        $start = $this->getStart($attributes, 0);
 
-        $autoplay = AttributeHelper::isEnabled('autoplay', $attributes);
+        $autoplay = $this->getAutoplay($attributes);
 
         $queryParams = [
-            'start' => $startSeconds,
+            'start' => $start,
         ];
 
         if ($autoplay) {
