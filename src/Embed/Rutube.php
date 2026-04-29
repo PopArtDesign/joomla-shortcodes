@@ -41,12 +41,16 @@ class Rutube extends AbstractEmbedHandler
         }
 
         $iframeAttributes = [
-            'width' => $attributes['width'] ?? '720',
-            'height' => $attributes['height'] ?? '405',
+            'width' => $attributes['width'] ?? '100%',
+            'height' => $attributes['height'] ?? 'auto',
             'frameborder' => $attributes['frameborder'] ?? '0',
             'allow' => $attributes['allow'] ?? 'clipboard-write; autoplay',
             'allowfullscreen' => $attributes['allowfullscreen'] ?? '',
         ];
+
+        if (($iframeAttributes['height']) === 'auto') {
+            $iframeAttributes['aspect-ratio'] = $attributes['aspect-ratio'] ?? '16 / 9';
+        }
 
         $html = Iframe::render($src, $iframeAttributes);
         $class = htmlspecialchars($attributes['class'] ?? 'rutube-container', ENT_QUOTES, 'UTF-8');

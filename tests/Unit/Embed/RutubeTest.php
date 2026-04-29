@@ -23,14 +23,14 @@ class RutubeTest extends TestCase
     public function testBasicUsage()
     {
         $result = $this->rutube->process('https://rutube.ru/video/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c/', []);
-        $expected = '<div class="rutube-container"><iframe src="https://rutube.ru/play/embed/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c" width="720" height="405" frameborder="0" allow="clipboard-write; autoplay" allowfullscreen></iframe></div>';
+        $expected = '<div class="rutube-container"><iframe src="https://rutube.ru/play/embed/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c" width="100%" height="auto" frameborder="0" allow="clipboard-write; autoplay" allowfullscreen style="aspect-ratio: 16 / 9;"></iframe></div>';
         $this->assertEquals($expected, $result);
     }
 
     public function testPlaylistUrl()
     {
         $result = $this->rutube->process('https://rutube.ru/pl/THEBEST/a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6/', []);
-        $expected = '<div class="rutube-container"><iframe src="https://rutube.ru/play/embed/a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6" width="720" height="405" frameborder="0" allow="clipboard-write; autoplay" allowfullscreen></iframe></div>';
+        $expected = '<div class="rutube-container"><iframe src="https://rutube.ru/play/embed/a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6" width="100%" height="auto" frameborder="0" allow="clipboard-write; autoplay" allowfullscreen style="aspect-ratio: 16 / 9;"></iframe></div>';
         $this->assertEquals($expected, $result);
     }
 
@@ -44,7 +44,21 @@ class RutubeTest extends TestCase
     public function testAutoplay()
     {
         $result = $this->rutube->process('https://rutube.ru/video/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c/', ['autoplay' => 'true']);
-        $expected = '<div class="rutube-container"><iframe src="https://rutube.ru/play/embed/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c?autoplay=1" width="720" height="405" frameborder="0" allow="clipboard-write; autoplay" allowfullscreen></iframe></div>';
+        $expected = '<div class="rutube-container"><iframe src="https://rutube.ru/play/embed/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c?autoplay=1" width="100%" height="auto" frameborder="0" allow="clipboard-write; autoplay" allowfullscreen style="aspect-ratio: 16 / 9;"></iframe></div>';
+        $this->assertEquals($expected, $result);
+    }
+
+    public function testAspectRatioDefault()
+    {
+        $result = $this->rutube->process('https://rutube.ru/video/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c/', ['height' => 'auto']);
+        $expected = '<div class="rutube-container"><iframe src="https://rutube.ru/play/embed/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c" width="100%" height="auto" frameborder="0" allow="clipboard-write; autoplay" allowfullscreen style="aspect-ratio: 16 / 9;"></iframe></div>';
+        $this->assertEquals($expected, $result);
+    }
+
+    public function testAspectRatioCustom()
+    {
+        $result = $this->rutube->process('https://rutube.ru/video/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c/', ['height' => 'auto', 'aspect-ratio' => '4 / 3']);
+        $expected = '<div class="rutube-container"><iframe src="https://rutube.ru/play/embed/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c" width="100%" height="auto" frameborder="0" allow="clipboard-write; autoplay" allowfullscreen style="aspect-ratio: 4 / 3;"></iframe></div>';
         $this->assertEquals($expected, $result);
     }
 
