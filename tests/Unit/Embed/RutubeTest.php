@@ -44,7 +44,7 @@ class RutubeTest extends TestCase
     public function testAutoplay()
     {
         $result = $this->rutube->process('https://rutube.ru/video/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c/', ['autoplay' => 'true']);
-        $expected = '<div class="rutube-container"><iframe src="https://rutube.ru/play/embed/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c?autoplay=1" width="100%" height="auto" frameborder="0" allow="clipboard-write; autoplay" allowfullscreen style="aspect-ratio: 16 / 9;"></iframe></div>';
+        $expected = '<div class="rutube-container"><iframe src="https://rutube.ru/play/embed/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c?autoplay=true&autostartmute=true" width="100%" height="auto" frameborder="0" allow="clipboard-write; autoplay" allowfullscreen style="aspect-ratio: 16 / 9;"></iframe></div>';
         $this->assertEquals($expected, $result);
     }
 

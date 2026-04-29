@@ -32,7 +32,8 @@ class Rutube extends AbstractEmbedHandler
         $autoplay = AttributeHelper::isEnabled('autoplay', $attributes);
         $queryParams = [];
         if ($autoplay) {
-            $queryParams['autoplay'] = 1;
+            $queryParams['autoplay'] = 'true';
+            $queryParams['autostartmute'] = 'true';
         }
 
         $src = sprintf('https://rutube.ru/play/embed/%s', htmlspecialchars($videoId));
