@@ -90,7 +90,6 @@ class RutubeTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
-
     public function testAllAttributes()
     {
         $result = $this->rutube->process('https://rutube.ru/video/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c/', [
