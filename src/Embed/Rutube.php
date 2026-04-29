@@ -18,15 +18,15 @@ class Rutube extends AbstractVideoEmbedHandler
 
     protected function getEmbedUrl(string $videoId, array $attributes): string
     {
-        $autoplay = $this->getAutoplay($attributes);
         $queryParams = [];
+
+        $autoplay = $this->getAutoplay($attributes);
         if ($autoplay) {
             $queryParams['autoplay'] = 'true';
             $queryParams['autostartmute'] = 'true';
         }
 
         $startSeconds = $this->getStart($attributes, 0);
-        // Skip if zero
         if ($startSeconds > 0) {
             $queryParams['t'] = $startSeconds;
         }
@@ -37,6 +37,7 @@ class Rutube extends AbstractVideoEmbedHandler
         }
 
         $src = sprintf('https://rutube.ru/play/embed/%s', htmlspecialchars($videoId));
+
         if (!empty($queryParams)) {
             $src .= '?' . http_build_query($queryParams);
         }
