@@ -62,6 +62,34 @@ class RutubeTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
+    public function testStartTimeInSeconds()
+    {
+        $result = $this->rutube->process('https://rutube.ru/video/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c/', ['start' => '300']);
+        $expected = '<div class="rutube-container"><iframe src="https://rutube.ru/play/embed/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c?t=300" width="100%" height="auto" frameborder="0" allow="clipboard-write; autoplay" allowfullscreen style="aspect-ratio: 16 / 9;"></iframe></div>';
+        $this->assertEquals($expected, $result);
+    }
+
+    public function testStartTimeInMmSs()
+    {
+        $result = $this->rutube->process('https://rutube.ru/video/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c/', ['start' => '5:00']);
+        $expected = '<div class="rutube-container"><iframe src="https://rutube.ru/play/embed/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c?t=300" width="100%" height="auto" frameborder="0" allow="clipboard-write; autoplay" allowfullscreen style="aspect-ratio: 16 / 9;"></iframe></div>';
+        $this->assertEquals($expected, $result);
+    }
+
+    public function testEndTime()
+    {
+        $result = $this->rutube->process('https://rutube.ru/video/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c/', ['end' => '480']);
+        $expected = '<div class="rutube-container"><iframe src="https://rutube.ru/play/embed/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c?stopTime=480" width="100%" height="auto" frameborder="0" allow="clipboard-write; autoplay" allowfullscreen style="aspect-ratio: 16 / 9;"></iframe></div>';
+        $this->assertEquals($expected, $result);
+    }
+
+    public function testStartAndEndTime()
+    {
+        $result = $this->rutube->process('https://rutube.ru/video/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c/', ['start' => '300', 'end' => '480']);
+        $expected = '<div class="rutube-container"><iframe src="https://rutube.ru/play/embed/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c?t=300&stopTime=480" width="100%" height="auto" frameborder="0" allow="clipboard-write; autoplay" allowfullscreen style="aspect-ratio: 16 / 9;"></iframe></div>';
+        $this->assertEquals($expected, $result);
+    }
+
 
     public function testAllAttributes()
     {
