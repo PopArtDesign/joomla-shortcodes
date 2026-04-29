@@ -11,24 +11,15 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-class Vimeo extends AbstractEmbedHandler
+class Vimeo extends AbstractVideoEmbedHandler
 {
     protected function getSupportedHosts(): array
     {
         return ['vimeo.com', 'www.vimeo.com', 'player.vimeo.com'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function process(string $url, array $attributes): string
+    protected function getEmbedUrl(string $videoId, array $attributes): string
     {
-        $videoId = $this->getVideoId($url);
-
-        if (!$videoId) {
-            return '';
-        }
-
         $start = null;
         if (isset($attributes['start'])) {
             $start = AttributeHelper::parseTime($attributes['start']);
@@ -62,43 +53,10 @@ class Vimeo extends AbstractEmbedHandler
             $src .= '#' . implode('&', $fragment);
         }
 
-        $iframeAttributes = [
-            'width' => $attributes['width'] ?? '100%',
-            'height' => $attributes['height'] ?? 'auto',
-            'title' => $attributes['title'] ?? 'Vimeo video player',
-            'frameborder' => $attributes['frameborder'] ?? '0',
-            'allowfullscreen' => $attributes['allowfullscreen'] ?? '',
-            'allow' => $attributes['allow'] ?? 'autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share',
-            'referrerpolicy' => $attributes['referrerpolicy'] ?? 'strict-origin-when-cross-origin',
-        ];
-
-        $wrapperStyles = [];
-
-        if (($attributes['height'] ?? 'auto') === 'auto') {
-            $aspectRatio = $attributes['aspect-ratio'] ?? '16 / 9';
-            $iframeAttributes['aspect-ratio'] = 'var(--embed-aspect-ratio)';
-            $wrapperStyles[] = '--embed-aspect-ratio: ' . htmlspecialchars($aspectRatio);
-        }
-
-        $html = Iframe::render($src, $iframeAttributes);
-        $class = htmlspecialchars($attributes['class'] ?? 'vimeo-container', ENT_QUOTES, 'UTF-8');
-
-        $styleAttr = '';
-        if (!empty($wrapperStyles)) {
-            $styleAttr = ' style="' . implode('; ', $wrapperStyles) . '"';
-        }
-
-        return sprintf('<div class="%s"%s>%s</div>', $class, $styleAttr, $html);
+        return $src;
     }
 
-    /**
-     * Extract the Vimeo video ID from the given URL.
-     *
-     * @param string $url The Vimeo URL.
-     *
-     * @return string|null The video ID, or null if not found.
-     */
-    private function getVideoId(string $url): ?string
+    protected function getVideoId(string $url): ?string
     {
         $pattern = '/(?:vimeo\.com\/|player\.vimeo\.com\/video\/)(\d+)/';
 
@@ -107,5 +65,20 @@ class Vimeo extends AbstractEmbedHandler
         }
 
         return null;
+    }
+
+    protected function getDefaultTitle(): string
+    {
+        return 'Vimeo video player';
+    }
+
+    protected function getDefaultClass(): string
+    {
+        return 'vimeo-container';
+    }
+
+    protected function getDefaultAllow(): string
+    {
+        return 'autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share';
     }
 }

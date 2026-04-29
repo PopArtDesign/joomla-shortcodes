@@ -11,24 +11,15 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-class Rutube extends AbstractEmbedHandler
+class Rutube extends AbstractVideoEmbedHandler
 {
     protected function getSupportedHosts(): array
     {
         return ['rutube.ru', 'www.rutube.ru'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function process(string $url, array $attributes): string
+    protected function getEmbedUrl(string $videoId, array $attributes): string
     {
-        $videoId = $this->getVideoId($url);
-
-        if (!$videoId) {
-            return '';
-        }
-
         $autoplay = AttributeHelper::isEnabled('autoplay', $attributes);
         $queryParams = [];
         if ($autoplay) {
@@ -54,41 +45,10 @@ class Rutube extends AbstractEmbedHandler
             $src .= '?' . http_build_query($queryParams);
         }
 
-        $iframeAttributes = [
-            'width' => $attributes['width'] ?? '100%',
-            'height' => $attributes['height'] ?? 'auto',
-            'frameborder' => $attributes['frameborder'] ?? '0',
-            'allow' => $attributes['allow'] ?? 'clipboard-write; autoplay',
-            'allowfullscreen' => $attributes['allowfullscreen'] ?? '',
-        ];
-
-        $wrapperStyles = [];
-
-        if (($iframeAttributes['height']) === 'auto') {
-            $aspectRatio = $attributes['aspect-ratio'] ?? '16 / 9';
-            $iframeAttributes['aspect-ratio'] = 'var(--embed-aspect-ratio)';
-            $wrapperStyles[] = '--embed-aspect-ratio: ' . htmlspecialchars($aspectRatio);
-        }
-
-        $html = Iframe::render($src, $iframeAttributes);
-        $class = htmlspecialchars($attributes['class'] ?? 'rutube-container', ENT_QUOTES, 'UTF-8');
-
-        $styleAttr = '';
-        if (!empty($wrapperStyles)) {
-            $styleAttr = ' style="' . implode('; ', $wrapperStyles) . '"';
-        }
-
-        return sprintf('<div class="%s"%s>%s</div>', $class, $styleAttr, $html);
+        return $src;
     }
 
-    /**
-     * Extract Rutube video ID from a URL or a string.
-     *
-     * @param string $url
-     *
-     * @return ?string
-     */
-    private function getVideoId(string $url): ?string
+    protected function getVideoId(string $url): ?string
     {
         $pattern = '/rutube\.ru\/(?:video|pl(?:\/[a-zA-Z0-9_-]+)?)\/([a-zA-Z0-9_-]+)/';
 
@@ -97,5 +57,20 @@ class Rutube extends AbstractEmbedHandler
         }
 
         return null;
+    }
+
+    protected function getDefaultTitle(): string
+    {
+        return 'Rutube video player';
+    }
+
+    protected function getDefaultClass(): string
+    {
+        return 'rutube-container';
+    }
+
+    protected function getDefaultAllow(): string
+    {
+        return 'clipboard-write; autoplay';
     }
 }
