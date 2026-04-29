@@ -13,11 +13,14 @@ Shortcodes are implemented as invokable PHP classes.
 - **Shortcodes**: `src/Lorem.php`, `src/Repeat.php` - Standalone shortcode classes
 - **Embed Classes**: `src/Embed/` - Individual embed handlers (Youtube, Gist, Vimeo, Iframe) that implement `EmbedInterface`
 - **Embed Handler Interface**: `src/Embed/EmbedInterface.php` - Defines `supports()` and `process()` methods used by individual embed handlers
+- **Abstract Embed Handler**: `src/Embed/AbstractEmbedHandler.php` - Base class providing common functionality for embed handlers, including URL parsing and wrapper rendering
+- **Abstract Video Embed Handler**: `src/Embed/AbstractVideoEmbedHandler.php` - Extends AbstractEmbedHandler for video embeds, provides iframe attribute building and autoplay/start/end time functionality
 - **Main Embed Dispatcher**: `src/Embed.php` - Delegates to appropriate handler based on URL
 - **Shortcode Registration**: `src/Extension/Shortcodes.php` - Registers all shortcodes
 
 ### Adding a New Embed Handler
 
+**For Generic Embed Handlers:**
 1. Create a new class in `src/Embed/` (e.g., `MyEmbed.php`)
 2. Implement `EmbedInterface`:
    ```php
@@ -34,8 +37,38 @@ Shortcodes are implemented as invokable PHP classes.
        }
    }
    ```
-3. Add the handler to `src/Embed.php` constructor
-4. The container in `src/Extension/Shortcodes.php` will auto-wire the dependency
+3. Register it in `services/provider.php` to add it to the DI container
+4. Register it in `src/Extension/Shortcodes.php`
+
+
+**For Video Embed Handlers:**
+1. Create a new class in `src/Embed/` that extends `AbstractVideoEmbedHandler`
+2. Implement required abstract methods:
+   ```php
+   class MyVideoEmbedHandler extends AbstractVideoEmbedHandler
+   {
+       protected function getSupportedHosts(): array
+       {
+           return ['example.com', 'www.example.com'];
+       }
+
+       protected function getEmbedUrl(string $url, array $attributes): string
+       {
+           // Generate the embed URL from the original URL and attributes
+       }
+
+       protected function getDefaults(): array
+       {
+           return [
+               'class' => 'my-video',
+               'width' => '560',
+               'height' => '315'
+           ];
+       }
+   }
+   ```
+3. Register it in `services/provider.php` to add it to the DI container
+4. Register it in `src/Extension/Shortcodes.php`
 
 ### Adding a New Non-Embed Shortcode
 
