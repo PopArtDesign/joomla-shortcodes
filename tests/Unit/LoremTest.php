@@ -201,6 +201,23 @@ class LoremTest extends TestCase
         $this->assertStringEndsWith('" />', $result);
     }
 
+    public function testImageGenerationWithAlt(): void
+    {
+        $text = '{lorem img width=100 height=50 alt="My placeholder image"}';
+        $result = $this->processShortcodes($text);
+
+        if (!\extension_loaded('gd')) {
+            $this->assertEquals('<!-- GD library is not installed -->', $result);
+            $this->markTestSkipped('GD library is not installed.');
+        }
+
+        $this->assertStringContainsString('alt="My placeholder image"', $result);
+        $this->assertStringStartsWith('<img src="data:image/png;base64,', $result);
+        $this->assertStringContainsString('width="100"', $result);
+        $this->assertStringContainsString('height="50"', $result);
+        $this->assertStringEndsWith('" />', $result);
+    }
+
     public function testParagraphWithClassAndNoExplicitTag(): void
     {
         $text = '{lorem class="my-class"}';

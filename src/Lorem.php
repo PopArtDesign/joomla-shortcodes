@@ -114,7 +114,10 @@ LOREMIPSUM;
             $imgClass = $attributes['class'] ?? '';
             $imgClassAttr = $imgClass ? " class=\"{$imgClass}\"" : '';
 
-            return "<img src=\"data:image/png;base64,{$base64}\" width=\"{$width}\" height=\"{$height}\"{$imgClassAttr} />";
+            $imgAlt = $attributes['alt'] ?? '';
+            $imgAltAttr = $imgAlt ? " alt=\"{$imgAlt}\"" : '';
+
+            return "<img src=\"data:image/png;base64,{$base64}\" width=\"{$width}\" height=\"{$height}\"{$imgClassAttr}{$imgAltAttr} />";
         }
 
         $output = [];
