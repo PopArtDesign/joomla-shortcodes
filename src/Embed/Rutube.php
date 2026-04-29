@@ -26,14 +26,14 @@ class Rutube extends AbstractVideoEmbedHandler
             $queryParams['autostartmute'] = 'true';
         }
 
-        $startSeconds = $this->getStart($attributes, 0);
-        if ($startSeconds > 0) {
-            $queryParams['t'] = $startSeconds;
+        $start = $this->getStart($attributes, 0);
+        if ($start > 0) {
+            $queryParams['t'] = $start;
         }
 
-        $endSeconds = $this->getEnd($attributes);
-        if ($endSeconds > 0) {
-            $queryParams['stopTime'] = $endSeconds;
+        $end = $this->getEnd($attributes);
+        if ($end > 0) {
+            $queryParams['stopTime'] = $end;
         }
 
         $src = sprintf('https://rutube.ru/play/embed/%s', htmlspecialchars($videoId));
