@@ -16,11 +16,6 @@ class Rutube extends AbstractVideoEmbedHandler
         return ['rutube.ru', 'www.rutube.ru'];
     }
 
-    protected function getEmbedSpecificClass(): string
-    {
-        return 'embed-rutube';
-    }
-
     protected function getEmbedUrl(string $videoId, array $attributes): string
     {
         $autoplay = $this->getAutoplay($attributes);
@@ -64,7 +59,7 @@ class Rutube extends AbstractVideoEmbedHandler
     {
         return array_merge(parent::getDefaults(), [
             'title' => 'Rutube video player',
-            'class' => 'rutube-container',
+            'class' => 'embed-rutube',
             'allow' => 'clipboard-write; autoplay',
         ]);
     }

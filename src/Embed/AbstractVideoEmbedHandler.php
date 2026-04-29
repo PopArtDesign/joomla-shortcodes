@@ -12,13 +12,11 @@ abstract class AbstractVideoEmbedHandler extends AbstractEmbedHandler
 
     abstract protected function getEmbedUrl(string $videoId, array $attributes): string;
 
-    abstract protected function getEmbedSpecificClass(): string;
-
     protected function getDefaults(): array
     {
         return [
             'title' => 'Video player',
-            'class' => 'video-container',
+            'class' => null,
             'allow' => 'autoplay',
             'referrerpolicy' => 'strict-origin-when-cross-origin',
         ];
@@ -106,9 +104,9 @@ abstract class AbstractVideoEmbedHandler extends AbstractEmbedHandler
         $html = Iframe::render($src, $iframeAttributes);
 
         $baseClasses = ['embed-container', 'embed-video'];
-        $specificClass = $this->getEmbedSpecificClass();
-        if ($specificClass) {
-            $baseClasses[] = $specificClass;
+        $defaults = $this->getDefaults();
+        if (!empty($defaults['class'])) {
+            $baseClasses[] = $defaults['class'];
         }
 
         return $this->renderWrapper($html, $baseClasses, $attributes, $wrapperStyles);

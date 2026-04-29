@@ -18,11 +18,6 @@ class Vimeo extends AbstractVideoEmbedHandler
         return ['vimeo.com', 'www.vimeo.com', 'player.vimeo.com'];
     }
 
-    protected function getEmbedSpecificClass(): string
-    {
-        return 'embed-vimeo';
-    }
-
     protected function getEmbedUrl(string $videoId, array $attributes): string
     {
         $start = $this->getStart($attributes, null);
@@ -70,7 +65,7 @@ class Vimeo extends AbstractVideoEmbedHandler
     {
         return array_merge(parent::getDefaults(), [
             'title' => 'Vimeo video player',
-            'class' => 'vimeo-container',
+            'class' => 'embed-vimeo',
             'allow' => 'autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share',
         ]);
     }

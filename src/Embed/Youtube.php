@@ -16,11 +16,6 @@ class Youtube extends AbstractVideoEmbedHandler
         return ['youtube.com', 'www.youtube.com', 'm.youtube.com', 'youtu.be'];
     }
 
-    protected function getEmbedSpecificClass(): string
-    {
-        return 'embed-youtube';
-    }
-
     protected function getEmbedUrl(string $videoId, array $attributes): string
     {
         $start = $this->getStart($attributes, 0);
@@ -55,7 +50,7 @@ class Youtube extends AbstractVideoEmbedHandler
     {
         return array_merge(parent::getDefaults(), [
             'title' => 'YouTube video player',
-            'class' => 'youtube-container',
+            'class' => 'embed-youtube',
             'allow' => 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share',
         ]);
     }
