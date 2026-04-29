@@ -72,14 +72,23 @@ class Vimeo extends AbstractEmbedHandler
             'referrerpolicy' => $attributes['referrerpolicy'] ?? 'strict-origin-when-cross-origin',
         ];
 
+        $wrapperStyles = [];
+
         if (($attributes['height'] ?? 'auto') === 'auto') {
-            $iframeAttributes['aspect-ratio'] = $attributes['aspect-ratio'] ?? '16 / 9';
+            $aspectRatio = $attributes['aspect-ratio'] ?? '16 / 9';
+            $iframeAttributes['aspect-ratio'] = 'var(--embed-aspect-ratio)';
+            $wrapperStyles[] = '--embed-aspect-ratio: ' . htmlspecialchars($aspectRatio);
         }
 
         $html = Iframe::render($src, $iframeAttributes);
         $class = htmlspecialchars($attributes['class'] ?? 'vimeo-container', ENT_QUOTES, 'UTF-8');
 
-        return sprintf('<div class="%s">%s</div>', $class, $html);
+        $styleAttr = '';
+        if (!empty($wrapperStyles)) {
+            $styleAttr = ' style="' . implode('; ', $wrapperStyles) . '"';
+        }
+
+        return sprintf('<div class="%s"%s>%s</div>', $class, $styleAttr, $html);
     }
 
     /**
