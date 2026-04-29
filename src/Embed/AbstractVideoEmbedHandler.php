@@ -12,19 +12,16 @@ abstract class AbstractVideoEmbedHandler extends AbstractEmbedHandler
 
     abstract protected function getEmbedUrl(string $videoId, array $attributes): string;
 
-    protected function getDefaults(): array
+    abstract protected function getDefaults(): array;
+
+    protected function buildIframeAttributes(array $attributes): array
     {
-        return [
+        $defaults = \array_merge([
             'title' => 'Video player',
             'class' => null,
             'allow' => 'autoplay',
             'referrerpolicy' => 'strict-origin-when-cross-origin',
-        ];
-    }
-
-    protected function buildIframeAttributes(array $attributes): array
-    {
-        $defaults = $this->getDefaults();
+        ], $this->getDefaults());
 
         return [
             'width' => $attributes['width'] ?? '100%',

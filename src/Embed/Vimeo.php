@@ -63,10 +63,10 @@ class Vimeo extends AbstractVideoEmbedHandler
 
     protected function getDefaults(): array
     {
-        return array_merge(parent::getDefaults(), [
+        return [
             'title' => 'Vimeo video player',
             'class' => 'embed-vimeo',
             'allow' => 'autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share',
-        ]);
+        ];
     }
 }

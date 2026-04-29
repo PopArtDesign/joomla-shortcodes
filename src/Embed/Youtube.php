@@ -48,10 +48,10 @@ class Youtube extends AbstractVideoEmbedHandler
 
     protected function getDefaults(): array
     {
-        return array_merge(parent::getDefaults(), [
+        return [
             'title' => 'YouTube video player',
             'class' => 'embed-youtube',
             'allow' => 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share',
-        ]);
+        ];
     }
 }
