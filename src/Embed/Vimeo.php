@@ -20,9 +20,17 @@ class Vimeo extends AbstractVideoEmbedHandler
 
     protected function getEmbedUrl(string $videoId, array $attributes): string
     {
-        $start = $this->getStart($attributes, null);
+        $fragment = [];
+
+        $start = $this->getStart($attributes, 0);
+        if ($start > 0) {
+            $fragment[] = 't=' . $start . 's';
+        }
 
         $end = $this->getEnd($attributes);
+        if ($end !== null) {
+            $fragment[] = 'end=' . $end;
+        }
 
         $autoplay = $this->getAutoplay($attributes);
         $loop = AttributeHelper::isEnabled('loop', $attributes);
@@ -33,15 +41,6 @@ class Vimeo extends AbstractVideoEmbedHandler
             (int) $autoplay,
             (int) $loop,
         );
-
-        $fragment = [];
-        if ($start !== null) {
-            $fragment[] = 't=' . $start . 's';
-        }
-
-        if ($end !== null) {
-            $fragment[] = 'end=' . $end;
-        }
 
         if (!empty($fragment)) {
             $src .= '#' . implode('&', $fragment);
