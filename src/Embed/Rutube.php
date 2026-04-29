@@ -60,18 +60,12 @@ class Rutube extends AbstractVideoEmbedHandler
         return null;
     }
 
-    protected function getDefaultTitle(): string
+    protected function getDefaults(): array
     {
-        return 'Rutube video player';
-    }
-
-    protected function getDefaultClass(): string
-    {
-        return 'rutube-container';
-    }
-
-    protected function getDefaultAllow(): string
-    {
-        return 'clipboard-write; autoplay';
+        return array_merge(parent::getDefaults(), [
+            'title' => 'Rutube video player',
+            'class' => 'rutube-container',
+            'allow' => 'clipboard-write; autoplay',
+        ]);
     }
 }

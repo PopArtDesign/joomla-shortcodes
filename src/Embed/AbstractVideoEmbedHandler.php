@@ -2,9 +2,9 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
 
-\defined('_JEXEC') or die;
-
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
+
+\defined('_JEXEC') or die;
 
 abstract class AbstractVideoEmbedHandler extends AbstractEmbedHandler
 {
@@ -14,36 +14,28 @@ abstract class AbstractVideoEmbedHandler extends AbstractEmbedHandler
 
     abstract protected function getEmbedSpecificClass(): string;
 
-    protected function getDefaultTitle(): string
+    protected function getDefaults(): array
     {
-        return 'Video player';
-    }
-
-    protected function getDefaultClass(): string
-    {
-        return 'video-container';
-    }
-
-    protected function getDefaultAllow(): string
-    {
-        return 'autoplay';
-    }
-
-    protected function getDefaultReferrerPolicy(): string
-    {
-        return 'strict-origin-when-cross-origin';
+        return [
+            'title' => 'Video player',
+            'class' => 'video-container',
+            'allow' => 'autoplay',
+            'referrerpolicy' => 'strict-origin-when-cross-origin',
+        ];
     }
 
     protected function buildIframeAttributes(array $attributes): array
     {
+        $defaults = $this->getDefaults();
+
         return [
             'width' => $attributes['width'] ?? '100%',
             'height' => $attributes['height'] ?? 'auto',
-            'title' => $attributes['title'] ?? $this->getDefaultTitle(),
+            'title' => $attributes['title'] ?? $defaults['title'],
             'frameborder' => $attributes['frameborder'] ?? '0',
             'allowfullscreen' => $attributes['allowfullscreen'] ?? '',
-            'allow' => $attributes['allow'] ?? $this->getDefaultAllow(),
-            'referrerpolicy' => $attributes['referrerpolicy'] ?? $this->getDefaultReferrerPolicy(),
+            'allow' => $attributes['allow'] ?? $defaults['allow'],
+            'referrerpolicy' => $attributes['referrerpolicy'] ?? $defaults['referrerpolicy'],
         ];
     }
 

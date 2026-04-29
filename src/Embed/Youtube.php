@@ -51,18 +51,12 @@ class Youtube extends AbstractVideoEmbedHandler
         return null;
     }
 
-    protected function getDefaultTitle(): string
+    protected function getDefaults(): array
     {
-        return 'YouTube video player';
-    }
-
-    protected function getDefaultClass(): string
-    {
-        return 'youtube-container';
-    }
-
-    protected function getDefaultAllow(): string
-    {
-        return 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+        return array_merge(parent::getDefaults(), [
+            'title' => 'YouTube video player',
+            'class' => 'youtube-container',
+            'allow' => 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share',
+        ]);
     }
 }

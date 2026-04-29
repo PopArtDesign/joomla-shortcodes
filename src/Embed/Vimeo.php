@@ -66,18 +66,12 @@ class Vimeo extends AbstractVideoEmbedHandler
         return null;
     }
 
-    protected function getDefaultTitle(): string
+    protected function getDefaults(): array
     {
-        return 'Vimeo video player';
-    }
-
-    protected function getDefaultClass(): string
-    {
-        return 'vimeo-container';
-    }
-
-    protected function getDefaultAllow(): string
-    {
-        return 'autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share';
+        return array_merge(parent::getDefaults(), [
+            'title' => 'Vimeo video player',
+            'class' => 'vimeo-container',
+            'allow' => 'autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share',
+        ]);
     }
 }
