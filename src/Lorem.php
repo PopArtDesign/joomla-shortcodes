@@ -78,46 +78,7 @@ LOREMIPSUM;
         }
 
         if ($tag === 'img') {
-            if (!\extension_loaded('gd')) {
-                return '<!-- GD library is not installed -->';
-            }
-
-            $width = (int) ($attributes['width'] ?? 150);
-            $height = (int) ($attributes['height'] ?? 150);
-
-            $image = \imagecreatetruecolor($width, $height);
-
-            // Colors
-            $bgColor = \imagecolorallocate($image, 230, 230, 230); // light grey
-            $textColor = \imagecolorallocate($image, 100, 100, 100); // dark grey
-
-            \imagefill($image, 0, 0, $bgColor);
-
-            // Text
-            $text = "{$width}x{$height}";
-            $fontSize = 5;
-            $textWidth = \imagefontwidth($fontSize) * \strlen($text);
-            $textHeight = \imagefontheight($fontSize);
-            $x = (int) (($width - $textWidth) / 2);
-            $y = (int) (($height - $textHeight) / 2);
-
-            \imagestring($image, $fontSize, $x, $y, $text, $textColor);
-
-            // Capture output
-            \ob_start();
-            \imagepng($image);
-            $imageData = \ob_get_clean();
-            \imagedestroy($image);
-
-            $base64 = \base64_encode($imageData);
-
-            $imgClass = $attributes['class'] ?? '';
-            $imgClassAttr = $imgClass ? " class=\"{$imgClass}\"" : '';
-
-            $imgAlt = $attributes['alt'] ?? '';
-            $imgAltAttr = $imgAlt ? " alt=\"{$imgAlt}\"" : '';
-
-            return "<img src=\"data:image/png;base64,{$base64}\" width=\"{$width}\" height=\"{$height}\"{$imgClassAttr}{$imgAltAttr} />";
+            return $this->generateImage($attributes);
         }
 
         $output = [];
@@ -138,6 +99,57 @@ LOREMIPSUM;
         }
 
         return \implode('', $output);
+    }
+
+    /**
+     * Generates an inline Base64-encoded image based on attributes.
+     *
+     * @param array $attributes The attributes for the image (width, height, class, alt).
+     *
+     * @return string The generated HTML `<img>` tag or an error comment.
+     */
+    private function generateImage(array $attributes): string
+    {
+        if (!\extension_loaded('gd')) {
+            return '<!-- GD library is not installed -->';
+        }
+
+        $width = (int) ($attributes['width'] ?? 150);
+        $height = (int) ($attributes['height'] ?? 150);
+
+        $image = \imagecreatetruecolor($width, $height);
+
+        // Colors
+        $bgColor = \imagecolorallocate($image, 230, 230, 230); // light grey
+        $textColor = \imagecolorallocate($image, 100, 100, 100); // dark grey
+
+        \imagefill($image, 0, 0, $bgColor);
+
+        // Text
+        $text = "{$width}x{$height}";
+        $fontSize = 5;
+        $textWidth = \imagefontwidth($fontSize) * \strlen($text);
+        $textHeight = \imagefontheight($fontSize);
+        $x = (int) (($width - $textWidth) / 2);
+        $y = (int) (($height - $textHeight) / 2);
+
+        \imagestring($image, $fontSize, $x, $y, $text, $textColor);
+
+        // Capture output
+        \ob_start();
+        \imagepng($image);
+        $imageData = \ob_get_clean();
+        \imagedestroy($image);
+
+        $base64 = \base64_encode($imageData);
+
+        $imgClass = $attributes['class'] ?? '';
+        $imgClassAttr = $imgClass ? " class=\"{$imgClass}\"" : '';
+
+        $imgAlt = $attributes['alt'] ?? '';
+        $imgAltAttr = $imgAlt ? " alt=\"{$imgAlt}\"" : '';
+
+        return "<img src=\"data:image/png;base64,{$base64}\" width=\"{$width}\" height=\"{$height}\"{$imgClassAttr}{$imgAltAttr} />";
     }
 
     /**
