@@ -22,9 +22,11 @@ class Youtube extends AbstractVideoEmbedHandler
 
         $autoplay = $this->getAutoplay($attributes);
 
-        $queryParams = [
-            'start' => $start,
-        ];
+        $queryParams = [];
+
+        if ($start > 0) {
+            $queryParams['start'] = $start;
+        }
 
         if ($autoplay) {
             $queryParams['autoplay'] = 1;
@@ -32,7 +34,13 @@ class Youtube extends AbstractVideoEmbedHandler
             $queryParams['mute'] = 1;
         }
 
-        return sprintf('https://www.youtube.com/embed/%s?%s', htmlspecialchars($videoId), http_build_query($queryParams));
+        $src = sprintf('https://www.youtube.com/embed/%s', htmlspecialchars($videoId));
+
+        if (!empty($queryParams)) {
+            $src .= '?' . http_build_query($queryParams);
+        }
+
+        return $src;
     }
 
     protected function getVideoId(string $url): ?string
