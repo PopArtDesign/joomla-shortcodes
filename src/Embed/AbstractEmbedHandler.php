@@ -5,10 +5,20 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
 \defined('_JEXEC') or die;
 
 /**
+ * Abstract base class for embed handlers.
+ *
+ * Provides common functionality for processing embed URLs and rendering wrapper HTML.
+ * Concrete implementations must define supported hosts and generate embed URLs.
+ *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
 abstract class AbstractEmbedHandler implements EmbedInterface
 {
+    /**
+     * Get the list of supported hostnames for this embed handler.
+     *
+     * @return array List of hostnames (e.g., ['youtube.com', 'www.youtube.com'])
+     */
     abstract protected function getSupportedHosts(): array;
 
     /**
@@ -60,8 +70,8 @@ abstract class AbstractEmbedHandler implements EmbedInterface
     /**
      * Build wrapper div class from base classes and user classes.
      *
-     * @param array $baseClasses   Base CSS classes for the wrapper
-     * @param array $attributes    Shortcode attributes (may contain 'class')
+     * @param array $baseClasses Base CSS classes for the wrapper
+     * @param array $attributes  Shortcode attributes (may contain 'class')
      *
      * @return string
      */
