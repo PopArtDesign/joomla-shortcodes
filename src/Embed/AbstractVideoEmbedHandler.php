@@ -12,6 +12,13 @@ abstract class AbstractVideoEmbedHandler extends AbstractEmbedHandler
 
     abstract protected function getDefaults(): array;
 
+    /**
+     * Builds an array of iframe attributes based on the provided shortcode attributes and default values.
+     *
+     * @param array $attributes The shortcode attributes.
+     *
+     * @return array An associative array of iframe attributes.
+     */
     protected function buildIframeAttributes(array $attributes): array
     {
         $defaults = \array_merge([
