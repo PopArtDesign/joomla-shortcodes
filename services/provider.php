@@ -10,6 +10,7 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\EmbedInterface;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Gist;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Iframe;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Rutube;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Vimeo;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Extension\Shortcodes;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Youtube;
@@ -31,12 +32,14 @@ return new class () implements ServiceProviderInterface {
             $container->get(Youtube::class),
             $container->get(Gist::class),
             $container->get(Vimeo::class),
+            $container->get(Rutube::class),
             $container->get(Iframe::class),
         ]), true);
 
         $container->share(Youtube::class, fn() => new Youtube(), true);
         $container->share(Gist::class, fn() => new Gist(), true);
         $container->share(Vimeo::class, fn() => new Vimeo(), true);
+        $container->share(Rutube::class, fn() => new Rutube(), true);
         $container->share(Iframe::class, fn() => new Iframe(), true);
 
         $container->share(Lorem::class, fn() => new Lorem(), true);
