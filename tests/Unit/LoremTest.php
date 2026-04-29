@@ -168,12 +168,37 @@ class LoremTest extends TestCase
         $this->assertGreaterThan(0, str_word_count(strip_tags($result)));
     }
 
-    public function testImagePlaceholder(): void
+    public function testImageGeneration(): void
     {
-        $text = '{lorem img width=100 height=100}';
+        $text = '{lorem img width=100 height=50}';
         $result = $this->processShortcodes($text);
 
-        $this->assertEquals('<!-- Lorem image placeholder -->', $result);
+        if (!\extension_loaded('gd')) {
+            $this->assertEquals('<!-- GD library is not installed -->', $result);
+            $this->markTestSkipped('GD library is not installed.');
+        }
+
+        $this->assertStringStartsWith('<img src="data:image/png;base64,', $result);
+        $this->assertStringContainsString('width="100"', $result);
+        $this->assertStringContainsString('height="50"', $result);
+        $this->assertStringEndsWith('" />', $result);
+    }
+
+    public function testImageGenerationWithClass(): void
+    {
+        $text = '{lorem img width=100 height=50 class="my-image"}';
+        $result = $this->processShortcodes($text);
+
+        if (!\extension_loaded('gd')) {
+            $this->assertEquals('<!-- GD library is not installed -->', $result);
+            $this->markTestSkipped('GD library is not installed.');
+        }
+
+        $this->assertStringContainsString('class="my-image"', $result);
+        $this->assertStringStartsWith('<img src="data:image/png;base64,', $result);
+        $this->assertStringContainsString('width="100"', $result);
+        $this->assertStringContainsString('height="50"', $result);
+        $this->assertStringEndsWith('" />', $result);
     }
 
     public function testParagraphWithClassAndNoExplicitTag(): void

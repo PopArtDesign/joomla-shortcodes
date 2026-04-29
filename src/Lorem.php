@@ -78,8 +78,43 @@ LOREMIPSUM;
         }
 
         if ($tag === 'img') {
-            // Placeholder for future image generation
-            return '<!-- Lorem image placeholder -->';
+            if (!\extension_loaded('gd')) {
+                return '<!-- GD library is not installed -->';
+            }
+
+            $width = (int) ($attributes['width'] ?? 150);
+            $height = (int) ($attributes['height'] ?? 150);
+
+            $image = \imagecreatetruecolor($width, $height);
+
+            // Colors
+            $bgColor = \imagecolorallocate($image, 230, 230, 230); // light grey
+            $textColor = \imagecolorallocate($image, 100, 100, 100); // dark grey
+
+            \imagefill($image, 0, 0, $bgColor);
+
+            // Text
+            $text = "{$width}x{$height}";
+            $fontSize = 5;
+            $textWidth = \imagefontwidth($fontSize) * \strlen($text);
+            $textHeight = \imagefontheight($fontSize);
+            $x = (int) (($width - $textWidth) / 2);
+            $y = (int) (($height - $textHeight) / 2);
+
+            \imagestring($image, $fontSize, $x, $y, $text, $textColor);
+
+            // Capture output
+            \ob_start();
+            \imagepng($image);
+            $imageData = \ob_get_clean();
+            \imagedestroy($image);
+
+            $base64 = \base64_encode($imageData);
+
+            $imgClass = $attributes['class'] ?? '';
+            $imgClassAttr = $imgClass ? " class=\"{$imgClass}\"" : '';
+
+            return "<img src=\"data:image/png;base64,{$base64}\" width=\"{$width}\" height=\"{$height}\"{$imgClassAttr} />";
         }
 
         $output = [];
