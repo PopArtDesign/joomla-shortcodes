@@ -129,7 +129,7 @@ class EmbedTest extends TestCase
     {
         $text = '{embed url="https://example.com" width="100%" height="400" class="my-embed"}{/embed}';
         $result = $this->processShortcodes($text);
-        $this->assertStringContainsString('class="my-embed"', $result);
+        $this->assertStringContainsString('class="embed-container embed-iframe my-embed"', $result);
         $this->assertStringContainsString('width="100%"', $result);
         $this->assertStringContainsString('height="400"', $result);
     }

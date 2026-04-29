@@ -10,6 +10,8 @@ abstract class AbstractVideoEmbedHandler extends AbstractEmbedHandler
 
     abstract protected function getEmbedUrl(string $videoId, array $attributes): string;
 
+    abstract protected function getEmbedSpecificClass(): string;
+
     protected function getDefaultTitle(): string
     {
         return 'Video player';
@@ -59,17 +61,17 @@ abstract class AbstractVideoEmbedHandler extends AbstractEmbedHandler
         if (($attributes['height'] ?? 'auto') === 'auto') {
             $aspectRatio = $attributes['aspect-ratio'] ?? '16 / 9';
             $iframeAttributes['aspect-ratio'] = 'var(--embed-aspect-ratio)';
-            $wrapperStyles[] = '--embed-aspect-ratio: ' . htmlspecialchars($aspectRatio);
+            $wrapperStyles[] = '--embed-aspect-ratio: ' . \htmlspecialchars($aspectRatio);
         }
 
         $html = Iframe::render($src, $iframeAttributes);
-        $class = htmlspecialchars($attributes['class'] ?? $this->getDefaultClass(), ENT_QUOTES, 'UTF-8');
 
-        $styleAttr = '';
-        if (!empty($wrapperStyles)) {
-            $styleAttr = ' style="' . implode('; ', $wrapperStyles) . '"';
+        $baseClasses = ['embed-container', 'embed-video'];
+        $specificClass = $this->getEmbedSpecificClass();
+        if ($specificClass) {
+            $baseClasses[] = $specificClass;
         }
 
-        return sprintf('<div class="%s"%s>%s</div>', $class, $styleAttr, $html);
+        return $this->renderWrapper($html, $baseClasses, $attributes, $wrapperStyles);
     }
 }

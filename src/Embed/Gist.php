@@ -38,6 +38,8 @@ class Gist extends AbstractEmbedHandler
             $scriptUrl .= '?file=' . \urlencode($file);
         }
 
-        return \sprintf('<script src="%s"></script>', $scriptUrl);
+        $embedHtml = \sprintf('<script src="%s"></script>', $scriptUrl);
+
+        return $this->renderWrapper($embedHtml, ['embed-container', 'embed-gist'], $attributes);
     }
 }

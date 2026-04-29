@@ -2,9 +2,9 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
 
-\defined('_JEXEC') or die;
-
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
+
+\defined('_JEXEC') or die;
 
 /**
  * Embed handler for YouTube videos.
@@ -16,6 +16,11 @@ class Youtube extends AbstractVideoEmbedHandler
     protected function getSupportedHosts(): array
     {
         return ['youtube.com', 'www.youtube.com', 'm.youtube.com', 'youtu.be'];
+    }
+
+    protected function getEmbedSpecificClass(): string
+    {
+        return 'embed-youtube';
     }
 
     protected function getEmbedUrl(string $videoId, array $attributes): string

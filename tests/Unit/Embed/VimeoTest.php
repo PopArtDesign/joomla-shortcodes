@@ -23,35 +23,35 @@ class VimeoTest extends TestCase
     public function testBasicUsage(): void
     {
         $result = $this->vimeo->process('https://vimeo.com/123456789', ['_' => []]);
-        $expected = '<div class="vimeo-container" style="--embed-aspect-ratio: 16 / 9"><iframe src="https://player.vimeo.com/video/123456789?autoplay=0&loop=0" width="100%" height="auto" title="Vimeo video player" frameborder="0" allowfullscreen allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="aspect-ratio: var(--embed-aspect-ratio);"></iframe></div>';
+        $expected = '<div class="embed-container embed-video embed-vimeo" style="--embed-aspect-ratio: 16 / 9"><iframe src="https://player.vimeo.com/video/123456789?autoplay=0&loop=0" width="100%" height="auto" title="Vimeo video player" frameborder="0" allowfullscreen allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="aspect-ratio: var(--embed-aspect-ratio);"></iframe></div>';
         $this->assertEquals($expected, $result);
     }
 
     public function testCustomDimensions(): void
     {
         $result = $this->vimeo->process('https://vimeo.com/123456789', ['width' => '800', 'height' => '600', '_' => []]);
-        $expected = '<div class="vimeo-container"><iframe src="https://player.vimeo.com/video/123456789?autoplay=0&loop=0" width="800" height="600" title="Vimeo video player" frameborder="0" allowfullscreen allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>';
+        $expected = '<div class="embed-container embed-video embed-vimeo"><iframe src="https://player.vimeo.com/video/123456789?autoplay=0&loop=0" width="800" height="600" title="Vimeo video player" frameborder="0" allowfullscreen allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>';
         $this->assertEquals($expected, $result);
     }
 
     public function testStartTime(): void
     {
         $result = $this->vimeo->process('https://vimeo.com/123456789', ['start' => '1m30s', '_' => []]);
-        $expected = '<div class="vimeo-container" style="--embed-aspect-ratio: 16 / 9"><iframe src="https://player.vimeo.com/video/123456789?autoplay=0&loop=0" width="100%" height="auto" title="Vimeo video player" frameborder="0" allowfullscreen allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="aspect-ratio: var(--embed-aspect-ratio);"></iframe></div>';
+        $expected = '<div class="embed-container embed-video embed-vimeo" style="--embed-aspect-ratio: 16 / 9"><iframe src="https://player.vimeo.com/video/123456789?autoplay=0&loop=0" width="100%" height="auto" title="Vimeo video player" frameborder="0" allowfullscreen allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="aspect-ratio: var(--embed-aspect-ratio);"></iframe></div>';
         $this->assertEquals($expected, $result);
     }
 
     public function testAutoplay(): void
     {
         $result = $this->vimeo->process('https://vimeo.com/123456789', ['autoplay' => 'true', '_' => []]);
-        $expected = '<div class="vimeo-container" style="--embed-aspect-ratio: 16 / 9"><iframe src="https://player.vimeo.com/video/123456789?autoplay=1&loop=0" width="100%" height="auto" title="Vimeo video player" frameborder="0" allowfullscreen allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="aspect-ratio: var(--embed-aspect-ratio);"></iframe></div>';
+        $expected = '<div class="embed-container embed-video embed-vimeo" style="--embed-aspect-ratio: 16 / 9"><iframe src="https://player.vimeo.com/video/123456789?autoplay=1&loop=0" width="100%" height="auto" title="Vimeo video player" frameborder="0" allowfullscreen allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="aspect-ratio: var(--embed-aspect-ratio);"></iframe></div>';
         $this->assertEquals($expected, $result);
     }
 
     public function testLoop(): void
     {
         $result = $this->vimeo->process('https://vimeo.com/123456789', ['loop' => 'true', '_' => []]);
-        $expected = '<div class="vimeo-container" style="--embed-aspect-ratio: 16 / 9"><iframe src="https://player.vimeo.com/video/123456789?autoplay=0&loop=1" width="100%" height="auto" title="Vimeo video player" frameborder="0" allowfullscreen allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="aspect-ratio: var(--embed-aspect-ratio);"></iframe></div>';
+        $expected = '<div class="embed-container embed-video embed-vimeo" style="--embed-aspect-ratio: 16 / 9"><iframe src="https://player.vimeo.com/video/123456789?autoplay=0&loop=1" width="100%" height="auto" title="Vimeo video player" frameborder="0" allowfullscreen allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="aspect-ratio: var(--embed-aspect-ratio);"></iframe></div>';
         $this->assertEquals($expected, $result);
     }
 
@@ -71,7 +71,7 @@ class VimeoTest extends TestCase
             'aspect-ratio' => '4/3',
             '_' => [],
         ]);
-        $expected = '<div class="my-class"><iframe src="https://player.vimeo.com/video/123456789?autoplay=1&loop=1#t=42s" width="1024" height="768" title="My Video" frameborder="0" allowfullscreen allow="autoplay" referrerpolicy="no-referrer"></iframe></div>';
+        $expected = '<div class="embed-container embed-video embed-vimeo my-class"><iframe src="https://player.vimeo.com/video/123456789?autoplay=1&loop=1#t=42s" width="1024" height="768" title="My Video" frameborder="0" allowfullscreen allow="autoplay" referrerpolicy="no-referrer"></iframe></div>';
         $this->assertEquals($expected, $result);
     }
 
@@ -79,13 +79,13 @@ class VimeoTest extends TestCase
     {
         $result = $this->vimeo->process('https://vimeo.com/123456789', ['_' => []]);
         $this->assertStringContainsString('player.vimeo.com/video/123456789', $result);
-        $this->assertStringContainsString('<div class="vimeo-container"', $result);
+        $this->assertStringContainsString('<div class="embed-container embed-video embed-vimeo"', $result);
     }
 
     public function testPlayerVimeoUrl(): void
     {
         $result = $this->vimeo->process('https://player.vimeo.com/video/123456789', ['_' => []]);
         $this->assertStringContainsString('player.vimeo.com/video/123456789', $result);
-        $this->assertStringContainsString('<div class="vimeo-container"', $result);
+        $this->assertStringContainsString('<div class="embed-container embed-video embed-vimeo"', $result);
     }
 }

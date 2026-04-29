@@ -11,8 +11,14 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-class Iframe implements EmbedInterface
+class Iframe extends AbstractEmbedHandler
 {
+    protected function getSupportedHosts(): array
+    {
+        // As a fallback, match nothing specific - supports() is overridden
+        return [];
+    }
+
     /**
      * Check if this handler supports the given URL.
      *
@@ -35,11 +41,12 @@ class Iframe implements EmbedInterface
         $attributes['width'] = $attributes['width'] ?? '100%';
         $attributes['height'] = $attributes['height'] ?? '500';
         $attributes['title'] = $attributes['title'] ?? 'Embedded content';
-        $attributes['class'] = $attributes['class'] ?? 'embed-container';
         $attributes['frameborder'] = $attributes['frameborder'] ?? 0;
         $attributes['allowfullscreen'] = $attributes['allowfullscreen'] ?? '';
 
-        return self::render($url, $attributes);
+        $iframeHtml = self::render($url, $attributes);
+
+        return $this->renderWrapper($iframeHtml, ['embed-container', 'embed-iframe'], $attributes);
     }
 
     /**
@@ -62,8 +69,11 @@ class Iframe implements EmbedInterface
         }
 
         if (!empty($styles)) {
-            $attributes['style'] = ($attributes['style'] ?? '') . implode('; ', $styles) . ';';
+            $attributes['style'] = ($attributes['style'] ?? '') . \implode('; ', $styles) . ';';
         }
+
+        // Remove class attribute from iframe to be handled by the wrapping div
+        unset($attributes['class']);
 
         $attrs = [];
         foreach ($attributes as $name => $value) {
@@ -78,6 +88,6 @@ class Iframe implements EmbedInterface
             }
         }
 
-        return sprintf('<iframe %s></iframe>', implode(' ', $attrs));
+        return \sprintf('<iframe %s></iframe>', \implode(' ', $attrs));
     }
 }

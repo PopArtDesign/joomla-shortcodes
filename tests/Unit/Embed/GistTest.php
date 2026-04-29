@@ -23,7 +23,7 @@ class GistTest extends TestCase
     public function testBasicUsage(): void
     {
         $result = $this->gist->process('https://gist.github.com/testuser/12345', []);
-        $expected = '<script src="https://gist.github.com/testuser/12345.js"></script>';
+        $expected = '<div class="embed-container embed-gist"><script src="https://gist.github.com/testuser/12345.js"></script></div>';
         $this->assertEquals($expected, trim($result));
     }
 
@@ -33,7 +33,7 @@ class GistTest extends TestCase
             'https://gist.github.com/testuser/12345',
             ['file' => 'test.php']
         );
-        $expected = '<script src="https://gist.github.com/testuser/12345.js?file=test.php"></script>';
+        $expected = '<div class="embed-container embed-gist"><script src="https://gist.github.com/testuser/12345.js?file=test.php"></script></div>';
         $this->assertEquals($expected, trim($result));
     }
 

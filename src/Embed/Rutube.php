@@ -2,9 +2,9 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
 
-\defined('_JEXEC') or die;
-
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
+
+\defined('_JEXEC') or die;
 
 /**
  * Embed handler for Rutube videos.
@@ -16,6 +16,11 @@ class Rutube extends AbstractVideoEmbedHandler
     protected function getSupportedHosts(): array
     {
         return ['rutube.ru', 'www.rutube.ru'];
+    }
+
+    protected function getEmbedSpecificClass(): string
+    {
+        return 'embed-rutube';
     }
 
     protected function getEmbedUrl(string $videoId, array $attributes): string

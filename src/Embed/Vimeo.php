@@ -18,6 +18,11 @@ class Vimeo extends AbstractVideoEmbedHandler
         return ['vimeo.com', 'www.vimeo.com', 'player.vimeo.com'];
     }
 
+    protected function getEmbedSpecificClass(): string
+    {
+        return 'embed-vimeo';
+    }
+
     protected function getEmbedUrl(string $videoId, array $attributes): string
     {
         $start = null;
