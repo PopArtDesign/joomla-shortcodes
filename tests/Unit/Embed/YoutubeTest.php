@@ -114,4 +114,39 @@ class YoutubeTest extends TestCase
         $this->assertStringContainsString('<div class="embed-container embed-video embed-youtube"', $result);
         $this->assertEquals(1, substr_count($result, 'class="embed-container embed-video embed-youtube"'));
     }
+
+    public function testEndTimeInSeconds(): void
+    {
+        $result = $this->youtube->process('https://www.youtube.com/watch?v=kBddBRQ-xic', ['end' => '120', '_' => []]);
+        $expected = '<div class="embed-container embed-video embed-youtube" style="--embed-aspect-ratio: 16 / 9"><iframe src="https://www.youtube.com/embed/kBddBRQ-xic?end=120" width="100%" height="auto" title="YouTube video player" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" style="aspect-ratio: var(--embed-aspect-ratio);"></iframe></div>';
+        $this->assertEquals($expected, $result);
+    }
+
+    public function testEndTimeInMmSs(): void
+    {
+        $result = $this->youtube->process('https://www.youtube.com/watch?v=kBddBRQ-xic', ['end' => '2:30', '_' => []]);
+        $expected = '<div class="embed-container embed-video embed-youtube" style="--embed-aspect-ratio: 16 / 9"><iframe src="https://www.youtube.com/embed/kBddBRQ-xic?end=150" width="100%" height="auto" title="YouTube video player" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" style="aspect-ratio: var(--embed-aspect-ratio);"></iframe></div>';
+        $this->assertEquals($expected, $result);
+    }
+
+    public function testStartAndEndTimeCombined(): void
+    {
+        $result = $this->youtube->process('https://www.youtube.com/watch?v=kBddBRQ-xic', ['start' => '30', 'end' => '90', '_' => []]);
+        $expected = '<div class="embed-container embed-video embed-youtube" style="--embed-aspect-ratio: 16 / 9"><iframe src="https://www.youtube.com/embed/kBddBRQ-xic?start=30&end=90" width="100%" height="auto" title="YouTube video player" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" style="aspect-ratio: var(--embed-aspect-ratio);"></iframe></div>';
+        $this->assertEquals($expected, $result);
+    }
+
+    public function testStartTimeMmSsAndEndTimeSeconds(): void
+    {
+        $result = $this->youtube->process('https://www.youtube.com/watch?v=kBddBRQ-xic', ['start' => '1:15', 'end' => '120', '_' => []]);
+        $expected = '<div class="embed-container embed-video embed-youtube" style="--embed-aspect-ratio: 16 / 9"><iframe src="https://www.youtube.com/embed/kBddBRQ-xic?start=75&end=120" width="100%" height="auto" title="YouTube video player" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" style="aspect-ratio: var(--embed-aspect-ratio);"></iframe></div>';
+        $this->assertEquals($expected, $result);
+    }
+
+    public function testEndTimeWithAutoplay(): void
+    {
+        $result = $this->youtube->process('https://www.youtube.com/watch?v=kBddBRQ-xic', ['end' => '60', 'autoplay' => 'true', '_' => []]);
+        $expected = '<div class="embed-container embed-video embed-youtube" style="--embed-aspect-ratio: 16 / 9"><iframe src="https://www.youtube.com/embed/kBddBRQ-xic?end=60&autoplay=1&mute=1" width="100%" height="auto" title="YouTube video player" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" style="aspect-ratio: var(--embed-aspect-ratio);"></iframe></div>';
+        $this->assertEquals($expected, $result);
+    }
 }

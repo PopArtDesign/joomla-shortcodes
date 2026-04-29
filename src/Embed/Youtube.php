@@ -29,6 +29,11 @@ class Youtube extends AbstractVideoEmbedHandler
             $queryParams['start'] = $start;
         }
 
+        $end = $this->getEnd($attributes);
+        if ($end > 0) {
+            $queryParams['end'] = $end;
+        }
+
         $autoplay = $this->getAutoplay($attributes);
         if ($autoplay) {
             $queryParams['autoplay'] = 1;
