@@ -9,21 +9,11 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-class Gist implements EmbedInterface
+class Gist extends AbstractEmbedHandler
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function supports(string $url): bool
+    protected function getSupportedHosts(): array
     {
-        if (strpos($url, '://') === false) {
-            return false;
-        }
-
-        $urlParts = parse_url($url);
-        $host = $urlParts['host'] ?? '';
-
-        return strtolower($host) === 'gist.github.com';
+        return ['gist.github.com'];
     }
 
     /**

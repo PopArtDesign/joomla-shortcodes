@@ -11,22 +11,11 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-class Vimeo implements EmbedInterface
+class Vimeo extends AbstractEmbedHandler
 {
-    private const SUPPORTED_HOSTS = ['vimeo.com', 'www.vimeo.com', 'player.vimeo.com'];
-
-    /**
-     * {@inheritdoc}
-     */
-    public function supports(string $url): bool
+    protected function getSupportedHosts(): array
     {
-        if (!preg_match('~^https?://~', $url)) {
-            $url = 'https://' . $url;
-        }
-
-        $host = strtolower(parse_url($url, PHP_URL_HOST) ?? '');
-
-        return in_array($host, self::SUPPORTED_HOSTS, true);
+        return ['vimeo.com', 'www.vimeo.com', 'player.vimeo.com'];
     }
 
     /**

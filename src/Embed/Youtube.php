@@ -11,24 +11,11 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-class Youtube implements EmbedInterface
+class Youtube extends AbstractEmbedHandler
 {
-    private const SUPPORTED_HOSTS = ['youtube.com', 'www.youtube.com', 'm.youtube.com', 'youtu.be'];
-
-    /**
-     * {@inheritdoc}
-     */
-    public function supports(string $url): bool
+    protected function getSupportedHosts(): array
     {
-        // Add a scheme if missing to help parse_url.
-        // This is to correctly extract the host from URLs that might be protocol-relative or missing protocol.
-        if (!preg_match('~^https?://~', $url)) {
-            $url = 'https://' . $url;
-        }
-
-        $host = strtolower(parse_url($url, PHP_URL_HOST) ?? '');
-
-        return in_array($host, self::SUPPORTED_HOSTS, true);
+        return ['youtube.com', 'www.youtube.com', 'm.youtube.com', 'youtu.be'];
     }
 
     /**

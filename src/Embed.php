@@ -38,21 +38,21 @@ class Embed
 
         // Content may contain URL followed by attribute-like tokens.
         // Only use the first token as the URL.
-        $token = strtok($rawUrl, ' ');
+        $url = strtok($rawUrl, ' ');
 
-        if (empty($token)) {
+        if (empty($url)) {
             return '';
         }
 
         // Ensure URL has a scheme
-        if (!preg_match('~^(?:f|ht)tps?://~i', $token)) {
-            $token = 'https://' . $token;
+        if (!preg_match('~^(?:f|ht)tps?://~i', $url)) {
+            $url = 'https://' . $url;
         }
 
         // Find first handler that supports this URL
         foreach ($this->handlers as $handler) {
-            if ($handler->supports($token)) {
-                return $handler->process($token, $attributes);
+            if ($handler->supports($url)) {
+                return $handler->process($url, $attributes);
             }
         }
 
