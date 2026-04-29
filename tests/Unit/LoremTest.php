@@ -24,50 +24,53 @@ class LoremTest extends TestCase
 
     public function testDefaultLoremIpsumShortcode(): void
     {
-        $text = '{lorem}';
+        $text = '{lorem}'; // Should produce full lorem without tags
         $result = $this->processShortcodes($text);
 
+        $this->assertStringNotContainsString('<p>', $result);
+        $this->assertStringNotContainsString('</p>', $result);
         $this->assertEquals(84, str_word_count($result));
+        $this->assertEquals(Lorem::LOREMIPSUM, $result); // Should be the exact content
     }
 
     public function testLoremIpsumWithMoreWordsThanInSource(): void
     {
-        $text = '{lorem words="150"}';
+        $text = '{lorem p words="150"}';
         $result = $this->processShortcodes($text);
 
-        $this->assertEquals(150, str_word_count($result));
+        $this->assertEquals(150, str_word_count(strip_tags($result)));
     }
 
     public function testLoremIpsumWithWordsAttribute(): void
     {
-        $text = '{lorem words="5"}';
+        $text = '{lorem p words="5"}';
         $result = $this->processShortcodes($text);
 
-        $this->assertEquals(5, str_word_count($result));
+        $this->assertEquals(5, str_word_count(strip_tags($result)));
     }
 
     public function testLoremIpsumWithWordsRangeAttribute(): void
     {
-        $text = '{lorem words="5,10"}';
+        $text = '{lorem p words="5,10"}';
         $result = $this->processShortcodes($text);
 
-        $wordCount = str_word_count($result);
+        $wordCount = str_word_count(strip_tags($result));
         $this->assertGreaterThanOrEqual(5, $wordCount);
         $this->assertLessThanOrEqual(10, $wordCount);
     }
 
     public function testLoremIpsumWithInvalidWordsRange(): void
     {
-        $text = '{lorem words="10,5"}';
+        $text = '{lorem p words="10,5"}';
         $result = $this->processShortcodes($text);
 
-        $wordCount = str_word_count($result);
+        $wordCount = str_word_count(strip_tags($result));
         $this->assertEquals(10, $wordCount);
     }
 
-    public function testWrapAttributeWithSingleP(): void
+    public function testParagraphWithDefaultCount(): void
     {
-        $text = '{lorem wrap="p"}';
+        $text = '{lorem p}';
         $result = $this->processShortcodes($text);
 
         $this->assertStringStartsWith('<p>', $result);
@@ -76,18 +79,29 @@ class LoremTest extends TestCase
         $this->assertGreaterThan(0, str_word_count(strip_tags($result)));
     }
 
-    public function testWrapAttributeWithMultipleP(): void
+    public function testParagraphWithMultipleCount(): void
     {
-        $text = '{lorem wrap="p,3"}';
+        $text = '{lorem p 3}';
         $result = $this->processShortcodes($text);
 
         $this->assertEquals(3, substr_count($result, '<p>'));
         $this->assertGreaterThan(0, str_word_count(strip_tags($result)));
     }
 
-    public function testWrapAttributeWithUnorderedList(): void
+    public function testParagraphWithCountRange(): void
     {
-        $text = '{lorem wrap="ul,5"}';
+        $text = '{lorem p 3,8}';
+        $result = $this->processShortcodes($text);
+
+        $pCount = substr_count($result, '<p>');
+        $this->assertGreaterThanOrEqual(3, $pCount);
+        $this->assertLessThanOrEqual(8, $pCount);
+        $this->assertGreaterThan(0, str_word_count(strip_tags($result)));
+    }
+
+    public function testUnorderedList(): void
+    {
+        $text = '{lorem ul 5}';
         $result = $this->processShortcodes($text);
 
         $this->assertStringStartsWith('<ul>', $result);
@@ -97,9 +111,9 @@ class LoremTest extends TestCase
         $this->assertGreaterThan(0, str_word_count(strip_tags($result)));
     }
 
-    public function testWrapAttributeWithOrderedList(): void
+    public function testOrderedList(): void
     {
-        $text = '{lorem wrap="ol,3"}';
+        $text = '{lorem ol 3}';
         $result = $this->processShortcodes($text);
 
         $this->assertStringStartsWith('<ol>', $result);
@@ -109,9 +123,9 @@ class LoremTest extends TestCase
         $this->assertGreaterThan(0, str_word_count(strip_tags($result)));
     }
 
-    public function testWrapAttributeWithWords(): void
+    public function testDivWithWords(): void
     {
-        $text = '{lorem wrap="div,2" words="10"}';
+        $text = '{lorem div 2 words="10"}';
         $result = $this->processShortcodes($text);
 
         $this->assertEquals(2, substr_count($result, '<div>'));
@@ -123,9 +137,9 @@ class LoremTest extends TestCase
         }
     }
 
-    public function testWrapAttributeWithWordsRange(): void
+    public function testListWithWordsRange(): void
     {
-        $text = '{lorem wrap="ul,4" words="5,10"}';
+        $text = '{lorem ul 4 words="5,10"}';
         $result = $this->processShortcodes($text);
 
         $this->assertStringStartsWith('<ul>', $result);
@@ -142,9 +156,9 @@ class LoremTest extends TestCase
         }
     }
 
-    public function testWrapAttributeWithClass(): void
+    public function testListWithClassAttribute(): void
     {
-        $text = '{lorem wrap="ul.todos,3"}';
+        $text = '{lorem ul 3 class="todos"}';
         $result = $this->processShortcodes($text);
 
         $this->assertStringStartsWith('<ul class="todos">', $result);
@@ -152,5 +166,24 @@ class LoremTest extends TestCase
         $this->assertEquals(1, substr_count($result, '<ul class="todos">'));
         $this->assertEquals(3, substr_count($result, '<li>'));
         $this->assertGreaterThan(0, str_word_count(strip_tags($result)));
+    }
+
+    public function testImagePlaceholder(): void
+    {
+        $text = '{lorem img width=100 height=100}';
+        $result = $this->processShortcodes($text);
+
+        $this->assertEquals('<!-- Lorem image placeholder -->', $result);
+    }
+
+    public function testParagraphWithClassAndNoExplicitTag(): void
+    {
+        $text = '{lorem class="my-class"}';
+        $result = $this->processShortcodes($text);
+
+        $this->assertStringStartsWith('<p class="my-class">', $result);
+        $this->assertStringEndsWith('</p>', $result);
+        $this->assertEquals(1, substr_count($result, '<p class="my-class">'));
+        $this->assertEquals(84, str_word_count(strip_tags($result)));
     }
 }

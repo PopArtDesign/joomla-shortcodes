@@ -37,6 +37,28 @@ LOREMIPSUM;
      */
     public function __invoke(array $attributes): string
     {
+        $tag = ''; // Default to no tag
+        $count = 1;
+        $class = '';
+
+        // Parse positional arguments from '_' array
+        if (isset($attributes['_']) && \is_array($attributes['_'])) {
+            if (isset($attributes['_'][0])) {
+                $tag = \strtolower($attributes['_'][0]);
+            }
+            if (isset($attributes['_'][1])) {
+                // Use parseRange for count
+                $countRange = AttributeHelper::parseRange($attributes['_'][1], [1, 1]); // Default to [1, 1] if not a valid range
+                [$minCount, $maxCount] = $countRange;
+                $count = \rand($minCount, $maxCount);
+            }
+        }
+
+        // Handle class attribute
+        if (isset($attributes['class'])) {
+            $class = $attributes['class'];
+        }
+
         $minWords = 0;
         $maxWords = 0;
 
@@ -44,27 +66,23 @@ LOREMIPSUM;
             [$minWords, $maxWords] = AttributeHelper::parseRange($attributes['words'], [0, 0]);
         }
 
-        if (isset($attributes['wrap'])) {
-            return $this->processWrappedContent($attributes, $minWords, $maxWords);
+        // If no tag is specified and no class attribute is provided, return plain text.
+        // If a class is provided without a tag, it implies a default 'p' tag.
+        if (empty($tag) && empty($class)) {
+            return $this->generateLoremText($minWords, $maxWords);
         }
 
-        return $this->generateLoremText($minWords, $maxWords);
-    }
+        // If no tag is specified but a class is, default to 'p'
+        if (empty($tag) && !empty($class)) {
+            $tag = 'p';
+        }
 
-    /**
-     * Processes content to be wrapped in HTML tags.
-     *
-     * @param array $attributes The attributes of the shortcode.
-     * @param int   $minWords   The minimum number of words for each wrapped item.
-     * @param int   $maxWords   The maximum number of words for each wrapped item.
-     *
-     * @return string The generated HTML with wrapped Lorem Ipsum text.
-     */
-    private function processWrappedContent(array $attributes, int $minWords, int $maxWords): string
-    {
-        [$tag, $class, $count] = AttributeHelper::parseTag($attributes['wrap'], ['p', '', 1]);
+        if ($tag === 'img') {
+            // Placeholder for future image generation
+            return '<!-- Lorem image placeholder -->';
+        }
+
         $output = [];
-
         $classAttr = $class ? " class=\"{$class}\"" : '';
 
         if ($tag === 'ul' || $tag === 'ol') {
