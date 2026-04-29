@@ -18,16 +18,14 @@ class Youtube extends AbstractVideoEmbedHandler
 
     protected function getEmbedUrl(string $videoId, array $attributes): string
     {
-        $start = $this->getStart($attributes, 0);
-
-        $autoplay = $this->getAutoplay($attributes);
-
         $queryParams = [];
 
+        $start = $this->getStart($attributes, 0);
         if ($start > 0) {
             $queryParams['start'] = $start;
         }
 
+        $autoplay = $this->getAutoplay($attributes);
         if ($autoplay) {
             $queryParams['autoplay'] = 1;
             // Most browsers require videos to be muted for autoplay to work.
