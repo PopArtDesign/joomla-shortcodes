@@ -31,14 +31,14 @@ class EmbedTest extends TestCase
         return self::$processor->processShortcodes($text, new \stdClass());
     }
 
-    public function testEmptyEmbed()
+    public function testEmptyEmbed(): void
     {
         $text = '{embed}{/embed}';
         $result = $this->processShortcodes($text);
         $this->assertEquals('', $result);
     }
 
-    public function testEmbedWithUrlAttribute()
+    public function testEmbedWithUrlAttribute(): void
     {
         $text = '{embed url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"}';
         $result = $this->processShortcodes($text);
@@ -46,7 +46,7 @@ class EmbedTest extends TestCase
         $this->assertStringContainsString('dQw4w9WgXcQ', $result);
     }
 
-    public function testEmbedYoutubeWithNestedContent()
+    public function testEmbedYoutubeWithNestedContent(): void
     {
         $text = '{embed}https://www.youtube.com/watch?v=dQw4w9WgXcQ{/embed}';
         $result = $this->processShortcodes($text);
@@ -54,7 +54,7 @@ class EmbedTest extends TestCase
         $this->assertStringContainsString('dQw4w9WgXcQ', $result);
     }
 
-    public function testEmbedYoutubeWithYoutuBe()
+    public function testEmbedYoutubeWithYoutuBe(): void
     {
         $text = '{embed}https://youtu.be/dQw4w9WgXcQ{/embed}';
         $result = $this->processShortcodes($text);
@@ -62,7 +62,7 @@ class EmbedTest extends TestCase
         $this->assertStringContainsString('dQw4w9WgXcQ', $result);
     }
 
-    public function testEmbedYoutubeWithEmbedUrl()
+    public function testEmbedYoutubeWithEmbedUrl(): void
     {
         $text = '{embed}https://www.youtube.com/embed/dQw4w9WgXcQ{/embed}';
         $result = $this->processShortcodes($text);
@@ -70,7 +70,7 @@ class EmbedTest extends TestCase
         $this->assertStringContainsString('dQw4w9WgXcQ', $result);
     }
 
-    public function testEmbedYoutubeWithoutScheme()
+    public function testEmbedYoutubeWithoutScheme(): void
     {
         $text = '{embed}www.youtube.com/watch?v=dQw4w9WgXcQ{/embed}';
         $result = $this->processShortcodes($text);
@@ -78,7 +78,7 @@ class EmbedTest extends TestCase
         $this->assertStringContainsString('dQw4w9WgXcQ', $result);
     }
 
-    public function testEmbedYoutubeWithCustomDimensions()
+    public function testEmbedYoutubeWithCustomDimensions(): void
     {
         $text = '{embed url="https://www.youtube.com/watch?v=dQw4w9WgXcQ" width="800" height="600"}{/embed}';
         $result = $this->processShortcodes($text);
@@ -86,21 +86,21 @@ class EmbedTest extends TestCase
         $this->assertStringContainsString('height="600"', $result);
     }
 
-    public function testEmbedGist()
+    public function testEmbedGist(): void
     {
         $text = '{embed}https://gist.github.com/testuser/12345{/embed}';
         $result = $this->processShortcodes($text);
         $this->assertStringContainsString('gist.github.com/testuser/12345.js', $result);
     }
 
-    public function testEmbedGistWithFile()
+    public function testEmbedGistWithFile(): void
     {
         $text = '{embed url="https://gist.github.com/testuser/12345" file="test.php"}{/embed}';
         $result = $this->processShortcodes($text);
         $this->assertStringContainsString('gist.github.com/testuser/12345.js?file=test.php', $result);
     }
 
-    public function testEmbedGistWithShortSyntax()
+    public function testEmbedGistWithShortSyntax(): void
     {
         $text = '{embed}testuser/12345{/embed}';
         $result = $this->processShortcodes($text);
@@ -109,7 +109,7 @@ class EmbedTest extends TestCase
         $this->assertStringContainsString('testuser/12345', $result);
     }
 
-    public function testEmbedGenericUrl()
+    public function testEmbedGenericUrl(): void
     {
         $text = '{embed}https://example.com/article{/embed}';
         $result = $this->processShortcodes($text);
@@ -117,7 +117,7 @@ class EmbedTest extends TestCase
         $this->assertStringContainsString('iframe', $result);
     }
 
-    public function testEmbedGenericUrlWithoutScheme()
+    public function testEmbedGenericUrlWithoutScheme(): void
     {
         $text = '{embed}example.com/article{/embed}';
         $result = $this->processShortcodes($text);
@@ -125,7 +125,7 @@ class EmbedTest extends TestCase
         $this->assertStringContainsString('iframe', $result);
     }
 
-    public function testEmbedGenericUrlWithCustomClass()
+    public function testEmbedGenericUrlWithCustomClass(): void
     {
         $text = '{embed url="https://example.com" width="100%" height="400" class="my-embed"}{/embed}';
         $result = $this->processShortcodes($text);

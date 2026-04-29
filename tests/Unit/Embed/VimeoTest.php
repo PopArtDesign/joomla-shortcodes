@@ -14,48 +14,48 @@ class VimeoTest extends TestCase
         $this->vimeo = new Vimeo();
     }
 
-    public function testNoUrl()
+    public function testNoUrl(): void
     {
         $result = $this->vimeo->process('', ['_' => []]);
         $this->assertEquals('', $result);
     }
 
-    public function testBasicUsage()
+    public function testBasicUsage(): void
     {
         $result = $this->vimeo->process('https://vimeo.com/123456789', ['_' => []]);
         $expected = '<div class="vimeo-container"><iframe src="https://player.vimeo.com/video/123456789?autoplay=0&loop=0" width="100%" height="auto" title="Vimeo video player" frameborder="0" allowfullscreen allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="aspect-ratio: 16 / 9;"></iframe></div>';
         $this->assertEquals($expected, $result);
     }
 
-    public function testCustomDimensions()
+    public function testCustomDimensions(): void
     {
         $result = $this->vimeo->process('https://vimeo.com/123456789', ['width' => '800', 'height' => '600', '_' => []]);
         $expected = '<div class="vimeo-container"><iframe src="https://player.vimeo.com/video/123456789?autoplay=0&loop=0" width="800" height="600" title="Vimeo video player" frameborder="0" allowfullscreen allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>';
         $this->assertEquals($expected, $result);
     }
 
-    public function testStartTime()
+    public function testStartTime(): void
     {
         $result = $this->vimeo->process('https://vimeo.com/123456789', ['start' => '1m30s', '_' => []]);
         $expected = '<div class="vimeo-container"><iframe src="https://player.vimeo.com/video/123456789?autoplay=0&loop=0" width="100%" height="auto" title="Vimeo video player" frameborder="0" allowfullscreen allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="aspect-ratio: 16 / 9;"></iframe></div>';
         $this->assertEquals($expected, $result);
     }
 
-    public function testAutoplay()
+    public function testAutoplay(): void
     {
         $result = $this->vimeo->process('https://vimeo.com/123456789', ['autoplay' => 'true', '_' => []]);
         $expected = '<div class="vimeo-container"><iframe src="https://player.vimeo.com/video/123456789?autoplay=1&loop=0" width="100%" height="auto" title="Vimeo video player" frameborder="0" allowfullscreen allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="aspect-ratio: 16 / 9;"></iframe></div>';
         $this->assertEquals($expected, $result);
     }
 
-    public function testLoop()
+    public function testLoop(): void
     {
         $result = $this->vimeo->process('https://vimeo.com/123456789', ['loop' => 'true', '_' => []]);
         $expected = '<div class="vimeo-container"><iframe src="https://player.vimeo.com/video/123456789?autoplay=0&loop=1" width="100%" height="auto" title="Vimeo video player" frameborder="0" allowfullscreen allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="aspect-ratio: 16 / 9;"></iframe></div>';
         $this->assertEquals($expected, $result);
     }
 
-    public function testAllAttributes()
+    public function testAllAttributes(): void
     {
         $result = $this->vimeo->process('https://vimeo.com/123456789', [
             'width' => '1024',
@@ -75,14 +75,14 @@ class VimeoTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function testVimeoUrl()
+    public function testVimeoUrl(): void
     {
         $result = $this->vimeo->process('https://vimeo.com/123456789', ['_' => []]);
         $this->assertStringContainsString('player.vimeo.com/video/123456789', $result);
         $this->assertStringContainsString('<div class="vimeo-container">', $result);
     }
 
-    public function testPlayerVimeoUrl()
+    public function testPlayerVimeoUrl(): void
     {
         $result = $this->vimeo->process('https://player.vimeo.com/video/123456789', ['_' => []]);
         $this->assertStringContainsString('player.vimeo.com/video/123456789', $result);
