@@ -15,23 +15,28 @@ A shortcodes pack for [Joomla Shortcoder](https://github.com/PopArtDesign/joomla
 
 ### `embed`
 
-Embeds remote resources (YouTube videos, GitHub Gists, Vimeo videos, or any URL as iframe).
+Embeds remote resources (YouTube videos, GitHub Gists, Vimeo videos, Rutube videos, or any URL as iframe).
 
-`{embed url="..." width=... height=... class=... title=...}...{/embed}`
+`{embed url="..." width=... height=... class=... title=... autoplay=... start=... end=... aspect-ratio=...}...{/embed}`
 
 The URL can be provided either as a `url` attribute or as the content between the tags:
 
--   `url`: The URL to embed (YouTube, Gist, Vimeo, or any URL). Required if not using nested content.
+-   `url`: The URL to embed (YouTube, Gist, Vimeo, Rutube, or any URL). Required if not using nested content.
 -   `width`: The width of the embed. Defaults to `100%` (iframe) or type-specific default.
--   `height`: The height of the embed. Defaults to `500` (iframe) or type-specific default.
+-   `height`: The height of the embed. Defaults to `auto` (for aspect ratio calculation) or type-specific default.
 -   `class`: A CSS class for the container `div`.
 -   `title`: The `title` attribute for the iframe.
+-   `autoplay`: Automatically starts playing the video. Set to `true` or `1` to enable.
+-   `start`: The time in seconds (or `MM:SS` format) from which playback will begin.
+-   `end`: The time in seconds (or `MM:SS` format) at which playback will end.
+-   `aspect-ratio`: The aspect ratio of the embed when `height` is set to `auto` (e.g., `16 / 9`, `4 / 3`). Defaults to `16 / 9`.
 
 The embed shortcode automatically detects the URL type and uses the appropriate handler:
 
 - **YouTube** (`youtube.com`, `youtu.be`): Embeds as YouTube video player
 - **GitHub Gist** (`gist.github.com`): Embeds as Gist script
 - **Vimeo** (`vimeo.com`): Embeds as Vimeo player
+- **Rutube** (`rutube.ru`): Embeds as Rutube video player
 - **Other URLs**: Falls back to generic iframe
 
 **YouTube Examples:**
@@ -46,6 +51,16 @@ The embed shortcode automatically detects the URL type and uses the appropriate 
 
 ```
 {embed}https://youtu.be/dQw4w9WgXcQ{/embed}
+```
+
+**Rutube Examples:**
+
+```
+{embed}https://rutube.ru/video/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c/{/embed}
+```
+
+```
+{embed url="https://rutube.ru/pl/THEBEST/a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6/" width="800" height="auto" aspect-ratio="4 / 3" autoplay="true" start="60" end="120"}
 ```
 
 **Gist Example:**
