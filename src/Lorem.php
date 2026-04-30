@@ -37,34 +37,18 @@ LOREMIPSUM;
      */
     public function __invoke(array $attributes): string
     {
-        $tag = ''; // Default to no tag
-        $count = 1;
-        $class = '';
+        $tag = isset($attributes[0]) ? \strtolower($attributes[0]) : '';
 
-        // Parse positional arguments from '_' array
-        if (isset($attributes['_']) && \is_array($attributes['_'])) {
-            if (isset($attributes['_'][0])) {
-                $tag = \strtolower($attributes['_'][0]);
-            }
-            if (isset($attributes['_'][1])) {
-                // Use parseRange for count
-                $countRange = AttributeHelper::parseRange($attributes['_'][1], [1, 1]); // Default to [1, 1] if not a valid range
-                [$minCount, $maxCount] = $countRange;
-                $count = \rand($minCount, $maxCount);
-            }
+        if ($tag === 'img') {
+            return $this->generateImage($attributes);
         }
 
-        // Handle class attribute
-        if (isset($attributes['class'])) {
-            $class = $attributes['class'];
-        }
+        [$minCount, $maxCount] = AttributeHelper::parseRange($attributes[1] ?? '', [1, 1]);
+        $count = $minCount < $maxCount ? \rand($minCount, $maxCount) : $minCount;
 
-        $minWords = 0;
-        $maxWords = 0;
+        [$minWords, $maxWords] = AttributeHelper::parseRange($attributes['words'] ?? '', [0, 0]);
 
-        if (isset($attributes['words'])) {
-            [$minWords, $maxWords] = AttributeHelper::parseRange($attributes['words'], [0, 0]);
-        }
+        $class = $attributes['class'] ?? '';
 
         // If no tag is specified and no class attribute is provided, return plain text.
         // If a class is provided without a tag, it implies a default 'p' tag.
@@ -73,13 +57,7 @@ LOREMIPSUM;
         }
 
         // If no tag is specified but a class is, default to 'p'
-        if (empty($tag) && !empty($class)) {
-            $tag = 'p';
-        }
-
-        if ($tag === 'img') {
-            return $this->generateImage($attributes);
-        }
+        $tag = $tag ?: 'p';
 
         $output = [];
         $classAttr = $class ? " class=\"{$class}\"" : '';
