@@ -18,7 +18,7 @@ use Joomla\Event\SubscriberInterface;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-class Shortcodes extends CMSPlugin implements SubscriberInterface
+final class Shortcodes extends CMSPlugin implements SubscriberInterface
 {
     private Container $container;
 

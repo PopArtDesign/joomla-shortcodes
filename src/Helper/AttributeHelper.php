@@ -9,7 +9,7 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Helper;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-class AttributeHelper
+final class AttributeHelper
 {
     /**
      * Parses a range from a shortcode attribute.
