@@ -31,20 +31,18 @@ class Embed
     {
         $url = $this->extractUrl($attributes, $content);
 
-        // Extract custom wrapper ID and class if present, and remove them from the attributes array
+        $handler = $this->getHandler($url);
+
         $wrapperCustomId = $attributes['id'] ?? null;
         $wrapperCustomClass = $attributes['class'] ?? null;
         unset($attributes['id'], $attributes['class']);
 
-        // Find first handler that supports this URL
-        $handler = $this->getHandler($url);
-
-        $content = $handler->process($url, $attributes);
+        $output = $handler->process($url, $attributes);
 
         $wrapperAttributes = $handler->getWrapperAttributes($attributes);
 
         if ($wrapperAttributes === false) {
-            return $content;
+            return $output;
         }
 
         $wrapperAttributes['class'] = trim('embed-container ' . ($wrapperAttributes['class'] ?? ''));
@@ -64,7 +62,7 @@ class Embed
 
         $attrString = $this->buildAttributes($wrapperAttributes);
 
-        return sprintf('<div %s>%s</div>', $attrString, $content);
+        return sprintf('<div %s>%s</div>', $attrString, $output);
     }
 
     /**
