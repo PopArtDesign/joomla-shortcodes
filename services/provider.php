@@ -7,9 +7,9 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\EmbedInterface;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Gist;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Iframe;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Pdf;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Rutube;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Vimeo;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Extension\Shortcodes;
@@ -35,6 +35,7 @@ return new class () implements ServiceProviderInterface {
             $container->get(Vimeo::class),
             $container->get(Rutube::class),
             $container->get(GoogleDocs::class),
+            $container->get(Pdf::class),
             $container->get(Iframe::class),
         ]), true);
 
@@ -44,6 +45,7 @@ return new class () implements ServiceProviderInterface {
         $container->share(Rutube::class, fn() => new Rutube(), true);
         $container->share(Iframe::class, fn() => new Iframe(), true);
         $container->share(GoogleDocs::class, fn() => new GoogleDocs(), true);
+        $container->share(Pdf::class, fn() => new Pdf(), true);
 
         $container->share(Lorem::class, fn() => new Lorem(), true);
         $container->share(Repeat::class, fn() => new Repeat(), true);

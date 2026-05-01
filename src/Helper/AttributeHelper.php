@@ -173,4 +173,30 @@ final class AttributeHelper
 
         return false;
     }
+
+    /**
+     * Converts an associative array of attributes into an HTML attribute string.
+     *
+     * @param array $attributes An associative array of attribute names and values.
+     *
+     * @return  string The HTML attribute string.
+     */
+    public static function toHtmlString(array $attributes): string
+    {
+        $attrs = [];
+        foreach ($attributes as $name => $value) {
+            if (!\is_scalar($value)) {
+                continue;
+            }
+
+            if ($value !== '') {
+                $attrs[] = $name . '="' . \htmlspecialchars($value, ENT_QUOTES | ENT_HTML5) . '"';
+            } else {
+                // For boolean attributes like 'allowfullscreen'
+                $attrs[] = $name;
+            }
+        }
+
+        return \implode(' ', $attrs);
+    }
 }

@@ -44,7 +44,7 @@ class RutubeTest extends TestCase
     public function testAutoplay(): void
     {
         $result = $this->rutube->process('https://rutube.ru/video/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c/', ['autoplay' => 'true']);
-        $expected = '<div class="embed-container embed-video embed-rutube" style="--embed-aspect-ratio: 16 / 9"><iframe src="https://rutube.ru/play/embed/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c?autoplay=true&autostartmute=true" width="100%" height="auto" title="Rutube video player" frameborder="0" allowfullscreen allow="clipboard-write; autoplay" referrerpolicy="strict-origin-when-cross-origin" style="aspect-ratio: var(--embed-aspect-ratio);"></iframe></div>';
+        $expected = '<div class="embed-container embed-video embed-rutube" style="--embed-aspect-ratio: 16 / 9"><iframe src="https://rutube.ru/play/embed/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c?autoplay=true&amp;autostartmute=true" width="100%" height="auto" title="Rutube video player" frameborder="0" allowfullscreen allow="clipboard-write; autoplay" referrerpolicy="strict-origin-when-cross-origin" style="aspect-ratio: var(--embed-aspect-ratio);"></iframe></div>';
         $this->assertEquals($expected, $result);
     }
 
@@ -86,7 +86,7 @@ class RutubeTest extends TestCase
     public function testStartAndEndTime(): void
     {
         $result = $this->rutube->process('https://rutube.ru/video/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c/', ['start' => '300', 'end' => '480']);
-        $expected = '<div class="embed-container embed-video embed-rutube" style="--embed-aspect-ratio: 16 / 9"><iframe src="https://rutube.ru/play/embed/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c?t=300&stopTime=480" width="100%" height="auto" title="Rutube video player" frameborder="0" allowfullscreen allow="clipboard-write; autoplay" referrerpolicy="strict-origin-when-cross-origin" style="aspect-ratio: var(--embed-aspect-ratio);"></iframe></div>';
+        $expected = '<div class="embed-container embed-video embed-rutube" style="--embed-aspect-ratio: 16 / 9"><iframe src="https://rutube.ru/play/embed/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c?t=300&amp;stopTime=480" width="100%" height="auto" title="Rutube video player" frameborder="0" allowfullscreen allow="clipboard-write; autoplay" referrerpolicy="strict-origin-when-cross-origin" style="aspect-ratio: var(--embed-aspect-ratio);"></iframe></div>';
         $this->assertEquals($expected, $result);
     }
 

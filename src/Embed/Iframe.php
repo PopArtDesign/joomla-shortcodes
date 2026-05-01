@@ -2,6 +2,8 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
 
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
+
 \defined('_JEXEC') or die;
 
 /**
@@ -75,19 +77,6 @@ class Iframe extends AbstractEmbedHandler
         // Remove class attribute from iframe to be handled by the wrapping div
         unset($attributes['class']);
 
-        $attrs = [];
-        foreach ($attributes as $name => $value) {
-            if (!\is_scalar($value)) {
-                continue;
-            }
-
-            if ($value !== '') {
-                $attrs[] = $name . '="' . $value . '"';
-            } else {
-                $attrs[] = $name;
-            }
-        }
-
-        return \sprintf('<iframe %s></iframe>', \implode(' ', $attrs));
+        return \sprintf('<iframe %s></iframe>', AttributeHelper::toHtmlString($attributes));
     }
 }
