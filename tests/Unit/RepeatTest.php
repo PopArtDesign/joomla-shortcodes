@@ -4,6 +4,7 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Test\Unit;
 
 use PHPUnit\Framework\TestCase;
 use JoomlaShortcoder\Plugin\Content\Shortcoder\ShortcodeProcessor;
+use JoomlaShortcoder\Plugin\Content\Shortcoder\Exception\ShortcodeProcessingException;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Repeat;
 
 class RepeatTest extends TestCase
@@ -54,9 +55,8 @@ class RepeatTest extends TestCase
 
     public function testRepeatShortcodeWithZero(): void
     {
-        $text = '{repeat 0}test{/repeat}';
-        $result = $this->processShortcodes($text);
-        $this->assertEmpty($result);
+        $this->expectException(ShortcodeProcessingException::class);
+        $this->processShortcodes('{repeat 0}test{/repeat}');
     }
 
     public function testRepeatWithNestedContent(): void

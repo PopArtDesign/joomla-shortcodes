@@ -20,6 +20,7 @@ class Repeat
      * @param string $content    The content to repeat.
      *
      * @return string
+     * @throws \InvalidArgumentException
      */
     public function __invoke(array $attributes, string $content): string
     {
@@ -30,7 +31,7 @@ class Repeat
         $numberOfRepeats = \rand($minRepeats, $maxRepeats);
 
         if ($numberOfRepeats <= 0) {
-            return '';
+            throw new \InvalidArgumentException('Number of repeats must be a positive integer.');
         }
 
         return \str_repeat($content, $numberOfRepeats);

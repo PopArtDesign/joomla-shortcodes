@@ -16,8 +16,9 @@ class RutubeTest extends TestCase
 
     public function testNoUrl(): void
     {
-        $result = $this->rutube->process('', []);
-        $this->assertEquals('', $result);
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Could not extract Rutube video ID from URL: ');
+        $this->rutube->process('', []);
     }
 
     public function testBasicUsage(): void

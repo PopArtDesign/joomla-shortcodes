@@ -16,8 +16,9 @@ class YoutubeTest extends TestCase
 
     public function testNoUrl(): void
     {
-        $result = $this->youtube->process('', ['_' => []]);
-        $this->assertEquals('', $result);
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Could not extract YouTube video ID from URL: ');
+        $this->youtube->process('', ['_' => []]);
     }
 
     public function testBasicUsage(): void

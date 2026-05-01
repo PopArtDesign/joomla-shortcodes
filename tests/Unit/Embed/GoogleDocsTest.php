@@ -103,13 +103,15 @@ class GoogleDocsTest extends TestCase
 
     public function testInvalidUrlReturnsEmptyString(): void
     {
-        $result = $this->googleDocs->process('not-a-valid-url', ['_' => []]);
-        $this->assertEquals('', $result);
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Could not extract Google Docs/Drive file details from URL: not-a-valid-url');
+        $this->googleDocs->process('not-a-valid-url', ['_' => []]);
     }
 
     public function testUnsupportedUrlReturnsEmptyString(): void
     {
-        $result = $this->googleDocs->process('https://www.google.com', ['_' => []]);
-        $this->assertEquals('', $result);
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Could not extract Google Docs/Drive file details from URL: https://www.google.com');
+        $this->googleDocs->process('https://www.google.com', ['_' => []]);
     }
 }

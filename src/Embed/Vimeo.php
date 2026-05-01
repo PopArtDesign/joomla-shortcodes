@@ -20,9 +20,7 @@ class Vimeo extends AbstractVideoEmbedHandler
 
     protected function getEmbedUrl(string $url, array $attributes): string
     {
-        if (!$videoId = $this->getVideoId($url)) {
-            return '';
-        }
+        $videoId = $this->getVideoId($url);
 
         $fragment = [];
 
@@ -53,7 +51,15 @@ class Vimeo extends AbstractVideoEmbedHandler
         return $src;
     }
 
-    protected function getVideoId(string $url): ?string
+    /**
+     * Extracts the Vimeo video ID from a given URL.
+     *
+     * @param string $url The Vimeo video URL.
+     *
+     * @return string The extracted video ID.
+     * @throws \InvalidArgumentException If the video ID cannot be extracted.
+     */
+    protected function getVideoId(string $url): string
     {
         $pattern = '/(?:vimeo\.com\/|player\.vimeo\.com\/video\/)(\d+)/';
 
@@ -61,7 +67,7 @@ class Vimeo extends AbstractVideoEmbedHandler
             return $matches[1];
         }
 
-        return null;
+        throw new \InvalidArgumentException('Could not extract Vimeo video ID from URL: ' . $url);
     }
 
     protected function getDefaults(): array

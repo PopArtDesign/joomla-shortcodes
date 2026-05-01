@@ -30,10 +30,6 @@ class GoogleDocs extends AbstractEmbedHandler
             $embedUrl = $this->buildEmbedUrl($url);
         }
 
-        if (!$embedUrl) {
-            return '';
-        }
-
         $iframeAttributes = [
             'width' => $attributes['width'] ?? '100%',
             'height' => $attributes['height'] ?? null,
@@ -108,14 +104,15 @@ class GoogleDocs extends AbstractEmbedHandler
      *
      * @param string $url The original Google Docs/Drive URL.
      *
-     * @return string|null The constructed embed URL, or null if the file type is unsupported.
+     * @return string The constructed embed URL.
+     * @throws \InvalidArgumentException If the file type is unsupported or details cannot be extracted.
      */
-    private function buildEmbedUrl(string $url): ?string
+    private function buildEmbedUrl(string $url): string
     {
         $fileDetails = $this->extractFileDetails($url);
 
         if (empty($fileDetails)) {
-            return null;
+            throw new \InvalidArgumentException('Could not extract Google Docs/Drive file details from URL: ' . $url);
         }
 
         $fileId = $fileDetails['fileId'];
@@ -130,7 +127,7 @@ class GoogleDocs extends AbstractEmbedHandler
         ];
 
         if (!isset($embedTemplates[$type])) {
-            return null; // Unsupported file type
+            throw new \InvalidArgumentException('Unsupported Google Docs/Drive file type: ' . $type);
         }
 
         return sprintf($embedTemplates[$type], $fileId);

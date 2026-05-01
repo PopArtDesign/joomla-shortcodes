@@ -18,9 +18,7 @@ class Rutube extends AbstractVideoEmbedHandler
 
     protected function getEmbedUrl(string $url, array $attributes): string
     {
-        if (!$videoId = $this->getVideoId($url)) {
-            return '';
-        }
+        $videoId = $this->getVideoId($url);
 
         $queryParams = [];
 
@@ -49,7 +47,15 @@ class Rutube extends AbstractVideoEmbedHandler
         return $src;
     }
 
-    protected function getVideoId(string $url): ?string
+    /**
+     * Extracts the Rutube video ID from a given URL.
+     *
+     * @param string $url The Rutube video URL.
+     *
+     * @return string The extracted video ID.
+     * @throws \InvalidArgumentException If the video ID cannot be extracted.
+     */
+    protected function getVideoId(string $url): string
     {
         $pattern = '/rutube\.ru\/(?:video|pl(?:\/[a-zA-Z0-9_-]+)?)\/([a-zA-Z0-9_-]+)/';
 
@@ -57,7 +63,7 @@ class Rutube extends AbstractVideoEmbedHandler
             return $matches[1];
         }
 
-        return null;
+        throw new \InvalidArgumentException('Could not extract Rutube video ID from URL: ' . $url);
     }
 
     protected function getDefaults(): array

@@ -34,6 +34,8 @@ LOREMIPSUM;
      * @param array $attributes The attributes of the shortcode.
      *
      * @return string
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      */
     public function __invoke(array $attributes): string
     {
@@ -89,7 +91,7 @@ LOREMIPSUM;
     private function generateImage(array $attributes): string
     {
         if (!\extension_loaded('gd')) {
-            return '<!-- GD library is not installed -->';
+            throw new \RuntimeException('GD library is not installed. Cannot generate image.');
         }
 
         $width = (int) ($attributes['width'] ?? 150);
@@ -155,18 +157,20 @@ LOREMIPSUM;
      * @param int $words The exact number of words for the paragraph.
      *
      * @return string A Lorem Ipsum paragraph.
+     * @throws \InvalidArgumentException If word count is not a positive integer.
+     * @throws \RuntimeException If the Lorem Ipsum word source is empty.
      */
     private function words(int $words = 1): string
     {
         if ($words <= 0) {
-            return '';
+            throw new \InvalidArgumentException('Word count must be a positive integer.');
         }
 
         $this->extractWords();
 
         $wordCount = \count(self::$words);
         if ($wordCount === 0) {
-            return '';
+            throw new \RuntimeException('Lorem Ipsum word source is empty.');
         }
 
         $textWords = [];

@@ -16,8 +16,9 @@ class VimeoTest extends TestCase
 
     public function testNoUrl(): void
     {
-        $result = $this->vimeo->process('', ['_' => []]);
-        $this->assertEquals('', $result);
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Could not extract Vimeo video ID from URL: ');
+        $this->vimeo->process('', ['_' => []]);
     }
 
     public function testBasicUsage(): void
