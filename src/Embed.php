@@ -29,7 +29,7 @@ class Embed
 
     public function __invoke(array $attributes, string $content): string
     {
-        $url = $this->getUrl($attributes, $content);
+        $url = $this->extractUrl($attributes, $content);
         if ($url === null) {
             return '';
         }
@@ -72,10 +72,27 @@ class Embed
         return sprintf('<div %s>%s</div>', $attrString, $content);
     }
 
-    private function getUrl(array $attributes, string $content): ?string
+    /**
+     * Extracts the URL from the attributes array or content, and removes it from the attributes array.
+     *
+     * @param array $attributes The attributes array, passed by reference, from which the URL will be removed.
+     * @param string $content The content string, used as a fallback for the URL.
+     *
+     * @return string|null The extracted URL, or null if no URL is found.
+     */
+    private function extractUrl(array &$attributes, string $content): ?string
     {
-        // Try to get URL from attributes first (named "url"), then from first positional attribute, then from content
-        $url = $attributes['url'] ?? $attributes[0] ?? trim($content);
+        $url = null;
+        if (isset($attributes['url'])) {
+            $url = $attributes['url'];
+            unset($attributes['url']);
+        } elseif (isset($attributes[0])) {
+            $url = $attributes[0];
+            unset($attributes[0]);
+        } else {
+            $url = trim($content);
+        }
+
         if (empty($url)) {
             return null;
         }
