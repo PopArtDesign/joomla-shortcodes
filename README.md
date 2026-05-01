@@ -27,10 +27,6 @@ The URL can be provided either as a `url` attribute or as the content between th
 -   `class`: A CSS class for the container `div`.
 -   `title`: The `title` attribute for the iframe.
 
-**Gist-specific Attributes**
-
--   `file`: Specifies a particular file from the Gist to embed.
-
 **Video-specific Attributes**
 
 These attributes are available for video embeds (YouTube, Vimeo, Rutube).
@@ -39,6 +35,10 @@ These attributes are available for video embeds (YouTube, Vimeo, Rutube).
 -   `start`: The time in seconds (or `MM:SS` format) from which playback will begin.
 -   `end`: The time in seconds (or `MM:SS` format) at which playback will end.
 -   `aspect-ratio`: The aspect ratio of the embed when `height` is set to `auto` (e.g., `16 / 9`, `4 / 3`). Defaults to `16 / 9`.
+
+**Gist-specific Attributes**
+
+-   `file`: Specifies a particular file from the Gist to embed.
 
 The embed shortcode automatically detects the URL type and uses the appropriate handler:
 
