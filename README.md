@@ -15,13 +15,13 @@ A shortcodes pack for [Joomla Shortcoder](https://github.com/PopArtDesign/joomla
 
 ### `embed`
 
-Embeds remote resources (YouTube videos, GitHub Gists, Vimeo videos, Rutube videos, Google Docs, PDFs, or any URL as iframe).
+Embeds remote resources (e.g., YouTube, Vimeo, Google Docs, PDFs, etc.).
 
 `{embed url [attr="value"] ...}`
 
 The URL can be provided either as a `url` attribute or as the content between the tags:
 
--   `url`: The URL to embed (YouTube, Gist, Vimeo, Rutube, Google Docs, PDF, or any URL). Required if not using nested content.
+-   `url`: The URL to embed (e.g., YouTube, Vimeo, Google Docs, PDFs, etc.). Required if not using nested content.
 -   `width`: The width of the embed. Defaults to `100%` (iframe) or type-specific default.
 -   `height`: The height of the embed. Defaults to `auto` (for aspect ratio calculation) or type-specific default.
 -   `class`: A CSS class for the container `div`.
