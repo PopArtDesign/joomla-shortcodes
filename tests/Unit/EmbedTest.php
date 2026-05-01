@@ -115,6 +115,15 @@ class EmbedTest extends TestCase
         $this->processShortcodes($text);
     }
 
+    public function testEmbedWithBooleanAttributeAndUrlInContent(): void
+    {
+        $text = '{embed autoplay}https://www.youtube.com/watch?v=dQw4w9WgXcQ{/embed}';
+        $result = $this->processShortcodes($text);
+        $this->assertStringContainsString('youtube.com/embed', $result);
+        $this->assertStringContainsString('dQw4w9WgXcQ', $result);
+        $this->assertStringContainsString('autoplay', $result); // Also check if autoplay is passed correctly
+    }
+
     public function testEmbedGenericUrlWithCustomClass(): void
     {
         $text = '{embed url="https://example.com" width="100%" height="400" class="my-embed"}{/embed}';

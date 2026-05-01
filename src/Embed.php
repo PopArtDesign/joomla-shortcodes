@@ -77,26 +77,40 @@ class Embed
      */
     private function extractUrl(array &$attributes, string $content): string
     {
-        $url = null;
+        // Attempt 1: Explicit `url` attribute
         if (isset($attributes['url'])) {
             $url = $attributes['url'];
-            unset($attributes['url']);
-        } elseif (isset($attributes[0])) {
+            if (filter_var($url, FILTER_VALIDATE_URL) !== false) {
+                unset($attributes['url']);
+                return $url;
+            } else {
+                throw new \InvalidArgumentException('Invalid URL provided in "url" attribute: ' . $url);
+            }
+        }
+
+        // Attempt 2: Content
+        $trimmedContent = trim($content);
+        if ($trimmedContent !== '') {
+            if (filter_var($trimmedContent, FILTER_VALIDATE_URL) !== false) {
+                return $trimmedContent;
+            } else {
+                throw new \InvalidArgumentException('Invalid URL provided in content: ' . $trimmedContent);
+            }
+        }
+
+        // Attempt 3: Positional attribute at index 0
+        if (isset($attributes[0])) {
             $url = $attributes[0];
-            unset($attributes[0]);
-        } else {
-            $url = trim($content);
+            if (filter_var($url, FILTER_VALIDATE_URL) !== false) {
+                unset($attributes[0]);
+                return $url;
+            } else {
+                throw new \InvalidArgumentException('Invalid URL provided as positional attribute: ' . $url);
+            }
         }
 
-        if (empty($url)) {
-            throw new \InvalidArgumentException('Embed URL not found.');
-        }
-
-        if (filter_var($url, FILTER_VALIDATE_URL) === false) {
-            throw new \InvalidArgumentException('Invalid URL provided for embedding.');
-        }
-
-        return $url;
+        // If no valid URL was found after checking all candidates
+        throw new \InvalidArgumentException('A valid embed URL was not found.');
     }
 
     /**
