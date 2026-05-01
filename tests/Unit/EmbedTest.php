@@ -8,6 +8,7 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Youtube;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Gist;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Vimeo;
+use JoomlaShortcoder\Plugin\Content\Shortcoder\Exception\ShortcodeProcessingException;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Iframe;
 
 class EmbedTest extends TestCase
@@ -33,9 +34,9 @@ class EmbedTest extends TestCase
 
     public function testEmptyEmbed(): void
     {
+        $this->expectException(ShortcodeProcessingException::class);
         $text = '{embed}{/embed}';
-        $result = $this->processShortcodes($text);
-        $this->assertEquals('', $result);
+        $this->processShortcodes($text);
     }
 
     public function testEmbedWithUrlAttribute(): void
@@ -72,10 +73,9 @@ class EmbedTest extends TestCase
 
     public function testEmbedYoutubeWithoutScheme(): void
     {
+        $this->expectException(ShortcodeProcessingException::class);
         $text = '{embed}www.youtube.com/watch?v=dQw4w9WgXcQ{/embed}';
-        $result = $this->processShortcodes($text);
-        $this->assertStringContainsString('youtube.com/embed', $result);
-        $this->assertStringContainsString('dQw4w9WgXcQ', $result);
+        $this->processShortcodes($text);
     }
 
     public function testEmbedYoutubeWithCustomDimensions(): void
@@ -110,10 +110,9 @@ class EmbedTest extends TestCase
 
     public function testEmbedGenericUrlWithoutScheme(): void
     {
+        $this->expectException(ShortcodeProcessingException::class);
         $text = '{embed}example.com/article{/embed}';
-        $result = $this->processShortcodes($text);
-        $this->assertStringContainsString('https://example.com/article', $result);
-        $this->assertStringContainsString('iframe', $result);
+        $this->processShortcodes($text);
     }
 
     public function testEmbedGenericUrlWithCustomClass(): void

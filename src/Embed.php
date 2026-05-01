@@ -30,9 +30,6 @@ class Embed
     public function __invoke(array $attributes, string $content): string
     {
         $url = $this->extractUrl($attributes, $content);
-        if ($url === null) {
-            return '';
-        }
 
         // Find first handler that supports this URL
         $handler = $this->findHandler($url);
@@ -75,12 +72,14 @@ class Embed
     /**
      * Extracts the URL from the attributes array or content, and removes it from the attributes array.
      *
-     * @param array $attributes The attributes array, passed by reference, from which the URL will be removed.
-     * @param string $content The content string, used as a fallback for the URL.
+     * @param array  $attributes The attributes array, passed by reference, from which the URL will be removed.
+     * @param string $content    The content string, used as a fallback for the URL.
      *
-     * @return string|null The extracted URL, or null if no URL is found.
+     * @return string The extracted and validated URL.
+     *
+     * @throws \InvalidArgumentException If the URL is missing or invalid.
      */
-    private function extractUrl(array &$attributes, string $content): ?string
+    private function extractUrl(array &$attributes, string $content): string
     {
         $url = null;
         if (isset($attributes['url'])) {
@@ -94,12 +93,11 @@ class Embed
         }
 
         if (empty($url)) {
-            return null;
+            throw new \InvalidArgumentException('Embed URL not found.');
         }
 
-        // Ensure URL has a scheme
-        if (!preg_match('~^(?:f|ht)tps?://~i', $url)) {
-            $url = 'https://' . $url;
+        if (filter_var($url, FILTER_VALIDATE_URL) === false) {
+            throw new \InvalidArgumentException('Invalid URL provided for embedding.');
         }
 
         return $url;
