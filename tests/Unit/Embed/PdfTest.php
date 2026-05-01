@@ -8,39 +8,44 @@ use PHPUnit\Framework\TestCase;
 class PdfTest extends TestCase
 {
     /**
-     * @dataProvider urlProvider
+     * @var Pdf
      */
-    public function testSupportsPdfUrls(string $url, bool $supported)
-    {
-        $handler = new Pdf();
+    private $handler;
 
-        $this->assertSame($supported, $handler->supports($url));
+    protected function setUp(): void
+    {
+        $this->handler = new Pdf();
     }
 
-    public function testProcessesPdfUrl()
+    public function testSupports()
     {
-        $url = 'https://example.com/document.pdf';
-        $handler = new Pdf();
-        $attributes = ['width' => '800', 'height' => '600'];
-        $result = $handler->process($url, $attributes);
-
-        $this->assertStringContainsString('<object', $result);
-        $this->assertStringContainsString('data="https://example.com/document.pdf"', $result);
-        $this->assertStringContainsString('type="application/pdf"', $result);
-        $this->assertStringContainsString('width="800"', $result);
-        $this->assertStringContainsString('height="600"', $result);
-        $this->assertStringContainsString('embed-pdf', $result);
-        $this->assertStringContainsString('download the PDF file', $result);
+        $this->assertTrue($this->handler->supports('http://example.com/doc.pdf'));
+        $this->assertTrue($this->handler->supports('http://example.com/doc.PDF'));
+        $this->assertTrue($this->handler->supports('/path/to/doc.pdf'));
+        $this->assertFalse($this->handler->supports('http://example.com/doc.docx'));
+        $this->assertFalse($this->handler->supports('http://example.com/'));
     }
 
-    public static function urlProvider(): array
+    public function testProcess()
     {
-        return [
-            'pdf file' => ['https://example.com/document.pdf', true],
-            'pdf file with query' => ['https://example.com/document.pdf?v=1', true],
-            'uppercase extension' => ['https://example.com/DOCUMENT.PDF', true],
-            'not a pdf' => ['https://example.com/document.docx', false],
-            'google doc' => ['https://docs.google.com/document/d/FILE_ID/edit', false],
+        $url = 'http://example.com/doc.pdf';
+        $attributes = [];
+
+        $expected = '<div class="embed-container embed-pdf"><object data="http://example.com/doc.pdf" type="application/pdf" width="100%" height="500px" title="PDF document"><p>It appears you don\'t have a PDF viewer for this browser. You can <a href="http://example.com/doc.pdf">click here to download the PDF file.</a></p></object></div>';
+        $this->assertEquals($expected, $this->handler->process($url, $attributes));
+    }
+
+    public function testProcessWithAttributes()
+    {
+        $url = 'http://example.com/doc.pdf';
+        $attributes = [
+            'class' => 'my-class',
+            'width' => '800px',
+            'height' => '600px',
+            'title' => 'My PDF',
         ];
+
+        $expected = '<div class="embed-container embed-pdf my-class"><object data="http://example.com/doc.pdf" type="application/pdf" width="800px" height="600px" title="My PDF"><p>It appears you don\'t have a PDF viewer for this browser. You can <a href="http://example.com/doc.pdf">click here to download the PDF file.</a></p></object></div>';
+        $this->assertEquals($expected, $this->handler->process($url, $attributes));
     }
 }

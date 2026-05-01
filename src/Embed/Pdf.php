@@ -13,6 +13,8 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
  */
 class Pdf implements EmbedInterface
 {
+    use EmbedWrapperTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -46,12 +48,6 @@ class Pdf implements EmbedInterface
 
         $html = \sprintf('<object %s>%s</object>', AttributeHelper::toHtmlString($objectAttributes), $fallbackMessage);
 
-        $wrapperAttributes = [];
-        $wrapperAttributes['class'] = 'embed-container embed-pdf';
-        if (!empty($attributes['class'])) {
-            $wrapperAttributes['class'] .= ' ' . $attributes['class'];
-        }
-
-        return '<div ' . AttributeHelper::toHtmlString($wrapperAttributes) . '>' . $html . '</div>';
+        return $this->renderWrapper($html, ['embed-container', 'embed-pdf'], $attributes);
     }
 }
