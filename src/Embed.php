@@ -32,10 +32,7 @@ class Embed
         $url = $this->extractUrl($attributes, $content);
 
         // Find first handler that supports this URL
-        $handler = $this->findHandler($url);
-        if ($handler === null) {
-            return '';
-        }
+        $handler = $this->getHandler($url);
 
         // Create a copy of attributes for the handler, removing 'id' and 'class'
         $handlerAttributes = $attributes;
@@ -103,7 +100,16 @@ class Embed
         return $url;
     }
 
-    private function findHandler(string $url): ?EmbedInterface
+    /**
+     * Gets a suitable embed handler for the given URL.
+     *
+     * @param string $url The URL to find a handler for.
+     *
+     * @return EmbedInterface The suitable embed handler.
+     *
+     * @throws \RuntimeException If no suitable handler can be found.
+     */
+    private function getHandler(string $url): EmbedInterface
     {
         foreach ($this->handlers as $handler) {
             if ($handler->supports($url)) {
@@ -111,8 +117,7 @@ class Embed
             }
         }
 
-        // Should never reach here since Iframe always supports
-        return null;
+        throw new \RuntimeException('No embed handler found for the given URL.');
     }
 
     /**
