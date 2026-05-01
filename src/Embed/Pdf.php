@@ -47,6 +47,9 @@ class Pdf implements EmbedInterface
         return \sprintf('<object %s>%s</object>', AttributeHelper::toHtmlString($objectAttributes, ['typemustmatch']), $fallbackMessage);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getWrapperAttributes(array $attributes)
     {
         return ['class' => 'embed-pdf'];

@@ -49,6 +49,9 @@ class Iframe extends AbstractEmbedHandler
         return self::render($url, $attributes);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getWrapperAttributes(array $attributes)
     {
         return ['class' => 'embed-iframe'];

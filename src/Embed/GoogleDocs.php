@@ -48,6 +48,9 @@ class GoogleDocs extends AbstractEmbedHandler
         return Iframe::render($embedUrl, $iframeAttributes);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getWrapperAttributes(array $attributes)
     {
         return ['class' => 'embed-googledocs'];

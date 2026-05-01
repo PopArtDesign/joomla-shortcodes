@@ -36,6 +36,9 @@ class Gist extends AbstractEmbedHandler
         return \sprintf('<script src="%s"></script>', $scriptUrl);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getWrapperAttributes(array $attributes)
     {
         return ['class' => 'embed-gist'];
