@@ -7,12 +7,29 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
 \defined('_JEXEC') or die;
 
 /**
+ * Abstract class for video embed handlers, extending AbstractEmbedHandler.
+ * Provides common functionality for video embeds, including iframe attribute building
+ * and handling of autoplay, start, and end times.
+ *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
 abstract class AbstractVideoEmbedHandler extends AbstractEmbedHandler
 {
+    /**
+     * Returns the URL for the video embed.
+     *
+     * @param string $url        The original URL provided by the user.
+     * @param array  $attributes The shortcode attributes.
+     *
+     * @return string The URL to be used for the iframe src.
+     */
     abstract protected function getEmbedUrl(string $url, array $attributes): string;
 
+    /**
+     * Returns an array of default attributes for the video embed.
+     *
+     * @return array An associative array of default attributes.
+     */
     abstract protected function getDefaults(): array;
 
     /**
