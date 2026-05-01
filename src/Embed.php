@@ -52,14 +52,7 @@ class Embed
             return $content;
         }
 
-        $baseWrapperAttributes = ['class' => 'embed-container'];
-
-        if (isset($wrapperAttributes['class'])) {
-            $baseWrapperAttributes['class'] .= ' ' . $wrapperAttributes['class'];
-            unset($wrapperAttributes['class']);
-        }
-
-        $wrapperAttributes = array_merge($baseWrapperAttributes, $wrapperAttributes);
+        $wrapperAttributes['class'] = trim('embed-container ' . ($wrapperAttributes['class'] ?? ''));
 
         // Handle shortcode attributes for the wrapper
         if (isset($attributes['id'])) {
