@@ -46,7 +46,7 @@ class Pdf implements EmbedInterface
             $url,
         );
 
-        $html = \sprintf('<object %s>%s</object>', AttributeHelper::toHtmlString($objectAttributes), $fallbackMessage);
+        $html = \sprintf('<object %s>%s</object>', AttributeHelper::toHtmlString($objectAttributes, ['typemustmatch']), $fallbackMessage);
 
         return $this->renderWrapper($html, ['embed-container', 'embed-pdf'], $attributes);
     }

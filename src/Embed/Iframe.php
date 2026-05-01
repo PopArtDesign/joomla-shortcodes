@@ -77,6 +77,6 @@ class Iframe extends AbstractEmbedHandler
         // Remove class attribute from iframe to be handled by the wrapping div
         unset($attributes['class']);
 
-        return \sprintf('<iframe %s></iframe>', AttributeHelper::toHtmlString($attributes));
+        return \sprintf('<iframe %s></iframe>', AttributeHelper::toHtmlString($attributes, ['allowfullscreen']));
     }
 }

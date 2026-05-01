@@ -206,4 +206,99 @@ class AttributeHelperTest extends TestCase
         $attributes = ['autoplay' => 'true', '_' => ['autoplay']];
         $this->assertTrue(AttributeHelper::isEnabled('autoplay', $attributes));
     }
+
+    /**
+     * Test cases for toHtmlString method.
+     *
+     * @param array  $attributes   The input attributes.
+     * @param array  $booleanAttrs The boolean attributes.
+     * @param string $expectedHtml The expected HTML string.
+     *
+     * @dataProvider toHtmlStringDataProvider
+     */
+    public function testToHtmlString(array $attributes, array $booleanAttrs, string $expectedHtml): void
+    {
+        $this->assertEquals($expectedHtml, AttributeHelper::toHtmlString($attributes, $booleanAttrs));
+    }
+
+    public static function toHtmlStringDataProvider(): array
+    {
+        return [
+            'empty attributes' => [
+                'attributes' => [],
+                'booleanAttrs' => [],
+                'expectedHtml' => '',
+            ],
+            'simple attributes' => [
+                'attributes' => ['id' => 'my-id', 'class' => 'my-class'],
+                'booleanAttrs' => [],
+                'expectedHtml' => 'id="my-id" class="my-class"',
+            ],
+            'attributes with empty value (non-boolean)' => [
+                'attributes' => ['src' => 'video.mp4', 'data-something' => ''],
+                'booleanAttrs' => [],
+                'expectedHtml' => 'src="video.mp4"',
+            ],
+            'boolean attribute true' => [
+                'attributes' => ['autoplay' => true],
+                'booleanAttrs' => ['autoplay'],
+                'expectedHtml' => 'autoplay',
+            ],
+            'boolean attribute string true' => [
+                'attributes' => ['autoplay' => 'true'],
+                'booleanAttrs' => ['autoplay'],
+                'expectedHtml' => 'autoplay',
+            ],
+            'boolean attribute 1' => [
+                'attributes' => ['autoplay' => 1],
+                'booleanAttrs' => ['autoplay'],
+                'expectedHtml' => 'autoplay',
+            ],
+            'boolean attribute empty string (should render as boolean)' => [
+                'attributes' => ['autoplay' => ''],
+                'booleanAttrs' => ['autoplay'],
+                'expectedHtml' => 'autoplay',
+            ],
+            'boolean attribute false' => [
+                'attributes' => ['controls' => false],
+                'booleanAttrs' => ['controls'],
+                'expectedHtml' => '',
+            ],
+            'boolean attribute string false' => [
+                'attributes' => ['controls' => 'false'],
+                'booleanAttrs' => ['controls'],
+                'expectedHtml' => '',
+            ],
+            'boolean attribute 0' => [
+                'attributes' => ['controls' => 0],
+                'booleanAttrs' => ['controls'],
+                'expectedHtml' => '',
+            ],
+            'mixed attributes' => [
+                'attributes' => ['src' => 'video.mp4', 'autoplay' => true, 'controls' => false, 'width' => '100%'],
+                'booleanAttrs' => ['autoplay', 'controls'],
+                'expectedHtml' => 'src="video.mp4" autoplay width="100%"',
+            ],
+            'mixed attributes with htmlspecialchars' => [
+                'attributes' => ['class' => 'my-class', 'data-title' => 'Title with "quotes" & <tags>'],
+                'booleanAttrs' => [],
+                'expectedHtml' => 'class="my-class" data-title="Title with &quot;quotes&quot; &amp; &lt;tags&gt;"',
+            ],
+            'non-scalar attribute' => [
+                'attributes' => ['id' => 'test', 'data-array' => ['a', 'b']],
+                'booleanAttrs' => [],
+                'expectedHtml' => 'id="test"',
+            ],
+            'multiple boolean attributes' => [
+                'attributes' => ['autoplay' => 'true', 'loop' => '', 'muted' => 'false', 'playsinline' => '1'],
+                'booleanAttrs' => ['autoplay', 'loop', 'muted', 'playsinline'],
+                'expectedHtml' => 'autoplay loop playsinline',
+            ],
+            'boolean attribute not in booleanAttrs list' => [
+                'attributes' => ['autoplay' => 'true', 'controls' => ''],
+                'booleanAttrs' => [],
+                'expectedHtml' => 'autoplay="true"',
+            ],
+        ];
+    }
 }
