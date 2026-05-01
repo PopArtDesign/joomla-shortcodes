@@ -29,24 +29,9 @@ class Embed
 
     public function __invoke(array $attributes, string $content): string
     {
-        // Try to get URL from attributes first (named "url"), then from first positional attribute, then from content
-        $rawUrl = $attributes['url'] ?? $attributes[0] ?? trim($content);
-
-        if (empty($rawUrl)) {
+        $url = $this->getUrl($attributes, $content);
+        if ($url === null) {
             return '';
-        }
-
-        // Content may contain URL followed by attribute-like tokens.
-        // Only use the first token as the URL.
-        $url = strtok($rawUrl, ' ');
-
-        if (empty($url)) {
-            return '';
-        }
-
-        // Ensure URL has a scheme
-        if (!preg_match('~^(?:f|ht)tps?://~i', $url)) {
-            $url = 'https://' . $url;
         }
 
         // Find first handler that supports this URL
@@ -92,6 +77,22 @@ class Embed
         $attrString = $this->buildAttributes($wrapperAttributes);
 
         return sprintf('<div %s>%s</div>', $attrString, $content);
+    }
+
+    private function getUrl(array $attributes, string $content): ?string
+    {
+        // Try to get URL from attributes first (named "url"), then from first positional attribute, then from content
+        $url = $attributes['url'] ?? $attributes[0] ?? trim($content);
+        if (empty($url)) {
+            return null;
+        }
+
+        // Ensure URL has a scheme
+        if (!preg_match('~^(?:f|ht)tps?://~i', $url)) {
+            $url = 'https://' . $url;
+        }
+
+        return $url;
     }
 
     private function findHandler(string $url): ?EmbedInterface
