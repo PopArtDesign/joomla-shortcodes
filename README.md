@@ -26,10 +26,15 @@ The URL can be provided either as a `url` attribute or as the content between th
 -   `height`: The height of the embed. Defaults to `auto` (for aspect ratio calculation) or type-specific default.
 -   `class`: A CSS class for the container `div`.
 -   `title`: The `title` attribute for the iframe.
+-   `aspect-ratio`: The aspect ratio of the embed when `height` is set to `auto` (e.g., `16 / 9`, `4 / 3`). Defaults to `16 / 9`.
+
+**Video-specific Attributes**
+
+These attributes are available for video embeds (YouTube, Vimeo, Rutube).
+
 -   `autoplay`: Automatically starts playing the video. Set to `true` or `1` to enable.
 -   `start`: The time in seconds (or `MM:SS` format) from which playback will begin.
 -   `end`: The time in seconds (or `MM:SS` format) at which playback will end.
--   `aspect-ratio`: The aspect ratio of the embed when `height` is set to `auto` (e.g., `16 / 9`, `4 / 3`). Defaults to `16 / 9`.
 
 The embed shortcode automatically detects the URL type and uses the appropriate handler:
 
