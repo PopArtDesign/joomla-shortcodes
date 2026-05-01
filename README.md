@@ -15,13 +15,13 @@ A shortcodes pack for [Joomla Shortcoder](https://github.com/PopArtDesign/joomla
 
 ### `embed`
 
-Embeds remote resources (YouTube videos, GitHub Gists, Vimeo videos, Rutube videos, Google Docs, or any URL as iframe).
+Embeds remote resources (YouTube videos, GitHub Gists, Vimeo videos, Rutube videos, Google Docs, PDFs, or any URL as iframe).
 
 `{embed url [attr="value"] ...}`
 
 The URL can be provided either as a `url` attribute or as the content between the tags:
 
--   `url`: The URL to embed (YouTube, Gist, Vimeo, Rutube, Google Docs, or any URL). Required if not using nested content.
+-   `url`: The URL to embed (YouTube, Gist, Vimeo, Rutube, Google Docs, PDF, or any URL). Required if not using nested content.
 -   `width`: The width of the embed. Defaults to `100%` (iframe) or type-specific default.
 -   `height`: The height of the embed. Defaults to `auto` (for aspect ratio calculation) or type-specific default.
 -   `class`: A CSS class for the container `div`.
@@ -46,6 +46,7 @@ The embed shortcode automatically detects the URL type and uses the appropriate 
 - **Vimeo** (`vimeo.com`): Embeds as Vimeo player
 - **Rutube** (`rutube.ru`): Embeds as Rutube video player
 - **Google Docs** (`docs.google.com`, `drive.google.com`): Embeds Google Docs, Sheets, Slides, and other files from Google Drive.
+- **PDF** (`.pdf` extension): Embeds PDF documents using an `<object>` tag.
 - **GitHub Gist** (`gist.github.com`): Embeds as Gist script
 - **Other URLs**: Falls back to generic iframe
 
@@ -93,6 +94,18 @@ Supports embedding Google Docs, Sheets, Slides, and files from Google Drive.
 
 ```
 {embed url="https://docs.google.com/spreadsheets/d/a-valid-id/edit" width="800" height="600"}
+```
+
+**PDF Examples:**
+
+Embeds a PDF document.
+
+```
+{embed}https://example.com/document.pdf{/embed}
+```
+
+```
+{embed url="https://example.com/another.pdf" width="600" height="800"}
 ```
 
 **Gist Example:**
