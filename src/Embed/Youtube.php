@@ -54,6 +54,7 @@ class Youtube extends AbstractVideoEmbedHandler
      * @param string $url The YouTube video URL.
      *
      * @return string The extracted video ID.
+     *
      * @throws \InvalidArgumentException If the video ID cannot be extracted.
      */
     protected function getVideoId(string $url): string
