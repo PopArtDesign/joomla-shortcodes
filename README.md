@@ -43,15 +43,17 @@ These attributes are available for video embeds (YouTube, Vimeo, Rutube).
 The embed shortcode automatically detects the URL type and uses the appropriate handler:
 
 - **YouTube** (`youtube.com`, `youtu.be`): Embeds as YouTube video player
-- **GitHub Gist** (`gist.github.com`): Embeds as Gist script
 - **Vimeo** (`vimeo.com`): Embeds as Vimeo player
 - **Rutube** (`rutube.ru`): Embeds as Rutube video player
+- **GitHub Gist** (`gist.github.com`): Embeds as Gist script
 - **Other URLs**: Falls back to generic iframe
 
 **YouTube Examples:**
 
 ```
-{embed}https://www.youtube.com/watch?v=dQw4w9WgXcQ{/embed}
+{embed autoplay start=1:00 end=3:00}
+https://www.youtube.com/watch?v=dQw4w9WgXcQ
+{/embed}
 ```
 
 ```
@@ -59,7 +61,7 @@ The embed shortcode automatically detects the URL type and uses the appropriate 
 ```
 
 ```
-{embed https://youtu.be/dQw4w9WgXcQ autoplay}
+{embed https://youtu.be/dQw4w9WgXcQ aspect-ratio=4/3}
 ```
 
 **Vimeo Example:**
@@ -69,7 +71,7 @@ The embed shortcode automatically detects the URL type and uses the appropriate 
 ```
 
 ```
-{embed url="https://vimeo.com/123456789" autoplay start="30" end="60"}
+{embed https://vimeo.com/123456789 autoplay start="30" end="60"}
 ```
 
 **Rutube Examples:**
@@ -77,9 +79,7 @@ The embed shortcode automatically detects the URL type and uses the appropriate 
 ```
 {embed https://rutube.ru/video/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c/}
 ```
-
 ```
-{embed url="https://rutube.ru/pl/THEBEST/a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6/" width="800" height="auto" aspect-ratio="4 / 3" autoplay="true" start="60" end="120"}
 ```
 
 **Gist Example:**
