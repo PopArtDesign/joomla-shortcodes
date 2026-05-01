@@ -46,8 +46,8 @@ The embed shortcode automatically detects the URL type and uses the appropriate 
 - **Vimeo** (`vimeo.com`): Embeds as Vimeo player
 - **Rutube** (`rutube.ru`): Embeds as Rutube video player
 - **Google Docs** (`docs.google.com`, `drive.google.com`): Embeds Google Docs, Sheets, Slides, and other files from Google Drive.
-- **PDF** (`.pdf` extension): Embeds PDF documents using an `<object>` tag.
 - **GitHub Gist** (`gist.github.com`): Embeds as Gist script
+- **PDF** (`.pdf` extension): Embeds PDF documents using an `<object>` tag.
 - **Other URLs**: Falls back to generic iframe
 
 **YouTube Examples:**
@@ -96,6 +96,16 @@ Supports embedding Google Docs, Sheets, Slides, and files from Google Drive.
 {embed url="https://docs.google.com/spreadsheets/d/a-valid-id/edit" width="800" height="600"}
 ```
 
+**Gist Example:**
+
+```
+{embed https://gist.github.com/user/12345}
+```
+
+```
+{embed url="https://gist.github.com/user/12345" file="example.php"}
+```
+
 **PDF Examples:**
 
 Embeds a PDF document.
@@ -106,16 +116,6 @@ Embeds a PDF document.
 
 ```
 {embed url="https://example.com/another.pdf" width="600" height="800"}
-```
-
-**Gist Example:**
-
-```
-{embed https://gist.github.com/user/12345}
-```
-
-```
-{embed url="https://gist.github.com/user/12345" file="example.php"}
 ```
 
 **Generic URL (iframe fallback):**
