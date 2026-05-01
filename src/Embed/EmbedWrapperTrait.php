@@ -37,7 +37,7 @@ trait EmbedWrapperTrait
      *
      * @return array Array with 'class' and 'style' strings for the wrapper
      */
-    protected function buildWrapperAttributes(array $baseClasses, array $attributes, array $wrapperStyles = []): array
+    private function buildWrapperAttributes(array $baseClasses, array $attributes, array $wrapperStyles = []): array
     {
         $styleAttr = '';
         if (!empty($wrapperStyles)) {
@@ -55,7 +55,7 @@ trait EmbedWrapperTrait
      *
      * @return string
      */
-    protected function buildWrapperClass(array $baseClasses, array $attributes): string
+    private function buildWrapperClass(array $baseClasses, array $attributes): string
     {
         $userClasses = array_filter(array_map('trim', explode(' ', $attributes['class'] ?? '')));
 
