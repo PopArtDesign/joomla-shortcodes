@@ -64,8 +64,8 @@ class Rutube extends AbstractVideoEmbedHandler
     {
         return [
             'title' => 'Rutube video player',
-            'class' => 'embed-rutube',
             'allow' => 'clipboard-write; autoplay',
+            'class' => 'embed-rutube'
         ];
     }
 }

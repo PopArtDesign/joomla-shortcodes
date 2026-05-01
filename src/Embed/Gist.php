@@ -21,25 +21,23 @@ class Gist extends AbstractEmbedHandler
      */
     public function process(string $url, array $attributes): string
     {
-        $idOrUrl = $url;
         $file = $attributes['file'] ?? '';
 
-        if (!$idOrUrl) {
-            return '';
-        }
+        // if (\strpos($idOrUrl, 'https://gist.github.com/') !== 0) {
+        //     return '';
+        // }
 
-        if (\strpos($idOrUrl, 'https://gist.github.com/') !== 0) {
-            return '';
-        }
-
-        $scriptUrl = \rtrim($idOrUrl, '/') . '.js';
+        $scriptUrl = \rtrim($url, '/') . '.js';
 
         if ($file) {
             $scriptUrl .= '?file=' . \urlencode($file);
         }
 
-        $embedHtml = \sprintf('<script src="%s"></script>', $scriptUrl);
+        return \sprintf('<script src="%s"></script>', $scriptUrl);
+    }
 
-        return $this->renderWrapper($embedHtml, ['embed-container', 'embed-gist'], $attributes);
+    public function getWrapperAttributes(array $attributes)
+    {
+        return ['class' => 'embed-gist'];
     }
 }

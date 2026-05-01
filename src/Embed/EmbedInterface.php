@@ -29,4 +29,13 @@ interface EmbedInterface
      * @return string The embed HTML.
      */
     public function process(string $url, array $attributes): string;
+
+    /**
+     * Get the attributes for the wrapper div.
+     *
+     * @param array $attributes The shortcode attributes.
+     *
+     * @return array|false An array of attributes for the wrapper div, or false to disable wrapper.
+     */
+    public function getWrapperAttributes(array $attributes);
 }

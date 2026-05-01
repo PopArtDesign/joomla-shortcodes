@@ -65,8 +65,8 @@ class Youtube extends AbstractVideoEmbedHandler
     {
         return [
             'title' => 'YouTube video player',
-            'class' => 'embed-youtube',
             'allow' => 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share',
+            'class' => 'embed-youtube',
         ];
     }
 }

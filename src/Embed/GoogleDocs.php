@@ -45,11 +45,12 @@ class GoogleDocs extends AbstractEmbedHandler
             'loading' => $attributes['loading'] ?? 'lazy',
         ];
 
-        $baseClasses = ['embed-container', 'embed-googledocs'];
+        return Iframe::render($embedUrl, $iframeAttributes);
+    }
 
-        $html = Iframe::render($embedUrl, $iframeAttributes);
-
-        return $this->renderWrapper($html, $baseClasses, $attributes);
+    public function getWrapperAttributes(array $attributes)
+    {
+        return ['class' => 'embed-googledocs'];
     }
 
     /**

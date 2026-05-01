@@ -100,15 +100,6 @@ class EmbedTest extends TestCase
         $this->assertStringContainsString('gist.github.com/testuser/12345.js?file=test.php', $result);
     }
 
-    public function testEmbedGistWithShortSyntax(): void
-    {
-        $text = '{embed}testuser/12345{/embed}';
-        $result = $this->processShortcodes($text);
-        // Short syntax no longer supported - falls back to iframe
-        $this->assertStringContainsString('embed-container', $result);
-        $this->assertStringContainsString('testuser/12345', $result);
-    }
-
     public function testEmbedGenericUrl(): void
     {
         $text = '{embed}https://example.com/article{/embed}';

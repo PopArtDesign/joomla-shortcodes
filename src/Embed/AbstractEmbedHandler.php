@@ -14,8 +14,6 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
  */
 abstract class AbstractEmbedHandler implements EmbedInterface
 {
-    use EmbedWrapperTrait;
-
     /**
      * Get the list of supported hostnames for this embed handler.
      *
@@ -31,5 +29,13 @@ abstract class AbstractEmbedHandler implements EmbedInterface
         $host = strtolower(parse_url($url, PHP_URL_HOST) ?? '');
 
         return in_array($host, $this->getSupportedHosts(), true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getWrapperAttributes(array $attributes)
+    {
+        return [];
     }
 }

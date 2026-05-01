@@ -49,7 +49,7 @@ class GoogleDocsTest extends TestCase
         $this->assertStringContainsString($expectedEmbedUrl, $result);
         $this->assertStringContainsString('width="100%"', $result);
         $this->assertStringNotContainsString('height="', $result);
-        $this->assertStringContainsString('class="embed-container embed-googledocs"', $result);
+        $this->assertStringNotContainsString('embed-container', $result); // No longer in handler output
         $this->assertStringContainsString('title="Google document"', $result);
     }
 
@@ -62,7 +62,7 @@ class GoogleDocsTest extends TestCase
         $this->assertStringContainsString($expectedEmbedUrl, $result);
         $this->assertStringContainsString('width="100%"', $result);
         $this->assertStringNotContainsString('height="', $result);
-        $this->assertStringContainsString('class="embed-container embed-googledocs"', $result);
+        $this->assertStringNotContainsString('embed-container', $result); // No longer in handler output
         $this->assertStringContainsString('title="Google document"', $result);
     }
 
@@ -75,7 +75,7 @@ class GoogleDocsTest extends TestCase
         $this->assertStringContainsString($expectedEmbedUrl, $result);
         $this->assertStringContainsString('width="100%"', $result);
         $this->assertStringNotContainsString('height="', $result);
-        $this->assertStringContainsString('class="embed-container embed-googledocs"', $result);
+        $this->assertStringNotContainsString('embed-container', $result); // No longer in handler output
         $this->assertStringContainsString('title="Google document"', $result);
     }
 
@@ -88,7 +88,7 @@ class GoogleDocsTest extends TestCase
         $this->assertStringContainsString($expectedEmbedUrl, $result);
         $this->assertStringContainsString('width="100%"', $result);
         $this->assertStringNotContainsString('height="', $result);
-        $this->assertStringContainsString('class="embed-container embed-googledocs"', $result);
+        $this->assertStringNotContainsString('embed-container', $result); // No longer in handler output
         $this->assertStringContainsString('title="Google document"', $result);
     }
 
@@ -99,14 +99,6 @@ class GoogleDocsTest extends TestCase
 
         $this->assertStringContainsString('width="800px"', $result);
         $this->assertStringContainsString('height="500px"', $result);
-    }
-
-    public function testCustomClass(): void
-    {
-        $url = 'https://docs.google.com/document/d/1BxiM9uQ5kZ7v8W6Y2X3T4R5P6O7I8U9J0K/edit';
-        $result = $this->googleDocs->process($url, ['class' => 'my-custom-class', '_' => []]);
-
-        $this->assertStringContainsString('class="embed-container embed-googledocs my-custom-class"', $result);
     }
 
     public function testInvalidUrlReturnsEmptyString(): void

@@ -43,12 +43,11 @@ abstract class AbstractVideoEmbedHandler extends AbstractEmbedHandler
     {
         $defaults = \array_merge([
             'title' => 'Video player',
-            'class' => null,
             'allow' => 'autoplay',
             'referrerpolicy' => 'strict-origin-when-cross-origin',
         ], $this->getDefaults());
 
-        return [
+        $iframeAttributes = [
             'width' => $attributes['width'] ?? '100%',
             'height' => $attributes['height'] ?? 'auto',
             'title' => $attributes['title'] ?? $defaults['title'],
@@ -57,6 +56,12 @@ abstract class AbstractVideoEmbedHandler extends AbstractEmbedHandler
             'allow' => $attributes['allow'] ?? $defaults['allow'],
             'referrerpolicy' => $attributes['referrerpolicy'] ?? $defaults['referrerpolicy'],
         ];
+
+        if (($attributes['height'] ?? 'auto') === 'auto') {
+            $iframeAttributes['style'] = 'aspect-ratio: var(--embed-aspect-ratio);';
+        }
+
+        return $iframeAttributes;
     }
 
     /**
@@ -117,22 +122,24 @@ abstract class AbstractVideoEmbedHandler extends AbstractEmbedHandler
 
         $iframeAttributes = $this->buildIframeAttributes($attributes);
 
-        $wrapperStyles = [];
+        return Iframe::render($src, $iframeAttributes);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getWrapperAttributes(array $attributes)
+    {
+        $wrapperAttributes = parent::getWrapperAttributes($attributes);
+        $defaults = $this->getDefaults();
+
+        $wrapperAttributes['class'] = trim(($wrapperAttributes['class'] ?? '') . ' embed-video ' . $defaults['class'] ?? '');
 
         if (($attributes['height'] ?? 'auto') === 'auto') {
             $aspectRatio = $attributes['aspect-ratio'] ?? '16 / 9';
-            $iframeAttributes['aspect-ratio'] = 'var(--embed-aspect-ratio)';
-            $wrapperStyles[] = '--embed-aspect-ratio: ' . \htmlspecialchars($aspectRatio);
+            $wrapperAttributes['style'] = trim(($wrapperAttributes['style'] ?? '') . '; --embed-aspect-ratio: ' . \htmlspecialchars($aspectRatio) . ';', '; ');
         }
 
-        $html = Iframe::render($src, $iframeAttributes);
-
-        $baseClasses = ['embed-container', 'embed-video'];
-        $defaults = $this->getDefaults();
-        if (!empty($defaults['class'])) {
-            $baseClasses[] = $defaults['class'];
-        }
-
-        return $this->renderWrapper($html, $baseClasses, $attributes, $wrapperStyles);
+        return $wrapperAttributes;
     }
 }

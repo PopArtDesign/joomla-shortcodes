@@ -46,9 +46,12 @@ class Iframe extends AbstractEmbedHandler
         $attributes['frameborder'] = $attributes['frameborder'] ?? 0;
         $attributes['allowfullscreen'] = $attributes['allowfullscreen'] ?? '';
 
-        $iframeHtml = self::render($url, $attributes);
+        return self::render($url, $attributes);
+    }
 
-        return $this->renderWrapper($iframeHtml, ['embed-container', 'embed-iframe'], $attributes);
+    public function getWrapperAttributes(array $attributes)
+    {
+        return ['class' => 'embed-iframe'];
     }
 
     /**

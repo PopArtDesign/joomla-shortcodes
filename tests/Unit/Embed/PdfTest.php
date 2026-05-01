@@ -31,7 +31,7 @@ class PdfTest extends TestCase
         $url = 'http://example.com/doc.pdf';
         $attributes = [];
 
-        $expected = '<div class="embed-container embed-pdf"><object data="http://example.com/doc.pdf" type="application/pdf" width="100%" height="500px" title="PDF document"><p>It appears you don\'t have a PDF viewer for this browser. You can <a href="http://example.com/doc.pdf">click here to download the PDF file.</a></p></object></div>';
+        $expected = '<object data="http://example.com/doc.pdf" type="application/pdf" width="100%" height="500px" title="PDF document"><p>It appears you don\'t have a PDF viewer for this browser. You can <a href="http://example.com/doc.pdf">click here to download the PDF file.</a></p></object>';
         $this->assertEquals($expected, $this->handler->process($url, $attributes));
     }
 
@@ -39,13 +39,13 @@ class PdfTest extends TestCase
     {
         $url = 'http://example.com/doc.pdf';
         $attributes = [
-            'class' => 'my-class',
+            'class' => 'my-class', // This class is now for the wrapper, not the object
             'width' => '800px',
             'height' => '600px',
             'title' => 'My PDF',
         ];
 
-        $expected = '<div class="embed-container embed-pdf my-class"><object data="http://example.com/doc.pdf" type="application/pdf" width="800px" height="600px" title="My PDF"><p>It appears you don\'t have a PDF viewer for this browser. You can <a href="http://example.com/doc.pdf">click here to download the PDF file.</a></p></object></div>';
+        $expected = '<object data="http://example.com/doc.pdf" type="application/pdf" width="800px" height="600px" title="My PDF"><p>It appears you don\'t have a PDF viewer for this browser. You can <a href="http://example.com/doc.pdf">click here to download the PDF file.</a></p></object>';
         $this->assertEquals($expected, $this->handler->process($url, $attributes));
     }
 }
