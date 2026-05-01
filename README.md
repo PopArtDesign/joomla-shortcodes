@@ -17,7 +17,7 @@ A shortcodes pack for [Joomla Shortcoder](https://github.com/PopArtDesign/joomla
 
 Embeds remote resources (YouTube videos, GitHub Gists, Vimeo videos, Rutube videos, or any URL as iframe).
 
-`{embed url="..." width=... height=... class=... title=... autoplay=... start=... end=... aspect-ratio=...}...{/embed}`
+`{embed url [attr="value"] ...}`
 
 The URL can be provided either as a `url` attribute or as the content between the tags:
 
@@ -50,7 +50,7 @@ The embed shortcode automatically detects the URL type and uses the appropriate 
 ```
 
 ```
-{embed}https://youtu.be/dQw4w9WgXcQ{/embed}
+{embed https://youtu.be/dQw4w9WgXcQ autoplay}
 ```
 
 **Vimeo Example:**
