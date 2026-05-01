@@ -31,14 +31,15 @@ class Embed
     {
         $url = $this->extractUrl($attributes, $content);
 
+        // Extract custom wrapper ID and class if present, and remove them from the attributes array
+        $wrapperCustomId = $attributes['id'] ?? null;
+        $wrapperCustomClass = $attributes['class'] ?? null;
+        unset($attributes['id'], $attributes['class']);
+
         // Find first handler that supports this URL
         $handler = $this->getHandler($url);
 
-        // Create a copy of attributes for the handler, removing 'id' and 'class'
-        $handlerAttributes = $attributes;
-        unset($handlerAttributes['id'], $handlerAttributes['class']);
-
-        $content = $handler->process($url, $handlerAttributes);
+        $content = $handler->process($url, $attributes);
 
         $wrapperAttributes = $handler->getWrapperAttributes($attributes);
 
@@ -49,12 +50,12 @@ class Embed
         $wrapperAttributes['class'] = trim('embed-container ' . ($wrapperAttributes['class'] ?? ''));
 
         // Handle shortcode attributes for the wrapper
-        if (isset($attributes['id'])) {
-            $wrapperAttributes['id'] = $attributes['id'];
+        if ($wrapperCustomId !== null) {
+            $wrapperAttributes['id'] = $wrapperCustomId;
         }
 
-        if (isset($attributes['class'])) {
-            $wrapperAttributes['class'] = trim(($wrapperAttributes['class'] ?? '') . ' ' . $attributes['class']);
+        if ($wrapperCustomClass !== null) {
+            $wrapperAttributes['class'] = trim(($wrapperAttributes['class'] ?? '') . ' ' . $wrapperCustomClass);
         }
 
         if (isset($attributes['style'])) {
