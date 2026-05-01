@@ -17,7 +17,7 @@ class PdfTest extends TestCase
         $this->handler = new Pdf();
     }
 
-    public function testSupports()
+    public function testSupports(): void
     {
         $this->assertTrue($this->handler->supports('http://example.com/doc.pdf'));
         $this->assertTrue($this->handler->supports('http://example.com/doc.PDF'));
@@ -26,7 +26,7 @@ class PdfTest extends TestCase
         $this->assertFalse($this->handler->supports('http://example.com/'));
     }
 
-    public function testProcess()
+    public function testProcess(): void
     {
         $url = 'http://example.com/doc.pdf';
         $attributes = [];
@@ -35,7 +35,7 @@ class PdfTest extends TestCase
         $this->assertEquals($expected, $this->handler->process($url, $attributes));
     }
 
-    public function testProcessWithAttributes()
+    public function testProcessWithAttributes(): void
     {
         $url = 'http://example.com/doc.pdf';
         $attributes = [
