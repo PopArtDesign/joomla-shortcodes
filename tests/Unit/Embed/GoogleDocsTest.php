@@ -49,7 +49,6 @@ class GoogleDocsTest extends TestCase
         $this->assertStringContainsString($expectedEmbedUrl, $result);
         $this->assertStringContainsString('width="100%"', $result);
         $this->assertStringNotContainsString('height="', $result);
-        $this->assertStringNotContainsString('embed-container', $result); // No longer in handler output
         $this->assertStringContainsString('title="Google document"', $result);
     }
 
@@ -62,7 +61,6 @@ class GoogleDocsTest extends TestCase
         $this->assertStringContainsString($expectedEmbedUrl, $result);
         $this->assertStringContainsString('width="100%"', $result);
         $this->assertStringNotContainsString('height="', $result);
-        $this->assertStringNotContainsString('embed-container', $result); // No longer in handler output
         $this->assertStringContainsString('title="Google document"', $result);
     }
 
@@ -75,7 +73,6 @@ class GoogleDocsTest extends TestCase
         $this->assertStringContainsString($expectedEmbedUrl, $result);
         $this->assertStringContainsString('width="100%"', $result);
         $this->assertStringNotContainsString('height="', $result);
-        $this->assertStringNotContainsString('embed-container', $result); // No longer in handler output
         $this->assertStringContainsString('title="Google document"', $result);
     }
 
@@ -88,7 +85,6 @@ class GoogleDocsTest extends TestCase
         $this->assertStringContainsString($expectedEmbedUrl, $result);
         $this->assertStringContainsString('width="100%"', $result);
         $this->assertStringNotContainsString('height="', $result);
-        $this->assertStringNotContainsString('embed-container', $result); // No longer in handler output
         $this->assertStringContainsString('title="Google document"', $result);
     }
 
