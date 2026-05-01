@@ -34,6 +34,7 @@ LOREMIPSUM;
      * @param array $attributes The attributes of the shortcode.
      *
      * @return string
+     *
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
@@ -157,6 +158,7 @@ LOREMIPSUM;
      * @param int $words The exact number of words for the paragraph.
      *
      * @return string A Lorem Ipsum paragraph.
+     *
      * @throws \InvalidArgumentException If word count is not a positive integer.
      * @throws \RuntimeException If the Lorem Ipsum word source is empty.
      */
