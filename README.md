@@ -28,6 +28,10 @@ The URL can be provided either as a `url` attribute or as the content between th
 -   `title`: The `title` attribute for the iframe.
 -   `aspect-ratio`: The aspect ratio of the embed when `height` is set to `auto` (e.g., `16 / 9`, `4 / 3`). Defaults to `16 / 9`.
 
+**Gist-specific Attributes**
+
+-   `file`: Specifies a particular file from the Gist to embed.
+
 **Video-specific Attributes**
 
 These attributes are available for video embeds (YouTube, Vimeo, Rutube).
