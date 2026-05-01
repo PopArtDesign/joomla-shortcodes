@@ -69,19 +69,13 @@ https://www.youtube.com/watch?v=dQw4w9WgXcQ
 **Vimeo Example:**
 
 ```
-{embed}https://vimeo.com/123456789{/embed}
-```
-
-```
 {embed https://vimeo.com/123456789 autoplay start="30" end="60"}
 ```
 
-**Rutube Examples:**
+**Rutube Example:**
 
 ```
-{embed https://rutube.ru/video/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c/}
-```
-```
+{embed https://rutube.ru/video/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c/ autoplay}
 ```
 
 **Google Docs Examples:**
