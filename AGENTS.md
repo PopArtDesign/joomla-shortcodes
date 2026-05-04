@@ -11,7 +11,10 @@ Shortcodes are implemented as invokable PHP classes.
 ### Architecture
 
 - **Shortcodes**: `src/Lorem.php`, `src/Repeat.php` - Standalone shortcode classes
-- **Embed Shortcodes**: `src/AbstractEmbedHandler.php` - Base class for shortcodes that embed content (e.g., videos, documents). It handles common logic like URL extraction and wrapper generation.
+- **Embed Shortcodes**:
+    - `src/AbstractEmbedHandler.php` - Base class for shortcodes that embed content (e.g., videos, documents). It handles common logic like URL extraction and wrapper generation.
+    - `src/AbstractIframeHandler.php` - Extends `AbstractEmbedHandler` and provides common functionality for generating iframe embeds.
+    - `src/AbstractVideohostingHandler.php` - Extends `AbstractIframeHandler` and provides common functionality for video-specific attributes like autoplay, start/end times, and aspect ratio.
 - **Shortcode Registration**: `src/Extension/Shortcodes.php` - Registers all shortcodes
 
 ### Adding a New Shortcode
