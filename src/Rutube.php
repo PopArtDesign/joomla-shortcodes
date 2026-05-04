@@ -1,21 +1,19 @@
 <?php
 
-namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
+namespace JoomlaShortcoder\Plugin\Content\Shortcodes;
 
 \defined('_JEXEC') or die;
 
 /**
- * Embed handler for Rutube videos.
+ * Handles the `rutube` shortcode to embed Rutube videos.
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-class Rutube extends AbstractVideoEmbedHandler
+class Rutube extends AbstractVideohostingHandler
 {
-    protected function getSupportedHosts(): array
-    {
-        return ['rutube.ru', 'www.rutube.ru'];
-    }
-
+    /**
+     * @inheritdoc
+     */
     protected function getEmbedUrl(string $url, array $attributes): string
     {
         $videoId = $this->getVideoId($url);
@@ -67,12 +65,25 @@ class Rutube extends AbstractVideoEmbedHandler
         throw new \InvalidArgumentException('Could not extract Rutube video ID from URL: ' . $url);
     }
 
-    protected function getDefaults(): array
+    /**
+     * @inheritdoc
+     */
+    protected function getIframeAttributes(array $attributes): array
     {
-        return [
+        return \array_merge(parent::getIframeAttributes($attributes), [
             'title' => 'Rutube video player',
             'allow' => 'clipboard-write; autoplay',
-            'class' => 'embed-rutube'
-        ];
+        ]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getWrapperAttributes(array $attributes): array
+    {
+        $wrapperAttributes = parent::getWrapperAttributes($attributes);
+        $wrapperAttributes['class'] = \trim(($wrapperAttributes['class'] ?? '') . ' embed-rutube');
+
+        return $wrapperAttributes;
     }
 }

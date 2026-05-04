@@ -2,48 +2,42 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes;
 
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\EmbedInterface;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HtmlHelper;
 
 \defined('_JEXEC') or die;
 
 /**
- * A shortcode for embedding remote resources.
- * Detects URL type and delegates to specific handlers (YouTube, Gist, Vimeo, etc.).
- * Falls back to iframe for generic URLs.
+ * Abstract base class for all embed shortcodes.
  *
- * Usage:
- *   {embed}https://youtube.com/watch?v=xxx{/embed}
- *   {embed url="https://gist.github.com/user/12345"}
+ * Provides common functionality for extracting URLs, checking supported hosts,
+ * and generating the wrapper HTML for embedded content.
+ * Concrete shortcode classes should extend this class and implement the abstract methods
+ * to define their specific embed logic.
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-class Embed
+abstract class AbstractEmbedHandler
 {
-    /** @var EmbedInterface[] */
-    private array $handlers;
-
-    public function __construct(array $handlers)
-    {
-        $this->handlers = $handlers;
-    }
-
+    /**
+     * The main shortcode invokation method.
+     *
+     * @param array  $attributes The shortcode attributes.
+     * @param string $content    The content between shortcode tags.
+     *
+     * @return string The full HTML output for the embed.
+     */
     public function __invoke(array $attributes, string $content): string
     {
         $url = $this->extractUrl($attributes, $content);
 
-        $handler = $this->getHandler($url);
-
         $wrapperCustomId = $attributes['id'] ?? null;
         $wrapperCustomClass = $attributes['class'] ?? null;
-        unset($attributes['id'], $attributes['class']);
+        $wrapperCustomStyle = $attributes['style'] ?? null;
+        unset($attributes['id'], $attributes['class'], $attributes['style']);
 
-        $output = $handler->process($url, $attributes);
+        $output = $this->processEmbed($url, $attributes);
 
-        $wrapperAttributes = $handler->getWrapperAttributes($attributes);
-
-        if ($wrapperAttributes === false) {
-            return $output;
-        }
+        $wrapperAttributes = $this->getWrapperAttributes($attributes);
 
         $wrapperAttributes['class'] = trim('embed-container ' . ($wrapperAttributes['class'] ?? ''));
 
@@ -56,13 +50,11 @@ class Embed
             $wrapperAttributes['class'] = trim(($wrapperAttributes['class'] ?? '') . ' ' . $wrapperCustomClass);
         }
 
-        if (isset($attributes['style'])) {
-            $wrapperAttributes['style'] = trim(($wrapperAttributes['style'] ?? '') . '; ' . $attributes['style'], '; ');
+        if ($wrapperCustomStyle !== null) {
+            $wrapperAttributes['style'] = trim(($wrapperAttributes['style'] ?? '') . '; ' . $wrapperCustomStyle, '; ');
         }
 
-        $attrString = $this->buildAttributes($wrapperAttributes);
-
-        return sprintf('<div %s>%s</div>', $attrString, $output);
+        return HtmlHelper::div($wrapperAttributes, $output);
     }
 
     /**
@@ -114,50 +106,23 @@ class Embed
     }
 
     /**
-     * Gets a suitable embed handler for the given URL.
+     * Processes the embed URL and attributes to return the raw embed HTML (iframe, object, script).
+     * Implemented by concrete shortcode classes.
      *
-     * @param string $url The URL to find a handler for.
+     * @param string $url        The embed URL.
+     * @param array  $attributes The attributes for the embed element.
      *
-     * @return EmbedInterface The suitable embed handler.
-     *
-     * @throws \RuntimeException If no suitable handler can be found.
+     * @return string The raw embed HTML.
      */
-    private function getHandler(string $url): EmbedInterface
-    {
-        foreach ($this->handlers as $handler) {
-            if ($handler->supports($url)) {
-                return $handler;
-            }
-        }
-
-        throw new \RuntimeException('No embed handler found for the given URL.');
-    }
+    abstract protected function processEmbed(string $url, array $attributes): string;
 
     /**
-     * Build an HTML attribute string from an array.
+     * Returns an array of attributes for the wrapper div.
+     * Implemented by concrete shortcode classes.
      *
-     * @param array $attributes The attributes to build.
+     * @param array $attributes The original shortcode attributes.
      *
-     * @return string The HTML attribute string.
+     * @return array An associative array of wrapper attributes.
      */
-    private function buildAttributes(array $attributes): string
-    {
-        $html = [];
-
-        foreach ($attributes as $key => $value) {
-            if ($value === null) {
-                continue;
-            }
-
-            if (is_bool($value)) {
-                if ($value) {
-                    $html[] = $key;
-                }
-            } else {
-                $html[] = sprintf('%s="%s"', $key, htmlspecialchars($value, ENT_QUOTES, 'UTF-8'));
-            }
-        }
-
-        return implode(' ', $html);
-    }
+    abstract protected function getWrapperAttributes(array $attributes): array;
 }

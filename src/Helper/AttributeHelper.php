@@ -5,7 +5,7 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Helper;
 \defined('_JEXEC') or die;
 
 /**
- * A helper class for shortcode attributes.
+ * A helper class for parsing and handling shortcode attributes.
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
@@ -172,38 +172,5 @@ final class AttributeHelper
         }
 
         return false;
-    }
-
-    /**
-     * Converts an associative array of attributes into an HTML attribute string.
-     *
-     * @param array $attributes   An associative array of attribute names and values.
-     * @param array $booleanAttrs An array of attribute names that should be treated as boolean.
-     *                            If a boolean attribute's value is truthy, it will be added without a value (e.g., 'autoplay').
-     *
-     * @return  string The HTML attribute string.
-     */
-    public static function toHtmlString(array $attributes, array $booleanAttrs = []): string
-    {
-        $attrs = [];
-        foreach ($attributes as $name => $value) {
-            if (!\is_scalar($value)) {
-                continue;
-            }
-
-            if (\in_array($name, $booleanAttrs, true)) {
-                // For boolean attributes, add only the name if the value is truthy.
-                // An empty string value also implies the attribute is present/enabled.
-                if (self::parseBoolean((string) $value, $value === '')) {
-                    $attrs[] = $name;
-                }
-            } elseif ($value !== '') {
-                // For non-boolean attributes, add name="value" if value is not empty
-                $attrs[] = $name . '="' . \htmlspecialchars($value, ENT_QUOTES | ENT_HTML5) . '"';
-            }
-            // If it's a non-boolean attribute and its value is empty, it's omitted.
-        }
-
-        return \implode(' ', $attrs);
     }
 }

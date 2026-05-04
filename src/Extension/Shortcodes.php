@@ -5,6 +5,13 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Extension;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Lorem;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Repeat;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Youtube;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Gist;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Vimeo;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Rutube;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\GoogleDocs;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Pdf;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Iframe;
 use JoomlaShortcoder\Plugin\Content\Shortcoder\Event\LoadShortcodesEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\DI\Container;
@@ -60,9 +67,39 @@ final class Shortcodes extends CMSPlugin implements SubscriberInterface
     public function loadShortcodes(LoadShortcodesEvent $event): void
     {
         $event->addShortcode(
-            'embed',
+            'youtube',
             fn (...$args) =>
-            $this->container->get(Embed::class)(...$args)
+            $this->container->get(Youtube::class)(...$args)
+        );
+        $event->addShortcode(
+            'gist',
+            fn (...$args) =>
+            $this->container->get(Gist::class)(...$args)
+        );
+        $event->addShortcode(
+            'vimeo',
+            fn (...$args) =>
+            $this->container->get(Vimeo::class)(...$args)
+        );
+        $event->addShortcode(
+            'rutube',
+            fn (...$args) =>
+            $this->container->get(Rutube::class)(...$args)
+        );
+        $event->addShortcode(
+            'googledocs',
+            fn (...$args) =>
+            $this->container->get(GoogleDocs::class)(...$args)
+        );
+        $event->addShortcode(
+            'pdf',
+            fn (...$args) =>
+            $this->container->get(Pdf::class)(...$args)
+        );
+        $event->addShortcode(
+            'iframe',
+            fn (...$args) =>
+            $this->container->get(Iframe::class)(...$args)
         );
         $event->addShortcode(
             'lorem',

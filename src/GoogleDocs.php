@@ -1,28 +1,20 @@
 <?php
 
-namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
+namespace JoomlaShortcoder\Plugin\Content\Shortcodes;
 
 \defined('_JEXEC') or die;
 
 /**
- * Handles embedding Google Docs, Sheets, Presentations, and Drive files.
+ * Handles the `googledocs` shortcode to embed Google Docs documents.
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-class GoogleDocs extends AbstractEmbedHandler
+class GoogleDocs extends AbstractIframeHandler // Extends AbstractVideoShortcode as it renders an iframe
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    protected function getSupportedHosts(): array
-    {
-        return ['docs.google.com', 'drive.google.com'];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function process(string $url, array $attributes): string
+    protected function getEmbedUrl(string $url, array $attributes): string
     {
         if ($this->isEmbeddableUrl($url)) {
             $embedUrl = $url;
@@ -30,26 +22,31 @@ class GoogleDocs extends AbstractEmbedHandler
             $embedUrl = $this->buildEmbedUrl($url);
         }
 
-        $iframeAttributes = [
-            'width' => $attributes['width'] ?? '100%',
-            'height' => $attributes['height'] ?? null,
-            'title' => $attributes['title'] ?? 'Google document',
-            'frameborder' => $attributes['frameborder'] ?? '0',
-            'allowfullscreen' => $attributes['allowfullscreen'] ?? '',
-            'allow' => $attributes['allow'] ?? '', // No specific allow for docs, but it's good to have it
-            'referrerpolicy' => $attributes['referrerpolicy'] ?? 'strict-origin-when-cross-origin',
-            'loading' => $attributes['loading'] ?? 'lazy',
-        ];
-
-        return Iframe::render($embedUrl, $iframeAttributes);
+        return $embedUrl;
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function getWrapperAttributes(array $attributes)
+    protected function getIframeAttributes(array $attributes): array
     {
-        return ['class' => 'embed-googledocs'];
+        return [
+            'title' => 'Google document',
+            'allow' => '',
+            'referrerpolicy' => 'strict-origin-when-cross-origin',
+            'loading' => 'lazy',
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getWrapperAttributes(array $attributes): array
+    {
+        $wrapperAttributes = parent::getWrapperAttributes($attributes);
+        $wrapperAttributes['class'] = \trim(($wrapperAttributes['class'] ?? '') . ' embed-googledocs');
+
+        return $wrapperAttributes;
     }
 
     /**

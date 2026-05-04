@@ -120,7 +120,6 @@ LOREMIPSUM;
         \ob_start();
         \imagepng($image);
         $imageData = \ob_get_clean();
-        \imagedestroy($image);
 
         $base64 = \base64_encode($imageData);
 

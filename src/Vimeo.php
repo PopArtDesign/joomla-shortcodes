@@ -1,23 +1,21 @@
 <?php
 
-namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
+namespace JoomlaShortcoder\Plugin\Content\Shortcodes;
 
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
 
 \defined('_JEXEC') or die;
 
 /**
- * Embed handler for Vimeo videos.
+ * Handles the `vimeo` shortcode to embed Vimeo videos.
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-class Vimeo extends AbstractVideoEmbedHandler
+class Vimeo extends AbstractVideohostingHandler
 {
-    protected function getSupportedHosts(): array
-    {
-        return ['vimeo.com', 'www.vimeo.com', 'player.vimeo.com'];
-    }
-
+    /**
+     * @inheritdoc
+     */
     protected function getEmbedUrl(string $url, array $attributes): string
     {
         $videoId = $this->getVideoId($url);
@@ -71,12 +69,25 @@ class Vimeo extends AbstractVideoEmbedHandler
         throw new \InvalidArgumentException('Could not extract Vimeo video ID from URL: ' . $url);
     }
 
-    protected function getDefaults(): array
+    /**
+     * @inheritdoc
+     */
+    protected function getIframeAttributes(array $attributes): array
     {
-        return [
+        return \array_merge(parent::getIframeAttributes($attributes), [
             'title' => 'Vimeo video player',
             'allow' => 'autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share',
-            'class' => 'embed-vimeo',
-        ];
+        ]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getWrapperAttributes(array $attributes): array
+    {
+        $wrapperAttributes = parent::getWrapperAttributes($attributes);
+        $wrapperAttributes['class'] = \trim(($wrapperAttributes['class'] ?? '') . ' embed-vimeo');
+
+        return $wrapperAttributes;
     }
 }

@@ -1,21 +1,19 @@
 <?php
 
-namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
+namespace JoomlaShortcoder\Plugin\Content\Shortcodes;
 
 \defined('_JEXEC') or die;
 
 /**
- * Embed handler for YouTube videos.
+ * Handles the `youtube` shortcode to embed YouTube videos.
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-class Youtube extends AbstractVideoEmbedHandler
+class Youtube extends AbstractVideohostingHandler
 {
-    protected function getSupportedHosts(): array
-    {
-        return ['youtube.com', 'www.youtube.com', 'm.youtube.com', 'youtu.be'];
-    }
-
+    /**
+     * @inheritdoc
+     */
     protected function getEmbedUrl(string $url, array $attributes): string
     {
         $videoId = $this->getVideoId($url);
@@ -68,12 +66,25 @@ class Youtube extends AbstractVideoEmbedHandler
         throw new \InvalidArgumentException('Could not extract YouTube video ID from URL: ' . $url);
     }
 
-    protected function getDefaults(): array
+    /**
+     * @inheritdoc
+     */
+    protected function getIframeAttributes(array $attributes): array
     {
-        return [
+        return \array_merge(parent::getIframeAttributes($attributes), [
             'title' => 'YouTube video player',
             'allow' => 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share',
-            'class' => 'embed-youtube',
-        ];
+        ]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getWrapperAttributes(array $attributes): array
+    {
+        $wrapperAttributes = parent::getWrapperAttributes($attributes);
+        $wrapperAttributes['class'] = \trim(($wrapperAttributes['class'] ?? '') . ' embed-youtube');
+
+        return $wrapperAttributes;
     }
 }

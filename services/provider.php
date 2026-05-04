@@ -6,17 +6,17 @@ use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Gist;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Iframe;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Pdf;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Rutube;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Vimeo;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Extension\Shortcodes;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\Youtube;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed\GoogleDocs;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Lorem;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Repeat;
+
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Youtube;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Gist;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Vimeo;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Rutube;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\GoogleDocs;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Pdf;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Iframe;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Extension\Shortcodes;
 
 return new class () implements ServiceProviderInterface {
     public function register(Container $container): void
@@ -29,23 +29,13 @@ return new class () implements ServiceProviderInterface {
             )
         );
 
-        $container->share(Embed::class, fn() => new Embed([
-            $container->get(Youtube::class),
-            $container->get(Gist::class),
-            $container->get(Vimeo::class),
-            $container->get(Rutube::class),
-            $container->get(GoogleDocs::class),
-            $container->get(Pdf::class),
-            $container->get(Iframe::class),
-        ]), true);
-
         $container->share(Youtube::class, fn() => new Youtube(), true);
         $container->share(Gist::class, fn() => new Gist(), true);
         $container->share(Vimeo::class, fn() => new Vimeo(), true);
         $container->share(Rutube::class, fn() => new Rutube(), true);
-        $container->share(Iframe::class, fn() => new Iframe(), true);
         $container->share(GoogleDocs::class, fn() => new GoogleDocs(), true);
         $container->share(Pdf::class, fn() => new Pdf(), true);
+        $container->share(Iframe::class, fn() => new Iframe(), true);
 
         $container->share(Lorem::class, fn() => new Lorem(), true);
         $container->share(Repeat::class, fn() => new Repeat(), true);
