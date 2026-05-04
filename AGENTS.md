@@ -33,5 +33,12 @@ For shortcodes that embed external content (like YouTube videos), you can use th
 
 ### Available Shortcodes
 
-- **`lorem`** - Generates Lorem Ipsum placeholder text
-- **`repeat`** - Repeats enclosed content
+-   **`gist`** - Embeds GitHub Gists
+-   **`googledocs`** - Embeds Google Docs
+-   **`iframe`** - Embeds iframes
+-   **`lorem`** - Generates Lorem Ipsum placeholder text
+-   **`pdf`** - Embeds PDF documents
+-   **`repeat`** - Repeats enclosed content
+-   **`rutube`** - Embeds Rutube videos
+-   **`vimeo`** - Embeds Vimeo videos
+-   **`youtube`** - Embeds YouTube videos
