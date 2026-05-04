@@ -13,113 +13,173 @@ A shortcodes pack for [Joomla Shortcoder](https://github.com/PopArtDesign/joomla
 
 ## Usage
 
-### `embed`
+### `youtube`
 
-Embeds remote resources (e.g., YouTube, Vimeo, Google Docs, PDFs, etc.).
+Embeds YouTube videos.
 
-`{embed url [attr="value"] ...}`
+`{youtube url [attr="value"] ...}`
 
-The URL can be provided either as a `url` attribute or as the content between the tags:
-
--   `url`: The URL to embed (e.g., YouTube, Vimeo, Google Docs, PDFs, etc.). Required if not using nested content.
--   `width`: The width of the embed. Defaults to `100%` (iframe) or type-specific default.
--   `height`: The height of the embed. Defaults to `auto` (for aspect ratio calculation) or type-specific default.
+-   `url`: The YouTube video URL (e.g., `https://www.youtube.com/watch?v=dQw4w9WgXcQ` or `https://youtu.be/dQw4w9WgXcQ`). Required if not using nested content.
+-   `width`: The width of the embed. Defaults to `100%`.
+-   `height`: The height of the embed. Defaults to `auto` (for aspect ratio calculation).
+-   `id`: A CSS id for the container `div`.
 -   `class`: A CSS class for the container `div`.
 -   `title`: The `title` attribute for the iframe.
-
-**Video-specific Attributes**
-
-These attributes are available for video embeds (YouTube, Vimeo, Rutube).
-
 -   `autoplay`: Automatically starts playing the video. Set to `true` or `1` to enable.
 -   `start`: The time in seconds (or `MM:SS` format) from which playback will begin.
 -   `end`: The time in seconds (or `MM:SS` format) at which playback will end.
 -   `aspect-ratio`: The aspect ratio of the embed when `height` is set to `auto` (e.g., `16 / 9`, `4 / 3`). Defaults to `16 / 9`.
 
-**Gist-specific Attributes**
-
--   `file`: Specifies a particular file from the Gist to embed.
-
-The embed shortcode automatically detects the URL type and uses the appropriate handler:
-
-- **YouTube** (`youtube.com`, `youtu.be`): Embeds as YouTube video player
-- **Vimeo** (`vimeo.com`): Embeds as Vimeo player
-- **Rutube** (`rutube.ru`): Embeds as Rutube video player
-- **Google Docs** (`docs.google.com`, `drive.google.com`): Embeds Google Docs, Sheets, Slides, and other files from Google Drive.
-- **GitHub Gist** (`gist.github.com`): Embeds as Gist script
-- **PDF** (`.pdf` extension): Embeds PDF documents using an `<object>` tag.
-- **Other URLs**: Falls back to generic iframe
-
-**YouTube Examples:**
+**Examples:**
 
 ```
-{embed autoplay start=1:00 end=3:00}
+{youtube autoplay start=1:00 end=3:00}
 https://www.youtube.com/watch?v=dQw4w9WgXcQ
-{/embed}
+{/youtube}
 ```
 
 ```
-{embed url="https://www.youtube.com/watch?v=dQw4w9WgXcQ" width="800" height="600"}
+{youtube url="https://www.youtube.com/watch?v=dQw4w9WgXcQ" width="800" height="600"}
 ```
 
 ```
-{embed https://youtu.be/dQw4w9WgXcQ aspect-ratio=4/3}
+{youtube https://youtu.be/dQw4w9WgXcQ aspect-ratio=4/3}
 ```
 
-**Vimeo Example:**
+### `vimeo`
+
+Embeds Vimeo videos.
+
+`{vimeo url [attr="value"] ...}`
+
+-   `url`: The Vimeo video URL (e.g., `https://vimeo.com/123456789`). Required if not using nested content.
+-   `width`: The width of the embed. Defaults to `100%`.
+-   `height`: The height of the embed. Defaults to `auto` (for aspect ratio calculation).
+-   `id`: A CSS id for the container `div`.
+-   `class`: A CSS class for the container `div`.
+-   `title`: The `title` attribute for the iframe.
+-   `autoplay`: Automatically starts playing the video. Set to `true` or `1` to enable.
+-   `start`: The time in seconds (or `MM:SS` format) from which playback will begin.
+-   `end`: The time in seconds (or `MM:SS` format) at which playback will end.
+-   `aspect-ratio`: The aspect ratio of the embed when `height` is set to `auto` (e.g., `16 / 9`, `4 / 3`). Defaults to `16 / 9`.
+
+**Example:**
 
 ```
-{embed https://vimeo.com/123456789 autoplay start="30" end="60"}
+{vimeo https://vimeo.com/123456789 autoplay start="30" end="60"}
 ```
 
-**Rutube Example:**
+### `rutube`
+
+Embeds Rutube videos.
+
+`{rutube url [attr="value"] ...}`
+
+-   `url`: The Rutube video URL (e.g., `https://rutube.ru/video/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c/`). Required if not using nested content.
+-   `width`: The width of the embed. Defaults to `100%`.
+-   `height`: The height of the embed. Defaults to `auto` (for aspect ratio calculation).
+-   `id`: A CSS id for the container `div`.
+-   `class`: A CSS class for the container `div`.
+-   `title`: The `title` attribute for the iframe.
+-   `autoplay`: Automatically starts playing the video. Set to `true` or `1` to enable.
+-   `start`: The time in seconds (or `MM:SS` format) from which playback will begin.
+-   `end`: The time in seconds (or `MM:SS` format) at which playback will end.
+-   `aspect-ratio`: The aspect ratio of the embed when `height` is set to `auto` (e.g., `16 / 9`, `4 / 3`). Defaults to `16 / 9`.
+
+**Example:**
 
 ```
-{embed https://rutube.ru/video/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c/ autoplay}
+{rutube https://rutube.ru/video/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c/ autoplay}
 ```
 
-**Google Docs Examples:**
+### `googledocs`
 
-Supports embedding Google Docs, Sheets, Slides, and files from Google Drive.
+Embeds Google Docs, Sheets, Slides, and other files from Google Drive.
 
-```
-{embed}https://docs.google.com/document/d/a-valid-id/edit{/embed}
-```
+`{googledocs url [attr="value"] ...}`
 
-```
-{embed url="https://docs.google.com/spreadsheets/d/a-valid-id/edit" width="800" height="600"}
-```
+-   `url`: The URL to the Google Doc/Sheet/Slide. Required if not using nested content.
+-   `width`: The width of the embed. Defaults to `100%`.
+-   `height`: The height of the embed. Defaults to `100%`.
+-   `id`: A CSS id for the container `div`.
+-   `class`: A CSS class for the container `div`.
+-   `title`: The `title` attribute for the iframe.
 
-**Gist Example:**
-
-```
-{embed https://gist.github.com/user/12345}
-```
+**Examples:**
 
 ```
-{embed url="https://gist.github.com/user/12345" file="example.php"}
-```
-
-**PDF Examples:**
-
-Embeds a PDF document.
-
-```
-{embed}https://example.com/document.pdf{/embed}
-```
-
-```
-{embed url="https://example.com/another.pdf" width="600" height="800"}
-```
-
-**Generic URL (iframe fallback):**
-
-```
-{embed}https://example.com/article{/embed}
+{googledocs}https://docs.google.com/document/d/a-valid-id/edit{/googledocs}
 ```
 
 ```
-{embed url="https://example.com" width="800" height="600" class="my-embed"}
+{googledocs url="https://docs.google.com/spreadsheets/d/a-valid-id/edit" width="800" height="600"}
+```
+
+### `gist`
+
+Embeds GitHub Gists.
+
+`{gist url [attr="value"] ...}`
+
+-   `url`: The GitHub Gist URL (e.g., `https://gist.github.com/user/12345`). Required if not using nested content.
+-   `file`: Specifies a particular file from the Gist to embed.
+-   `id`: A CSS id for the container `div`.
+-   `class`: A CSS class for the container `div`.
+
+**Examples:**
+
+```
+{gist https://gist.github.com/user/12345}
+```
+
+```
+{gist url="https://gist.github.com/user/12345" file="example.php"}
+```
+
+### `pdf`
+
+Embeds PDF documents.
+
+`{pdf url [attr="value"] ...}`
+
+-   `url`: The URL to the PDF document (e.g., `https://example.com/document.pdf`). Required if not using nested content.
+-   `width`: The width of the embed. Defaults to `100%`.
+-   `height`: The height of the embed. Defaults to `800px`.
+-   `id`: A CSS id for the container `div`.
+-   `class`: A CSS class for the container `div`.
+-   `title`: The `title` attribute for the iframe.
+
+**Examples:**
+
+```
+{pdf}https://example.com/document.pdf{/pdf}
+```
+
+```
+{pdf url="https://example.com/another.pdf" width="600" height="800"}
+```
+
+### `iframe`
+
+Embeds any URL as a generic iframe. Use this for URLs not covered by other specific embed shortcodes.
+
+`{iframe url [attr="value"] ...}`
+
+-   `url`: The URL to embed. Required if not using nested content.
+-   `width`: The width of the embed. Defaults to `100%`.
+-   `height`: The height of the embed. Defaults to `600px`.
+-   `id`: A CSS id for the container `div`.
+-   `class`: A CSS class for the container `div`.
+-   `title`: The `title` attribute for the iframe.
+
+**Example:**
+
+```
+{iframe}https://example.com/article{/iframe}
+```
+
+```
+{iframe url="https://example.com" width="800" height="600" class="my-embed"}
 ```
 
 ### `lorem`
