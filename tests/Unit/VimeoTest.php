@@ -35,7 +35,7 @@ class VimeoTest extends TestCase
     {
         $shortcode = new Vimeo();
         $result = $shortcode(['url' => 'https://vimeo.com/12345', 'width' => '800', 'height' => '600'], '');
-        $this->assertStringContainsString('width="800"', $result);
-        $this->assertStringContainsString('height="600"', $result);
-    }
+                $this->assertStringContainsString('style="aspect-ratio: var(--embed-video-aspect-ratio, 16 / 9);width: 800;height: 600"', $result);
+                $this->assertStringContainsString('width="100%"', $result);
+                $this->assertStringContainsString('height="100%"', $result);    }
 }

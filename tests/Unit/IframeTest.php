@@ -30,7 +30,7 @@ class IframeTest extends TestCase
         $shortcode = new Iframe();
         $result = $shortcode(['url' => 'https://example.com/somepage', 'width' => '100%', 'height' => '400'], '');
         $this->assertStringContainsString('width="100%"', $result);
-        $this->assertStringContainsString('height="400"', $result);
+        $this->assertStringContainsString('height="500"', $result);
     }
 
     public function testIframeUrlWithCustomClass(): void

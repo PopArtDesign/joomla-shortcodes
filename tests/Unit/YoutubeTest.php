@@ -35,9 +35,9 @@ class YoutubeTest extends TestCase
     {
         $shortcode = new Youtube();
         $result = $shortcode(['url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', 'width' => '800', 'height' => '600'], '');
-        $this->assertStringContainsString('width="800"', $result);
-        $this->assertStringContainsString('height="600"', $result);
-    }
+                $this->assertStringContainsString('style="aspect-ratio: var(--embed-video-aspect-ratio, 16 / 9);width: 800;height: 600"', $result);
+                $this->assertStringContainsString('width="100%"', $result);
+                $this->assertStringContainsString('height="100%"', $result);    }
 
     public function testYoutubeUrlWithAutoplay(): void
     {

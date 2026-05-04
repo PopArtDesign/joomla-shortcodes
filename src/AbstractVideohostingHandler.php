@@ -31,7 +31,7 @@ abstract class AbstractVideohostingHandler extends AbstractIframeHandler
         }
 
         $aspectRatio = $attributes['aspect-ratio'] ?? '16 / 9';
-        $styles[] = 'aspect-ratio: var(--embed-video-aspect-ratio, ' . \htmlspecialchars($aspectRatio) . ');';
+        $styles[] = 'aspect-ratio: var(--embed-video-aspect-ratio, ' . \htmlspecialchars($aspectRatio) . ')';
 
         if ($attributes['width'] ?? '') {
             $styles[] = 'width: ' . $attributes['width'];
