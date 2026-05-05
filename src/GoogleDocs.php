@@ -2,6 +2,9 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes;
 
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HandlerHelper;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
+
 \defined('_JEXEC') or die;
 
 /**
@@ -9,12 +12,46 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-class GoogleDocs extends AbstractIframeHandler // Extends AbstractVideoShortcode as it renders an iframe
+class GoogleDocs
 {
     /**
-     * @inheritdoc
+     * The main shortcode invokation method.
+     *
+     * @param array  $attributes The shortcode attributes.
+     * @param string $content    The content between shortcode tags.
+     *
+     * @return string The full HTML output for the embed.
      */
-    protected function getEmbedUrl(string $url, array $attributes): string
+    public function __invoke(array $attributes, string $content): string
+    {
+        $url = AttributeHelper::getUrl($attributes, $content);
+
+        $embedUrl = $this->getEmbedUrl($url, $attributes);
+
+        $baseWrapperAttributes = [
+            'class' => 'embed-iframe embed-googledocs',
+        ];
+
+        $baseIframeAttributes = [
+            'title' => 'Google document',
+            'width' => '100%',
+            'height' => '100%',
+            'frameborder' => '0',
+            'allow' => '',
+            'allowfullscreen' => '',
+            'referrerpolicy' => 'strict-origin-when-cross-origin',
+            'loading' => 'lazy',
+        ];
+
+        return HandlerHelper::iframe(
+            $embedUrl,
+            $attributes,
+            $baseWrapperAttributes,
+            $baseIframeAttributes,
+        );
+    }
+
+    protected function getEmbedUrl(string $url): string
     {
         if ($this->isEmbeddableUrl($url)) {
             $embedUrl = $url;
@@ -23,57 +60,6 @@ class GoogleDocs extends AbstractIframeHandler // Extends AbstractVideoShortcode
         }
 
         return $embedUrl;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getIframeAttributes(array $attributes): array
-    {
-        return [
-            'title' => 'Google document',
-            'allow' => '',
-            'referrerpolicy' => 'strict-origin-when-cross-origin',
-            'loading' => 'lazy',
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getWrapperAttributes(array $attributes): array
-    {
-        $wrapperAttributes = parent::getWrapperAttributes($attributes);
-        $wrapperAttributes['class'] = \trim(($wrapperAttributes['class'] ?? '') . ' embed-googledocs');
-
-        return $wrapperAttributes;
-    }
-
-    /**
-     * Extracts file ID and type from a Google Docs/Drive URL.
-     *
-     * @param string $url The URL to extract details from.
-     *
-     * @return array|null An associative array with 'fileId'
-     *                    and 'type' if found, null otherwise.
-     */
-    private function extractFileDetails(string $url): ?array
-    {
-        // Patterns with service type binding
-        $patterns = [
-            'document'     => '~docs\.google\.com/document/d/([a-zA-Z0-9_-]+)~i',
-            'spreadsheet'  => '~docs\.google\.com/spreadsheets/d/([a-zA-Z0-9_-]+)~i',
-            'presentation' => '~docs\.google\.com/presentation/d/([a-zA-Z0-9_-]+)~i',
-            'drive'        => '~drive\.google\.com/file/d/([a-zA-Z0-9_-]+)~i',
-        ];
-
-        foreach ($patterns as $key => $pattern) {
-            if (preg_match($pattern, $url, $matches)) {
-                return ['fileId' => $matches[1], 'type' => $key];
-            }
-        }
-
-        return null;
     }
 
     /**
@@ -102,6 +88,7 @@ class GoogleDocs extends AbstractIframeHandler // Extends AbstractVideoShortcode
      * @param string $url The original Google Docs/Drive URL.
      *
      * @return string The constructed embed URL.
+     *
      * @throws \InvalidArgumentException If the file type is unsupported or details cannot be extracted.
      */
     private function buildEmbedUrl(string $url): string
@@ -115,7 +102,6 @@ class GoogleDocs extends AbstractIframeHandler // Extends AbstractVideoShortcode
         $fileId = $fileDetails['fileId'];
         $type   = $fileDetails['type'];
 
-        // Embed URL templates
         $embedTemplates = [
             'document'     => 'https://docs.google.com/document/d/%s/preview',
             'spreadsheet'  => 'https://docs.google.com/spreadsheets/d/%s/preview',
@@ -128,5 +114,31 @@ class GoogleDocs extends AbstractIframeHandler // Extends AbstractVideoShortcode
         }
 
         return sprintf($embedTemplates[$type], $fileId);
+    }
+
+    /**
+     * Extracts file ID and type from a Google Docs/Drive URL.
+     *
+     * @param string $url The URL to extract details from.
+     *
+     * @return array|null An associative array with 'fileId'
+     *                    and 'type' if found, null otherwise.
+     */
+    private function extractFileDetails(string $url): ?array
+    {
+        $patterns = [
+            'document'     => '~docs\.google\.com/document/d/([a-zA-Z0-9_-]+)~i',
+            'spreadsheet'  => '~docs\.google\.com/spreadsheets/d/([a-zA-Z0-9_-]+)~i',
+            'presentation' => '~docs\.google\.com/presentation/d/([a-zA-Z0-9_-]+)~i',
+            'drive'        => '~drive\.google\.com/file/d/([a-zA-Z0-9_-]+)~i',
+        ];
+
+        foreach ($patterns as $key => $pattern) {
+            if (preg_match($pattern, $url, $matches)) {
+                return ['fileId' => $matches[1], 'type' => $key];
+            }
+        }
+
+        return null;
     }
 }

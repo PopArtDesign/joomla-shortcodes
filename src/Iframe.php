@@ -2,6 +2,9 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes;
 
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HandlerHelper;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
+
 \defined('_JEXEC') or die;
 
 /**
@@ -9,20 +12,40 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-class Iframe extends AbstractIframeHandler
+class Iframe
 {
-    protected function getEmbedUrl(string $url, array $attributes): string
+    /**
+     * The main shortcode invokation method.
+     *
+     * @param array  $attributes The shortcode attributes.
+     * @param string $content    The content between shortcode tags.
+     *
+     * @return string The full HTML output for the embed.
+     */
+    public function __invoke(array $attributes, string $content): string
     {
-        return $url;
-    }
+        $url = AttributeHelper::getUrl($attributes, $content);
 
-    protected function getIframeAttributes(array $attributes): array
-    {
-        return [
-            'height' => '500',
-            'title' => 'Embedded content',
-            'allow' => '',
-            'referrerpolicy' => 'strict-origin-when-cross-origin',
+        $baseWrapperAttributes = [
+            'class' => 'embed-iframe',
         ];
+
+        $baseIframeAttributes = [
+            'title' => 'Embedded content',
+            'width' => '100%',
+            'height' => '100%',
+            'frameborder' => '0',
+            'allow' => '',
+            'allowfullscreen' => true,
+            'referrerpolicy' => 'strict-origin-when-cross-origin',
+            'loading' => 'lazy',
+        ];
+
+        return HandlerHelper::iframe(
+            $url,
+            $attributes,
+            $baseWrapperAttributes,
+            $baseIframeAttributes
+        );
     }
 }

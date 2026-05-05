@@ -74,20 +74,9 @@ class Vimeo extends AbstractVideohostingHandler
      */
     protected function getIframeAttributes(array $attributes): array
     {
-        return \array_merge(parent::getIframeAttributes($attributes), [
+        return [
             'title' => 'Vimeo video player',
             'allow' => 'autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share',
-        ]);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getWrapperAttributes(array $attributes): array
-    {
-        $wrapperAttributes = parent::getWrapperAttributes($attributes);
-        $wrapperAttributes['class'] = \trim(($wrapperAttributes['class'] ?? '') . ' embed-vimeo');
-
-        return $wrapperAttributes;
+        ];
     }
 }

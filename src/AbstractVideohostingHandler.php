@@ -3,6 +3,7 @@
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes;
 
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HandlerHelper;
 
 \defined('_JEXEC') or die;
 
@@ -14,49 +15,49 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-abstract class AbstractVideohostingHandler extends AbstractIframeHandler
+abstract class AbstractVideohostingHandler
 {
     /**
-     * @inheritdoc
+     * The main shortcode invokation method.
+     *
+     * @param array  $attributes The shortcode attributes.
+     * @param string $content    The content between shortcode tags.
+     *
+     * @return string The full HTML output for the embed.
      */
-    protected function getWrapperAttributes(array $attributes): array
+    public function __invoke(array $attributes, string $content): string
     {
-        $wrapperAttributes = parent::getWrapperAttributes($attributes);
+        $url = AttributeHelper::getUrl($attributes, $content);
 
-        $wrapperAttributes['class'] = \trim(($wrapperAttributes['class'] ?? '') . ' embed-video');
+        $src = $this->getEmbedUrl($url, $attributes);
+
+        $class = \strtolower((new \ReflectionClass($this))->getShortName());
+        $baseWrapperAttributes = ['class' => 'embed-iframe embed-video embed-' . $class ];
 
         $styles = [];
-        if ($wrapperAttributes['style'] ?? '') {
-            $styles[] = $wrapperAttributes['style'];
-        }
 
         $aspectRatio = $attributes['aspect-ratio'] ?? '16 / 9';
         $styles[] = 'aspect-ratio: var(--embed-video-aspect-ratio, ' . \htmlspecialchars($aspectRatio) . ')';
 
-        if ($attributes['width'] ?? '') {
-            $styles[] = 'width: ' . $attributes['width'];
-        }
-        if ($attributes['height'] ?? '') {
-            $styles[] = 'height: ' . $attributes['height'];
-        }
+        $baseWrapperAttributes['style'] = \implode(';', $styles);
 
-        $wrapperAttributes['style'] = \implode(';', $styles);
-
-        return $wrapperAttributes;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getIframeAttributes(array $attributes): array
-    {
-        $iframeAttributes = [
+        $baseIframeAttributes = \array_merge([
             'title' => 'Video player',
+            'width' => '100%',
+            'height' => '100%',
+            'frameborder' => '0',
             'allow' => 'autoplay',
+            'allowfullscreen' => true,
             'referrerpolicy' => 'strict-origin-when-cross-origin',
-        ];
+            'loading' => 'lazy',
+        ], $this->getIframeAttributes($attributes));
 
-        return $iframeAttributes;
+        return HandlerHelper::iframe(
+            $src,
+            $attributes,
+            $baseWrapperAttributes,
+            $baseIframeAttributes
+        );
     }
 
     /**
@@ -103,4 +104,25 @@ abstract class AbstractVideohostingHandler extends AbstractIframeHandler
 
         return AttributeHelper::parseTime($attributes['end'], null);
     }
+
+    /**
+     * Returns the URL for the iframe embed.
+     * Implemented by concrete shortcode classes.
+     *
+     * @param string $url        The original URL provided by the user.
+     * @param array  $attributes The shortcode attributes.
+     *
+     * @return string The URL to be used for the iframe src.
+     */
+    abstract protected function getEmbedUrl(string $url, array $attributes): string;
+
+    /**
+     * Returns iframe attributes specific to the video service.
+     * Implemented by concrete shortcode classes to customize iframe behavior.
+     *
+     * @param array $attributes The shortcode attributes.
+     *
+     * @return array An associative array of iframe attributes.
+     */
+    abstract protected function getIframeAttributes(array $attributes): array;
 }

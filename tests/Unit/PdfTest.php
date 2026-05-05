@@ -41,4 +41,13 @@ class PdfTest extends TestCase
         $result = $shortcode([], 'https://example.com/document.pdf');
         $this->assertMatchesRegularExpression('/<object.*>.*<p>.*PDF viewer.*<\/p>.*<\/object>/s', $result);
     }
+
+    public function testPdfWithRelativeUrlIsProcessed(): void
+    {
+        $shortcode = new Pdf();
+        $result = $shortcode([], '/media/document.pdf');
+        $this->assertStringContainsString('/media/document.pdf', $result);
+        $this->assertStringContainsString('object', $result);
+        $this->assertStringContainsString('type="application/pdf"', $result);
+    }
 }

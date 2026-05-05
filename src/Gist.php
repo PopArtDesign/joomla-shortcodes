@@ -2,6 +2,8 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes;
 
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HandlerHelper;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HtmlHelper;
 
 \defined('_JEXEC') or die;
@@ -11,13 +13,20 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HtmlHelper;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-class Gist extends AbstractEmbedHandler
+class Gist
 {
     /**
-     * @inheritdoc
+     * The main shortcode invokation method.
+     *
+     * @param array  $attributes The shortcode attributes.
+     * @param string $content    The content between shortcode tags.
+     *
+     * @return string The full HTML output for the embed.
      */
-    protected function processEmbed(string $url, array $attributes): string
+    public function __invoke(array $attributes, string $content): string
     {
+        $url = AttributeHelper::getUrl($attributes, $content);
+
         if (\parse_url($url, PHP_URL_HOST) !== 'gist.github.com') {
             throw new \InvalidArgumentException('The provided URL is not a valid Gist URL.');
         }
@@ -28,14 +37,10 @@ class Gist extends AbstractEmbedHandler
             $scriptUrl .= '?file=' . \urlencode($file);
         }
 
-        return HtmlHelper::script($scriptUrl);
-    }
+        $output = HtmlHelper::script($scriptUrl);
 
-    /**
-     * @inheritdoc
-     */
-    protected function getWrapperAttributes(array $attributes): array
-    {
-        return ['class' => 'embed-gist'];
+        return HandlerHelper::wrapper($output, $attributes, [
+            'class' => 'embed-gist'
+        ]);
     }
 }

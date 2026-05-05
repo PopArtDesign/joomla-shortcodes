@@ -71,20 +71,9 @@ class Youtube extends AbstractVideohostingHandler
      */
     protected function getIframeAttributes(array $attributes): array
     {
-        return \array_merge(parent::getIframeAttributes($attributes), [
+        return [
             'title' => 'YouTube video player',
             'allow' => 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share',
-        ]);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getWrapperAttributes(array $attributes): array
-    {
-        $wrapperAttributes = parent::getWrapperAttributes($attributes);
-        $wrapperAttributes['class'] = \trim(($wrapperAttributes['class'] ?? '') . ' embed-youtube');
-
-        return $wrapperAttributes;
+        ];
     }
 }

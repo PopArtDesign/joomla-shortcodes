@@ -2,6 +2,8 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes;
 
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HandlerHelper;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HtmlHelper;
 
 \defined('_JEXEC') or die;
@@ -11,13 +13,20 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HtmlHelper;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-class Pdf extends AbstractEmbedHandler
+class Pdf
 {
     /**
-     * @inheritdoc
+     * The main shortcode invokation method.
+     *
+     * @param array  $attributes The shortcode attributes.
+     * @param string $content    The content between shortcode tags.
+     *
+     * @return string The full HTML output for the embed.
      */
-    protected function processEmbed(string $url, array $attributes): string
+    public function __invoke(array $attributes, string $content): string
     {
+        $url = AttributeHelper::getUrl($attributes, $content, true);
+
         $path = \parse_url($url, \PHP_URL_PATH);
         if (!$path || \strtolower(\pathinfo($path, \PATHINFO_EXTENSION)) !== 'pdf') {
             throw new \InvalidArgumentException('The provided URL is not a PDF file.');
@@ -34,24 +43,16 @@ class Pdf extends AbstractEmbedHandler
             $url,
         );
 
-        return HtmlHelper::object($url, 'application/pdf', $objectAttributes, $fallbackMessage);
-    }
+        $output = HtmlHelper::object($url, 'application/pdf', $objectAttributes, $fallbackMessage);
 
-    /**
-     * @inheritdoc
-     */
-    protected function getWrapperAttributes(array $attributes): array
-    {
-        $styles = [];
-        if ($attributes['width'] ?? '') {
-            $styles[] = 'width: ' . $attributes['width'];
+        if (!isset($attributes['height'])) {
+            $attributes['height'] = 'var(--embed-pdf-height, 75vh)';
         }
 
-        $styles[] = 'height: ' . ($attributes['height'] ?? 'var(--embed-pdf-height, 75vh)');
-
-        return [
+        $baseWrapperAttributes = [
             'class' => 'embed-pdf',
-            'style' => \implode(';', $styles),
         ];
+
+        return HandlerHelper::wrapper($output, $attributes, $baseWrapperAttributes);
     }
 }

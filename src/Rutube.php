@@ -70,20 +70,9 @@ class Rutube extends AbstractVideohostingHandler
      */
     protected function getIframeAttributes(array $attributes): array
     {
-        return \array_merge(parent::getIframeAttributes($attributes), [
+        return [
             'title' => 'Rutube video player',
             'allow' => 'clipboard-write; autoplay',
-        ]);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getWrapperAttributes(array $attributes): array
-    {
-        $wrapperAttributes = parent::getWrapperAttributes($attributes);
-        $wrapperAttributes['class'] = \trim(($wrapperAttributes['class'] ?? '') . ' embed-rutube');
-
-        return $wrapperAttributes;
+        ];
     }
 }

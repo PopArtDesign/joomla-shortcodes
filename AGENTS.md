@@ -10,12 +10,9 @@ Shortcodes are implemented as invokable PHP classes.
 
 ### Architecture
 
-- **Shortcodes**: `src/Lorem.php`, `src/Repeat.php` - Standalone shortcode classes
-- **Embed Shortcodes**:
-    - `src/AbstractEmbedHandler.php` - Base class for shortcodes that embed content (e.g., videos, documents). It handles common logic like URL extraction and wrapper generation.
-    - `src/AbstractIframeHandler.php` - Extends `AbstractEmbedHandler` and provides common functionality for generating iframe embeds.
-    - `src/AbstractVideohostingHandler.php` - Extends `AbstractIframeHandler` and provides common functionality for video-specific attributes like autoplay, start/end times, and aspect ratio.
+- **Shortcodes**: `src/Lorem.php`, `src/Repeat.php` etc. - Standalone shortcode classes
 - **Shortcode Registration**: `src/Extension/Shortcodes.php` - Registers all shortcodes
+- `src/AbstractVideohostingHandler.php` - Provides common functionality for video-specific attributes like autoplay, start/end times, and aspect ratio.
 
 ### Adding a New Shortcode
 
@@ -23,16 +20,6 @@ Shortcodes are implemented as invokable PHP classes.
 2. Implement an `__invoke` method with appropriate signature (see `Lorem.php` or `Repeat.php` for examples)
 3. Register it in `services/provider.php` to add it to the DI container
 4. Register it in `src/Extension/Shortcodes.php`
-
-### Adding a New Embed Shortcode
-
-For shortcodes that embed external content (like YouTube videos), you can use the `AbstractEmbedHandler` base class.
-
-1.  Create a new class in `src/` that extends `AbstractEmbedHandler` (e.g., `MyEmbedShortcode.php`).
-2.  Implement the `processEmbed(string $url, array $attributes): string` method to return the raw embed HTML (e.g., an `<iframe>`).
-3.  Implement the `getWrapperAttributes(array $attributes): array` method to provide attributes for the wrapper `div`.
-4.  Register the new shortcode class in `services/provider.php`.
-5.  Register the shortcode in `src/Extension/Shortcodes.php`.
 
 ### Available Shortcodes
 

@@ -173,4 +173,63 @@ final class AttributeHelper
 
         return false;
     }
+
+    /**
+     * Extracts the URL from the attributes array or content.
+     *
+     * @param array  $attributes The attributes array.
+     * @param string $content    The content string, used as a fallback for the URL.
+     *
+     * @return string The extracted and validated URL.
+     *
+     * @throws \InvalidArgumentException If the URL is missing or invalid.
+     */
+    public static function getUrl(array $attributes, string $content, bool $relative = false): string
+    {
+        // Attempt 1: Explicit `url` attribute
+        if (isset($attributes['url'])) {
+            $url = $attributes['url'];
+
+            if ($relative) {
+                return $url;
+            }
+
+            if (\filter_var($url, FILTER_VALIDATE_URL) !== false) {
+                return $url;
+            } else {
+                throw new \InvalidArgumentException('Invalid URL provided in "url" attribute: ' . $url);
+            }
+        }
+
+        // Attempt 2: Content
+        $trimmedContent = \trim($content);
+        if ($trimmedContent !== '') {
+            if ($relative) {
+                return $trimmedContent;
+            }
+
+            if (\filter_var($trimmedContent, FILTER_VALIDATE_URL) !== false) {
+                return $trimmedContent;
+            } else {
+                throw new \InvalidArgumentException('Invalid URL provided in content: ' . $trimmedContent);
+            }
+        }
+
+        // Attempt 3: Positional attribute at index 0
+        if (isset($attributes[0])) {
+            $url = $attributes[0];
+            if ($relative) {
+                return $url;
+            }
+
+            if (\filter_var($url, FILTER_VALIDATE_URL) !== false) {
+                return $url;
+            } else {
+                throw new \InvalidArgumentException('Invalid URL provided as positional attribute: ' . $url);
+            }
+        }
+
+        // If no valid URL was found after checking all candidates
+        throw new \InvalidArgumentException('A valid embed URL was not found.');
+    }
 }
