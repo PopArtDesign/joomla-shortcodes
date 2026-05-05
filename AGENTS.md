@@ -21,6 +21,17 @@ Shortcodes are implemented as invokable PHP classes.
 3. Register it in `services/provider.php` to add it to the DI container
 4. Register it in `src/Extension/Shortcodes.php`
 
+### Adding a New Video Shortcode
+
+To add a new video shortcode (like YouTube, Vimeo, Rutube):
+
+1.  Create a new class in `src/` (e.g., `MyVideoShortcode.php`) that **extends `AbstractVideohostingHandler`**.
+2.  Implement the `protected function getEmbedUrl(string $url, array $attributes): string` method to construct the embed URL.
+3.  Implement the `protected function getVideoId(string $url): string` method to extract the video ID from the URL.
+4.  Optionally, implement `protected function getIframeAttributes(array $attributes): array` to provide additional iframe attributes (see `Youtube.php` for an example).
+5.  Register it in `services/provider.php` to add it to the DI container.
+6.  Register it in `src/Extension/Shortcodes.php`.
+
 ### Available Shortcodes
 
 -   **`gist`** - Embeds GitHub Gists
