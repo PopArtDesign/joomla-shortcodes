@@ -164,7 +164,7 @@ final class AttributeHelper
     public static function isEnabled(string $key, array $attributes): bool
     {
         if (array_key_exists($key, $attributes)) {
-            return (bool) self::parseBoolean($attributes[$key], false);
+            return (bool) self::parseBoolean((string) $attributes[$key], false);
         }
 
         if (isset($attributes['_']) && is_array($attributes['_']) && in_array($key, $attributes['_'], true)) {

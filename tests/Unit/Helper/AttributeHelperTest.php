@@ -45,6 +45,22 @@ class AttributeHelperTest extends TestCase
         $this->assertNull(AttributeHelper::parseRange('5,b'));
     }
 
+    public function testParseRangeWithNegativeNumbers(): void
+    {
+        $this->assertEquals([-5, -1], AttributeHelper::parseRange('-5,-1'));
+    }
+
+    public function testParseRangeWithZero(): void
+    {
+        $this->assertEquals([0, 0], AttributeHelper::parseRange('0,0'));
+        $this->assertEquals([0, 5], AttributeHelper::parseRange('0,5'));
+    }
+
+    public function testParseRangeWithWhitespace(): void
+    {
+        $this->assertEquals([5, 10], AttributeHelper::parseRange('  5, 10  '));
+    }
+
     /**
      * Test cases for parseTag method.
      */
@@ -94,6 +110,11 @@ class AttributeHelperTest extends TestCase
         $this->assertEquals(['ul', 'my-class', 5], AttributeHelper::parseTag(' ul . my-class , 5 '));
     }
 
+    public function testParseTagWithNonNumericCount(): void
+    {
+        $this->assertEquals(['p', '', 1], AttributeHelper::parseTag('p,foo'));
+    }
+
     /**
      * Test cases for parseTime method.
      */
@@ -122,6 +143,11 @@ class AttributeHelperTest extends TestCase
     {
         $this->assertNull(AttributeHelper::parseTime(''));
         $this->assertEquals(20, AttributeHelper::parseTime('', 20));
+    }
+
+    public function testParseTimeWithWhitespace(): void
+    {
+        $this->assertEquals(90, AttributeHelper::parseTime(' 1:30 '));
     }
 
     /**
@@ -155,6 +181,14 @@ class AttributeHelperTest extends TestCase
         $this->assertNull(AttributeHelper::parseBoolean('any_string'));
         $this->assertTrue(AttributeHelper::parseBoolean('any_string', true));
         $this->assertFalse(AttributeHelper::parseBoolean('any_string', false));
+    }
+
+    public function testParseBooleanWithMixedCase(): void
+    {
+        $this->assertTrue(AttributeHelper::parseBoolean('True'));
+        $this->assertTrue(AttributeHelper::parseBoolean('YES'));
+        $this->assertFalse(AttributeHelper::parseBoolean('False'));
+        $this->assertFalse(AttributeHelper::parseBoolean('No'));
     }
 
     /**
@@ -205,5 +239,76 @@ class AttributeHelperTest extends TestCase
 
         $attributes = ['autoplay' => 'true', '_' => ['autoplay']];
         $this->assertTrue(AttributeHelper::isEnabled('autoplay', $attributes));
+    }
+
+    public function testIsEnabledWithNullOrEmptyValue(): void
+    {
+        $attributes = ['autoplay' => null];
+        $this->assertFalse(AttributeHelper::isEnabled('autoplay', $attributes));
+
+        $attributes = ['autoplay' => ''];
+        $this->assertFalse(AttributeHelper::isEnabled('autoplay', $attributes));
+    }
+
+    /**
+     * Test cases for getUrl method.
+     */
+    public function testGetUrlFromUrlAttribute(): void
+    {
+        $attributes = ['url' => 'https://example.com/doc.pdf'];
+        $this->assertEquals('https://example.com/doc.pdf', AttributeHelper::getUrl($attributes, ''));
+    }
+
+    public function testGetUrlFromContent(): void
+    {
+        $this->assertEquals('https://example.com/doc.pdf', AttributeHelper::getUrl([], 'https://example.com/doc.pdf'));
+    }
+
+    public function testGetUrlFromPositionalAttribute(): void
+    {
+        $attributes = ['https://example.com/doc.pdf'];
+        $this->assertEquals('https://example.com/doc.pdf', AttributeHelper::getUrl($attributes, ''));
+    }
+
+    public function testGetUrlThrowsExceptionForInvalidUrlAttribute(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid URL provided in "url" attribute: invalid-url');
+        AttributeHelper::getUrl(['url' => 'invalid-url'], '');
+    }
+
+    public function testGetUrlThrowsExceptionForInvalidUrlInContent(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid URL provided in content: invalid-url');
+        AttributeHelper::getUrl([], 'invalid-url');
+    }
+
+    public function testGetUrlThrowsExceptionForInvalidUrlAsPositionalAttribute(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid URL provided as positional attribute: invalid-url');
+        AttributeHelper::getUrl(['invalid-url'], '');
+    }
+
+    public function testGetUrlThrowsExceptionWhenNoUrlFound(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('A valid embed URL was not found.');
+        AttributeHelper::getUrl([], '');
+    }
+
+    public function testGetUrlReturnsRelativeUrlWhenRelativeIsTrue(): void
+    {
+        $this->assertEquals('/media/doc.pdf', AttributeHelper::getUrl(['url' => '/media/doc.pdf'], '', true));
+        $this->assertEquals('doc.pdf', AttributeHelper::getUrl([], 'doc.pdf', true));
+        $this->assertEquals('../doc.pdf', AttributeHelper::getUrl(['../doc.pdf'], '', true));
+    }
+
+    public function testGetUrlThrowsExceptionForRelativeUrlWhenRelativeIsFalse(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid URL provided in "url" attribute: /media/doc.pdf');
+        AttributeHelper::getUrl(['url' => '/media/doc.pdf'], '', false);
     }
 }
