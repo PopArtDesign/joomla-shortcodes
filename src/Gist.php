@@ -40,7 +40,7 @@ class Gist
         $output = HtmlHelper::script($scriptUrl);
 
         return HandlerHelper::wrapper($output, $attributes, [
-            'class' => 'embed-gist'
+            'class' => 'embed-container embed-gist'
         ]);
     }
 }

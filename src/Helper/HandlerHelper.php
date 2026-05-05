@@ -57,9 +57,6 @@ final class HandlerHelper
     {
         $wrapperAttributes = $baseAttributes;
 
-        // Ensure 'embed-container' class is present
-        $wrapperAttributes['class'] = \trim('embed-container ' . ($wrapperAttributes['class'] ?? ''));
-
         // Handle custom wrapper attributes from the shortcode
         if ($attributes['id'] ?? '') {
             $wrapperAttributes['id'] = $attributes['id'];

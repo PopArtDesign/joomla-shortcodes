@@ -27,7 +27,7 @@ class Iframe
         $url = AttributeHelper::getUrl($attributes, $content);
 
         $baseWrapperAttributes = [
-            'class' => 'embed-iframe',
+            'class' => 'embed-container embed-iframe',
         ];
 
         $baseIframeAttributes = [

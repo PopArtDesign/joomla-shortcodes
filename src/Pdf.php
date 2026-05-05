@@ -50,7 +50,7 @@ class Pdf
         }
 
         $baseWrapperAttributes = [
-            'class' => 'embed-pdf',
+            'class' => 'embed-container embed-pdf',
         ];
 
         return HandlerHelper::wrapper($output, $attributes, $baseWrapperAttributes);

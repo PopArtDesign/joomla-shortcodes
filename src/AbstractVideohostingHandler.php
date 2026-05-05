@@ -32,7 +32,7 @@ abstract class AbstractVideohostingHandler
         $src = $this->getEmbedUrl($url, $attributes);
 
         $class = \strtolower((new \ReflectionClass($this))->getShortName());
-        $baseWrapperAttributes = ['class' => 'embed-iframe embed-video embed-' . $class ];
+        $baseWrapperAttributes = ['class' => 'embed-container embed-video embed-' . $class ];
 
         $styles = [];
 

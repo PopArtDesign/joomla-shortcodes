@@ -29,7 +29,7 @@ class GoogleDocs
         $embedUrl = $this->getEmbedUrl($url, $attributes);
 
         $baseWrapperAttributes = [
-            'class' => 'embed-iframe embed-googledocs',
+            'class' => 'embed-container embed-googledocs',
         ];
 
         $baseIframeAttributes = [
