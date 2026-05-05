@@ -102,15 +102,11 @@ final class HandlerHelper
      */
     public static function buildIframeAttributes(array $attributes, array $baseIframeAttributes): array
     {
-        $userAttributes = $attributes;
         // Ignore width and height because they are used by wrapper
-        unset($userAttributes['width'], $userAttributes['height']);
+        unset($attributes['width'], $attributes['height']);
 
         // Merge base and user-provided attributes
-        $iframeAttributes = \array_merge(
-            $baseIframeAttributes,
-            $userAttributes
-        );
+        $iframeAttributes = \array_merge($baseIframeAttributes, $attributes);
 
         // Filter and return only the recognized iframe attributes
         return [
