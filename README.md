@@ -25,6 +25,8 @@ Embeds YouTube videos.
 -   `id`: A CSS id for the container `div`.
 -   `class`: A CSS class for the container `div`.
 -   `title`: The `title` attribute for the iframe.
+
+In addition to the specific attributes listed, this shortcode also supports all standard iframe attributes like `frameborder`, `allow`, `allowfullscreen`, `referrerpolicy`, and `loading`.
 -   `autoplay`: Automatically starts playing the video. Set to `true` or `1` to enable.
 -   `start`: The time in seconds (or `MM:SS` format) from which playback will begin.
 -   `end`: The time in seconds (or `MM:SS` format) at which playback will end.
@@ -58,6 +60,8 @@ Embeds Vimeo videos.
 -   `id`: A CSS id for the container `div`.
 -   `class`: A CSS class for the container `div`.
 -   `title`: The `title` attribute for the iframe.
+
+In addition to the specific attributes listed, this shortcode also supports all standard iframe attributes like `frameborder`, `allow`, `allowfullscreen`, `referrerpolicy`, and `loading`.
 -   `autoplay`: Automatically starts playing the video. Set to `true` or `1` to enable.
 -   `start`: The time in seconds (or `MM:SS` format) from which playback will begin.
 -   `end`: The time in seconds (or `MM:SS` format) at which playback will end.
@@ -81,6 +85,8 @@ Embeds Rutube videos.
 -   `id`: A CSS id for the container `div`.
 -   `class`: A CSS class for the container `div`.
 -   `title`: The `title` attribute for the iframe.
+
+In addition to the specific attributes listed, this shortcode also supports all standard iframe attributes like `frameborder`, `allow`, `allowfullscreen`, `referrerpolicy`, and `loading`.
 -   `autoplay`: Automatically starts playing the video. Set to `true` or `1` to enable.
 -   `start`: The time in seconds (or `MM:SS` format) from which playback will begin.
 -   `end`: The time in seconds (or `MM:SS` format) at which playback will end.
@@ -104,6 +110,8 @@ Embeds Google Docs, Sheets, Slides, and other files from Google Drive.
 -   `id`: A CSS id for the container `div`.
 -   `class`: A CSS class for the container `div`.
 -   `title`: The `title` attribute for the iframe.
+
+In addition to the specific attributes listed, this shortcode also supports all standard iframe attributes like `frameborder`, `allow`, `allowfullscreen`, `referrerpolicy`, and `loading`.
 
 **Examples:**
 
@@ -149,6 +157,8 @@ Embeds PDF documents.
 -   `class`: A CSS class for the container `div`.
 -   `title`: The `title` attribute for the iframe.
 
+In addition to the specific attributes listed, this shortcode also supports all standard iframe attributes like `frameborder`, `allow`, `allowfullscreen`, `referrerpolicy`, and `loading`.
+
 **Examples:**
 
 ```
@@ -171,6 +181,11 @@ Embeds any URL as a generic iframe. Use this for URLs not covered by other speci
 -   `id`: A CSS id for the container `div`.
 -   `class`: A CSS class for the container `div`.
 -   `title`: The `title` attribute for the iframe.
+-   `frameborder`: Specifies whether to display a border around the iframe. Defaults to `0`.
+-   `allow`: Sets feature policy for the iframe, e.g., `accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture`.
+-   `allowfullscreen`: Set to `true` to allow the iframe content to be displayed in fullscreen mode.
+-   `referrerpolicy`: Specifies which referrer information to send with the network request. Defaults to `strict-origin-when-cross-origin`.
+-   `loading`: Indicates how the browser should load the iframe. Defaults to `lazy`.
 
 **Example:**
 
