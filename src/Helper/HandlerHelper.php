@@ -48,25 +48,25 @@ final class HandlerHelper
     /**
      * Builds and processes wrapper attributes for shortcode embeds.
      *
-     * @param array $attributes            The original shortcode attributes.
-     * @param array $baseWrapperAttributes An initial set of wrapper attributes.
+     * @param array $attributes     The original shortcode attributes.
+     * @param array $baseAttributes An initial set of wrapper attributes.
      *
      * @return array The final array of attributes for the wrapper element.
      */
-    public static function buildWrapperAttributes(array $attributes, array $baseWrapperAttributes): array
+    public static function buildWrapperAttributes(array $attributes, array $baseAttributes): array
     {
-        $finalWrapperAttributes = $baseWrapperAttributes;
+        $wrapperAttributes = $baseAttributes;
 
         // Ensure 'embed-container' class is present
-        $finalWrapperAttributes['class'] = \trim('embed-container ' . ($finalWrapperAttributes['class'] ?? ''));
+        $wrapperAttributes['class'] = \trim('embed-container ' . ($wrapperAttributes['class'] ?? ''));
 
         // Handle custom wrapper attributes from the shortcode
         if ($attributes['id'] ?? '') {
-            $finalWrapperAttributes['id'] = $attributes['id'];
+            $wrapperAttributes['id'] = $attributes['id'];
         }
 
         if ($attributes['class'] ?? '') {
-            $finalWrapperAttributes['class'] = \trim(($finalWrapperAttributes['class'] ?? '') . ' ' . $attributes['class']);
+            $wrapperAttributes['class'] = \trim(($wrapperAttributes['class'] ?? '') . ' ' . $attributes['class']);
         }
 
         $newStyles = [];
@@ -86,27 +86,27 @@ final class HandlerHelper
         }
 
         if ($style) {
-            $finalWrapperAttributes['style'] = \trim(($finalWrapperAttributes['style'] ?? '') . '; ' . $style, '; ');
+            $wrapperAttributes['style'] = \trim(($wrapperAttributes['style'] ?? '') . '; ' . $style, '; ');
         }
 
-        return $finalWrapperAttributes;
+        return $wrapperAttributes;
     }
 
     /**
      * Builds and processes iframe attributes for shortcode embeds.
      *
-     * @param array $attributes           The original shortcode attributes.
-     * @param array $baseIframeAttributes An initial set of iframe attributes.
+     * @param array $attributes     The original shortcode attributes.
+     * @param array $baseAttributes An initial set of iframe attributes.
      *
      * @return array The final array of attributes for the iframe element.
      */
-    public static function buildIframeAttributes(array $attributes, array $baseIframeAttributes): array
+    public static function buildIframeAttributes(array $attributes, array $baseAttributes): array
     {
         // Ignore width and height because they are used by wrapper
         unset($attributes['width'], $attributes['height']);
 
         // Merge base and user-provided attributes
-        $iframeAttributes = \array_merge($baseIframeAttributes, $attributes);
+        $iframeAttributes = \array_merge($baseAttributes, $attributes);
 
         // Filter and return only the recognized iframe attributes
         return [
