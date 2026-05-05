@@ -36,7 +36,6 @@ return new class () implements ServiceProviderInterface {
         $container->share(GoogleDocs::class, fn() => new GoogleDocs(), true);
         $container->share(Pdf::class, fn() => new Pdf(), true);
         $container->share(Iframe::class, fn() => new Iframe(), true);
-
         $container->share(Lorem::class, fn() => new Lorem(), true);
         $container->share(Repeat::class, fn() => new Repeat(), true);
     }
