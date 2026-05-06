@@ -5,7 +5,7 @@
     <authorEmail>info@popartdesign.ru</authorEmail>
 	<authorUrl>https://popartdesign.ru</authorUrl>
     <creationDate>2026-04-25</creationDate>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <copyright>popartdesign.ru</copyright>
     <license>MIT</license>
     <namespace path="src">JoomlaShortcoder\Plugin\Content\Shortcodes</namespace>
