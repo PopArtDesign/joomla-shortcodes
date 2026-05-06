@@ -37,6 +37,13 @@ final class ParsedUrl
         return $this->original;
     }
 
+    /**
+     * Checks if the URL's host matches one of the given domains.
+     *
+     * @param string|string[] $domains The domain(s) to check against.
+     *
+     * @return bool True if the host matches, false otherwise.
+     */
     public function hasDomain(string|array $domains): bool
     {
         if ($this->host === null) {
@@ -47,18 +54,17 @@ final class ParsedUrl
             $domains = [$domains];
         }
 
-        $host = \str_starts_with($this->host, 'www.') ? \substr($this->host, 4) : $this->host;
-
-        foreach ($domains as $domain) {
-            $domain = \str_starts_with($domain, 'www.') ? \substr($domain, 4) : $domain;
-            if ($host === $domain) {
-                return true;
-            }
-        }
-
-        return false;
+        return \in_array($this->host, $domains, true);
     }
 
+    /**
+     * Checks if the URL's extension matches one of the given extensions.
+     * Comparison is case-insensitive.
+     *
+     * @param string|string[] $extensions The extension(s) to check against (without the dot).
+     *
+     * @return bool True if the extension matches, false otherwise.
+     */
     public function hasExtension(string|array $extensions): bool
     {
         if ($this->extension === null) {

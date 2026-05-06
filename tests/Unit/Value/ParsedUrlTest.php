@@ -16,7 +16,7 @@ class ParsedUrlTest extends TestCase
         $this->assertFalse($parsedUrl->hasDomain([]));
 
         $parsedUrlWithWww = new ParsedUrl(['host' => 'www.example.com', 'original' => 'http://www.example.com', 'type' => 'absolute']);
-        $this->assertTrue($parsedUrlWithWww->hasDomain('example.com'));
+        $this->assertFalse($parsedUrlWithWww->hasDomain('example.com'));
         $this->assertTrue($parsedUrlWithWww->hasDomain('www.example.com'));
 
         $parsedUrlNullHost = new ParsedUrl(['path' => '/test', 'original' => '/test', 'type' => 'relative']);
