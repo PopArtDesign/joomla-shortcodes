@@ -27,7 +27,7 @@ class Gist
     {
         $parsedUrl = AttributeHelper::getAbsoluteUrl($attributes, $content);
 
-        if ($parsedUrl->host !== 'gist.github.com') {
+        if (!$parsedUrl->hasDomain('gist.github.com')) {
             throw new \InvalidArgumentException('The provided URL is not a valid Gist URL.');
         }
 

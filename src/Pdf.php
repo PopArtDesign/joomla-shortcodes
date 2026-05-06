@@ -27,12 +27,12 @@ class Pdf
     public function __invoke(array $attributes, string $content): string
     {
         $parsedUrl = AttributeHelper::getUrl($attributes, $content, UrlHelper::ANY);
-        $url = (string) $parsedUrl;
 
-        // Use the extension property from the ParsedUrl object
-        if ($parsedUrl->extension !== 'pdf') {
+        if (!$parsedUrl->hasExtension('pdf')) {
             throw new \InvalidArgumentException('The provided URL is not a PDF file.');
         }
+
+        $url = (string) $parsedUrl;
 
         $objectAttributes = [
             'width' => '100%',

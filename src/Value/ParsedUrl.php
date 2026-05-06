@@ -36,4 +36,39 @@ final class ParsedUrl
     {
         return $this->original;
     }
+
+    public function hasDomain(string|array $domains): bool
+    {
+        if ($this->host === null) {
+            return false;
+        }
+
+        if (\is_string($domains)) {
+            $domains = [$domains];
+        }
+
+        $host = \str_starts_with($this->host, 'www.') ? \substr($this->host, 4) : $this->host;
+
+        foreach ($domains as $domain) {
+            $domain = \str_starts_with($domain, 'www.') ? \substr($domain, 4) : $domain;
+            if ($host === $domain) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function hasExtension(string|array $extensions): bool
+    {
+        if ($this->extension === null) {
+            return false;
+        }
+
+        if (\is_string($extensions)) {
+            $extensions = [$extensions];
+        }
+
+        return \in_array(\strtolower($this->extension), $extensions, true);
+    }
 }
