@@ -2,8 +2,6 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Value;
 
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\UrlHelper;
-
 \defined('_JEXEC') or die;
 
 /**
@@ -13,6 +11,11 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\UrlHelper;
  */
 final class ParsedUrl
 {
+    public const ABSOLUTE          = 'absolute';
+    public const RELATIVE          = 'relative';
+    public const PROTOCOL_RELATIVE = 'protocol-relative';
+    public const ANY               = 'any';
+
     private ?string $scheme = null;
     private ?string $host = null;
     private ?int $port = null;
@@ -140,14 +143,14 @@ final class ParsedUrl
     public function hasType($types): bool
     {
         if (empty($types)) {
-            $types = UrlHelper::ANY;
+            $types = self::ANY;
         }
 
         if (\is_string($types)) {
             $types = [$types];
         }
 
-        if (\in_array(UrlHelper::ANY, $types, true)) {
+        if (\in_array(self::ANY, $types, true)) {
             return true;
         }
 

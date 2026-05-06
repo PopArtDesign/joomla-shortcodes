@@ -188,7 +188,7 @@ final class AttributeHelper
      */
     public static function getAbsoluteUrl(array $attributes, string $content): ParsedUrl
     {
-        return self::getUrl($attributes, $content, UrlHelper::ABSOLUTE);
+        return self::getUrl($attributes, $content, ParsedUrl::ABSOLUTE);
     }
 
     /**
@@ -202,7 +202,7 @@ final class AttributeHelper
      *
      * @throws \InvalidArgumentException If the URL is missing or invalid.
      */
-    public static function getUrl(array $attributes, string $content, $type = UrlHelper::ANY): ParsedUrl
+    public static function getUrl(array $attributes, string $content, $type = ParsedUrl::ANY): ParsedUrl
     {
         // Attempt 1: Explicit `url` attribute
         if (isset($attributes['url'])) {

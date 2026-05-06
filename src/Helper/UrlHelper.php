@@ -13,11 +13,6 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Value\ParsedUrl;
  */
 final class UrlHelper
 {
-    public const ABSOLUTE          = 'absolute';
-    public const RELATIVE          = 'relative';
-    public const PROTOCOL_RELATIVE = 'protocol-relative';
-    public const ANY               = 'any';
-
     /**
      * Parses a URL and returns a ParsedUrl object.
      *
@@ -59,11 +54,11 @@ final class UrlHelper
         $hasHost   = isset($parts['host']);
 
         if ($hasScheme && $hasHost) {
-            $parts['type'] = self::ABSOLUTE;
+            $parts['type'] = ParsedUrl::ABSOLUTE;
         } elseif (!$hasScheme && \strpos($url, '//') === 0) {
-            $parts['type'] = self::PROTOCOL_RELATIVE;
+            $parts['type'] = ParsedUrl::PROTOCOL_RELATIVE;
         } else {
-            $parts['type'] = self::RELATIVE;
+            $parts['type'] = ParsedUrl::RELATIVE;
         }
 
         $parts['original'] = $url;
