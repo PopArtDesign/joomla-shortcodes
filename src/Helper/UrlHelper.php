@@ -114,7 +114,9 @@ final class UrlHelper
     }
 
     /**
-     * Parses a URL and adds an 'extension' field based on the path.
+     * Parses a URL and adds 'extension' and 'type' fields.
+     *
+     * The 'type' can be 'absolute', 'relative', or 'protocol-relative'.
      *
      * @param string $url The URL to parse.
      *
@@ -124,11 +126,26 @@ final class UrlHelper
     {
         $parts = \parse_url($url);
 
-        if ($parts !== false && isset($parts['path'])) {
+        if ($parts === false) {
+            return false;
+        }
+
+        if (isset($parts['path'])) {
             $extension = \pathinfo($parts['path'], \PATHINFO_EXTENSION);
             if (!empty($extension)) {
                 $parts['extension'] = $extension;
             }
+        }
+
+        $hasScheme = isset($parts['scheme']);
+        $hasHost   = isset($parts['host']);
+
+        if ($hasScheme && $hasHost) {
+            $parts['type'] = 'absolute';
+        } elseif (!$hasScheme && \strpos($url, '//') === 0) {
+            $parts['type'] = 'protocol-relative';
+        } else {
+            $parts['type'] = 'relative';
         }
 
         return $parts;
