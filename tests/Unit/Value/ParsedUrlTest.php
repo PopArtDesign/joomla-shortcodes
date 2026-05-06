@@ -53,9 +53,8 @@ class ParsedUrlTest extends TestCase
         $parsedUrl = new ParsedUrl(['type' => ParsedUrl::ABSOLUTE, 'original' => 'http://example.com']);
         $this->assertTrue($parsedUrl->hasType(ParsedUrl::ABSOLUTE));
         $this->assertTrue($parsedUrl->hasType([ParsedUrl::ABSOLUTE, ParsedUrl::RELATIVE]));
-        $this->assertTrue($parsedUrl->hasType(ParsedUrl::ANY));
-        $this->assertTrue($parsedUrl->hasType([ParsedUrl::ANY, ParsedUrl::RELATIVE]));
         $this->assertFalse($parsedUrl->hasType(ParsedUrl::RELATIVE));
-        $this->assertTrue($parsedUrl->hasType([])); // Empty array should be treated as ANY
+        $this->assertTrue($parsedUrl->hasType([]));
+        $this->assertTrue($parsedUrl->hasType(null));
     }
 }

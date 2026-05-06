@@ -14,7 +14,6 @@ final class ParsedUrl
     public const ABSOLUTE          = 'absolute';
     public const RELATIVE          = 'relative';
     public const PROTOCOL_RELATIVE = 'protocol-relative';
-    public const ANY               = 'any';
 
     private ?string $scheme = null;
     private ?string $host = null;
@@ -143,15 +142,11 @@ final class ParsedUrl
     public function hasType($types): bool
     {
         if (empty($types)) {
-            $types = self::ANY;
+            return true;
         }
 
         if (\is_string($types)) {
             $types = [$types];
-        }
-
-        if (\in_array(self::ANY, $types, true)) {
-            return true;
         }
 
         return \in_array($this->getType(), $types, true);

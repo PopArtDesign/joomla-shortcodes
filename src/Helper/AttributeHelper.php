@@ -202,7 +202,7 @@ final class AttributeHelper
      *
      * @throws \InvalidArgumentException If the URL is missing or invalid.
      */
-    public static function getUrl(array $attributes, string $content, $type = ParsedUrl::ANY): ParsedUrl
+    public static function getUrl(array $attributes, string $content, $type = null): ParsedUrl
     {
         // Attempt 1: Explicit `url` attribute
         if (isset($attributes['url'])) {

@@ -26,7 +26,7 @@ class Pdf
      */
     public function __invoke(array $attributes, string $content): string
     {
-        $parsedUrl = AttributeHelper::getUrl($attributes, $content, ParsedUrl::ANY);
+        $parsedUrl = AttributeHelper::getUrl($attributes, $content);
 
         if (!$parsedUrl->hasExtension('pdf')) {
             throw new \InvalidArgumentException('The provided URL is not a PDF file.');
