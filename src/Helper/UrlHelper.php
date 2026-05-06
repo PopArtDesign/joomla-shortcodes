@@ -70,29 +70,4 @@ final class UrlHelper
 
         return new ParsedUrl($parts);
     }
-
-    /**
-     * Checks if the URL type is valid against the expected type(s).
-     *
-     * @param string               $urlType      The actual type of the URL.
-     * @param string|string[]|null $expectedType The expected type(s).
-     *
-     * @return bool
-     */
-    public static function isUrlTypeValid(string $urlType, $expectedType): bool
-    {
-        if (empty($expectedType)) {
-            $expectedType = self::ANY;
-        }
-
-        if (\is_string($expectedType)) {
-            $expectedType = [$expectedType];
-        }
-
-        if (\in_array(self::ANY, $expectedType, true)) {
-            return true;
-        }
-
-        return \in_array($urlType, $expectedType, true);
-    }
 }

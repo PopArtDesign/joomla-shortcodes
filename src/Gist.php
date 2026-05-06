@@ -31,7 +31,7 @@ class Gist
             throw new \InvalidArgumentException('The provided URL is not a valid Gist URL.');
         }
 
-        if (!\preg_match('/^\/([a-zA-Z0-9_-]+)\/([a-f0-9]+)$/', $parsedUrl->path, $matches)) {
+        if (!\preg_match('/^\/([a-zA-Z0-9_-]+)\/([a-f0-9]+)$/', $parsedUrl->getPath(), $matches)) {
             throw new \InvalidArgumentException('The provided Gist URL path is invalid. Expected format: /username/gist_id.');
         }
 

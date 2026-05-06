@@ -2,6 +2,8 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Value;
 
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\UrlHelper;
+
 \defined('_JEXEC') or die;
 
 /**
@@ -11,17 +13,17 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Value;
  */
 final class ParsedUrl
 {
-    public ?string $scheme = null;
-    public ?string $host = null;
-    public ?int $port = null;
-    public ?string $user = null;
-    public ?string $pass = null;
-    public ?string $path = null;
-    public ?string $query = null;
-    public ?string $fragment = null;
-    public ?string $extension = null;
-    public string $type;
-    public string $original;
+    private ?string $scheme = null;
+    private ?string $host = null;
+    private ?int $port = null;
+    private ?string $user = null;
+    private ?string $pass = null;
+    private ?string $path = null;
+    private ?string $query = null;
+    private ?string $fragment = null;
+    private ?string $extension = null;
+    private string $type;
+    private string $original;
 
     public function __construct(array $parts)
     {
@@ -30,6 +32,56 @@ final class ParsedUrl
                 $this->{$key} = $value;
             }
         }
+    }
+
+    public function getScheme(): ?string
+    {
+        return $this->scheme;
+    }
+
+    public function getHost(): ?string
+    {
+        return $this->host;
+    }
+
+    public function getPort(): ?int
+    {
+        return $this->port;
+    }
+
+    public function getUser(): ?string
+    {
+        return $this->user;
+    }
+
+    public function getPass(): ?string
+    {
+        return $this->pass;
+    }
+
+    public function getPath(): ?string
+    {
+        return $this->path;
+    }
+
+    public function getQuery(): ?string
+    {
+        return $this->query;
+    }
+
+    public function getFragment(): ?string
+    {
+        return $this->fragment;
+    }
+
+    public function getExtension(): ?string
+    {
+        return $this->extension;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
     }
 
     public function __toString(): string
@@ -46,7 +98,7 @@ final class ParsedUrl
      */
     public function hasDomain(string|array $domains): bool
     {
-        if ($this->host === null) {
+        if ($this->getHost() === null) {
             return false;
         }
 
@@ -54,7 +106,7 @@ final class ParsedUrl
             $domains = [$domains];
         }
 
-        return \in_array($this->host, $domains, true);
+        return \in_array($this->getHost(), $domains, true);
     }
 
     /**
@@ -67,7 +119,7 @@ final class ParsedUrl
      */
     public function hasExtension(string|array $extensions): bool
     {
-        if ($this->extension === null) {
+        if ($this->getExtension() === null) {
             return false;
         }
 
@@ -75,6 +127,30 @@ final class ParsedUrl
             $extensions = [$extensions];
         }
 
-        return \in_array(\strtolower($this->extension), $extensions, true);
+        return \in_array(\strtolower($this->getExtension()), $extensions, true);
+    }
+
+    /**
+     * Checks if the URL's type matches one of the given types.
+     *
+     * @param string|string[] $types The type(s) to check against.
+     *
+     * @return bool True if the type matches, false otherwise.
+     */
+    public function hasType(string|array $types): bool
+    {
+        if (empty($types)) {
+            $types = UrlHelper::ANY;
+        }
+
+        if (\is_string($types)) {
+            $types = [$types];
+        }
+
+        if (\in_array(UrlHelper::ANY, $types, true)) {
+            return true;
+        }
+
+        return \in_array($this->getType(), $types, true);
     }
 }

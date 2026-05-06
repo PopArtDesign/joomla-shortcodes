@@ -2,6 +2,7 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Test\Unit\Value;
 
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\UrlHelper;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Value\ParsedUrl;
 use PHPUnit\Framework\TestCase;
 
@@ -46,5 +47,16 @@ class ParsedUrlTest extends TestCase
         $url = 'http://example.com/file.pdf';
         $parsedUrl = new ParsedUrl(['original' => $url, 'type' => 'absolute']);
         $this->assertSame($url, (string) $parsedUrl);
+    }
+
+    public function testHasType(): void
+    {
+        $parsedUrl = new ParsedUrl(['type' => UrlHelper::ABSOLUTE, 'original' => 'http://example.com']);
+        $this->assertTrue($parsedUrl->hasType(UrlHelper::ABSOLUTE));
+        $this->assertTrue($parsedUrl->hasType([UrlHelper::ABSOLUTE, UrlHelper::RELATIVE]));
+        $this->assertTrue($parsedUrl->hasType(UrlHelper::ANY));
+        $this->assertTrue($parsedUrl->hasType([UrlHelper::ANY, UrlHelper::RELATIVE]));
+        $this->assertFalse($parsedUrl->hasType(UrlHelper::RELATIVE));
+        $this->assertTrue($parsedUrl->hasType([])); // Empty array should be treated as ANY
     }
 }

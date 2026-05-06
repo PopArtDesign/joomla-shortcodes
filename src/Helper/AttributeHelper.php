@@ -209,7 +209,7 @@ final class AttributeHelper
             $url = $attributes['url'];
             $parsedUrl = UrlHelper::parseUrl($url);
 
-            if ($parsedUrl !== false && UrlHelper::isUrlTypeValid($parsedUrl->type, $type)) {
+            if ($parsedUrl !== false && $parsedUrl->hasType($type)) {
                 return $parsedUrl;
             }
 
@@ -224,7 +224,7 @@ final class AttributeHelper
         if ($trimmedContent !== '') {
             $parsedUrl = UrlHelper::parseUrl($trimmedContent);
 
-            if ($parsedUrl !== false && UrlHelper::isUrlTypeValid($parsedUrl->type, $type)) {
+            if ($parsedUrl !== false && $parsedUrl->hasType($type)) {
                 return $parsedUrl;
             }
 
@@ -239,7 +239,7 @@ final class AttributeHelper
             $url = $attributes[0];
             $parsedUrl = UrlHelper::parseUrl($url);
 
-            if ($parsedUrl !== false && UrlHelper::isUrlTypeValid($parsedUrl->type, $type)) {
+            if ($parsedUrl !== false && $parsedUrl->hasType($type)) {
                 return $parsedUrl;
             }
 
