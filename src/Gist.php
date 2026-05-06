@@ -5,6 +5,7 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HandlerHelper;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HtmlHelper;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Value\ParsedUrl;
 
 \defined('_JEXEC') or die;
 
@@ -31,9 +32,18 @@ class Gist
             throw new \InvalidArgumentException('The provided URL is not a valid Gist URL.');
         }
 
-        $url = (string) $parsedUrl;
+        if (!\preg_match('/^\/([a-zA-Z0-9_-]+)\/([a-f0-9]+)$/', $parsedUrl->path, $matches)) {
+            throw new \InvalidArgumentException('The provided Gist URL path is invalid. Expected format: /username/gist_id.');
+        }
 
-        $scriptUrl = \trim($url, '/') . '.js';
+        $username = $matches[1];
+        $gistId = $matches[2];
+
+        $scriptUrl = \sprintf(
+            'https://gist.github.com/%s/%s.js',
+            $username,
+            $gistId,
+        );
 
         if ($file = ($attributes['file'] ?? '')) {
             $scriptUrl .= '?file=' . \urlencode($file);
