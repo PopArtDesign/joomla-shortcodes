@@ -25,12 +25,13 @@ class Gist
      */
     public function __invoke(array $attributes, string $content): string
     {
-        $urlParts = AttributeHelper::getAbsoluteUrl($attributes, $content);
-        $url = $urlParts['original'];
+        $parsedUrl = AttributeHelper::getAbsoluteUrl($attributes, $content);
 
-        if (\parse_url($url, \PHP_URL_HOST) !== 'gist.github.com') {
+        if ($parsedUrl->host !== 'gist.github.com') {
             throw new \InvalidArgumentException('The provided URL is not a valid Gist URL.');
         }
+
+        $url = (string) $parsedUrl;
 
         $scriptUrl = \trim($url, '/') . '.js';
 

@@ -26,11 +26,11 @@ class Pdf
      */
     public function __invoke(array $attributes, string $content): string
     {
-        $urlParts = AttributeHelper::getUrl($attributes, $content, UrlHelper::ANY);
-        $url = $urlParts['original'];
+        $parsedUrl = AttributeHelper::getUrl($attributes, $content, UrlHelper::ANY);
+        $url = (string) $parsedUrl;
 
-        $path = \parse_url($url, \PHP_URL_PATH);
-        if (!$path || \strtolower(\pathinfo($path, \PATHINFO_EXTENSION)) !== 'pdf') {
+        // Use the extension property from the ParsedUrl object
+        if ($parsedUrl->extension !== 'pdf') {
             throw new \InvalidArgumentException('The provided URL is not a PDF file.');
         }
 

@@ -2,6 +2,8 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Helper;
 
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Value\ParsedUrl;
+
 \defined('_JEXEC') or die;
 
 /**
@@ -180,11 +182,11 @@ final class AttributeHelper
      * @param array  $attributes The attributes array.
      * @param string $content    The content string, used as a fallback for the URL.
      *
-     * @return string The extracted and validated URL.
+     * @return ParsedUrl The extracted and validated URL.
      *
      * @throws \InvalidArgumentException If the URL is missing or invalid.
      */
-    public static function getAbsoluteUrl(array $attributes, string $content): array
+    public static function getAbsoluteUrl(array $attributes, string $content): ParsedUrl
     {
         return self::getUrl($attributes, $content, UrlHelper::ABSOLUTE);
     }
@@ -196,18 +198,18 @@ final class AttributeHelper
      * @param string               $content    The content string, used as a fallback for the URL.
      * @param string|string[]|null $type       Expected URL type(s).
      *
-     * @return array The parsed URL components, including an 'original' field.
+     * @return ParsedUrl The parsed URL components.
      *
      * @throws \InvalidArgumentException If the URL is missing or invalid.
      */
-    public static function getUrl(array $attributes, string $content, $type = UrlHelper::ANY): array
+    public static function getUrl(array $attributes, string $content, $type = UrlHelper::ANY): ParsedUrl
     {
         // Attempt 1: Explicit `url` attribute
         if (isset($attributes['url'])) {
             $url = $attributes['url'];
             $parsedUrl = UrlHelper::parseUrl($url);
 
-            if ($parsedUrl !== false && UrlHelper::isUrlTypeValid($parsedUrl['type'], $type)) {
+            if ($parsedUrl !== false && UrlHelper::isUrlTypeValid($parsedUrl->type, $type)) {
                 return $parsedUrl;
             }
 
@@ -222,7 +224,7 @@ final class AttributeHelper
         if ($trimmedContent !== '') {
             $parsedUrl = UrlHelper::parseUrl($trimmedContent);
 
-            if ($parsedUrl !== false && UrlHelper::isUrlTypeValid($parsedUrl['type'], $type)) {
+            if ($parsedUrl !== false && UrlHelper::isUrlTypeValid($parsedUrl->type, $type)) {
                 return $parsedUrl;
             }
 
@@ -237,7 +239,7 @@ final class AttributeHelper
             $url = $attributes[0];
             $parsedUrl = UrlHelper::parseUrl($url);
 
-            if ($parsedUrl !== false && UrlHelper::isUrlTypeValid($parsedUrl['type'], $type)) {
+            if ($parsedUrl !== false && UrlHelper::isUrlTypeValid($parsedUrl->type, $type)) {
                 return $parsedUrl;
             }
 

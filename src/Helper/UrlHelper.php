@@ -2,6 +2,8 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Helper;
 
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Value\ParsedUrl;
+
 \defined('_JEXEC') or die;
 
 /**
@@ -68,17 +70,15 @@ final class UrlHelper
             return true;
         }
 
-        return \in_array($parsedUrl['type'], $type, true);
+        return \in_array($parsedUrl->type, $type, true);
     }
 
     /**
-     * Parses a URL and adds 'extension' and 'type' fields.
-     *
-     * The 'type' can be 'absolute', 'relative', or 'protocol-relative'.
+     * Parses a URL and returns a ParsedUrl object.
      *
      * @param string $url The URL to parse.
      *
-     * @return array|false An associative array of the URL's components, or false on failure.
+     * @return ParsedUrl|false An object with the URL's components, or false on failure.
      */
     public static function parseUrl(string $url)
     {
@@ -123,7 +123,7 @@ final class UrlHelper
 
         $parts['original'] = $url;
 
-        return $parts;
+        return new ParsedUrl($parts);
     }
 
     /**

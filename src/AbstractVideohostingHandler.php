@@ -27,10 +27,9 @@ abstract class AbstractVideohostingHandler
      */
     public function __invoke(array $attributes, string $content): string
     {
-        $urlParts = AttributeHelper::getAbsoluteUrl($attributes, $content);
-        $url = $urlParts['original'];
+        $url = AttributeHelper::getAbsoluteUrl($attributes, $content);
 
-        $src = $this->getEmbedUrl($url, $attributes);
+        $src = $this->getEmbedUrl((string) $url, $attributes);
 
         $class = \strtolower((new \ReflectionClass($this))->getShortName());
         $baseWrapperAttributes = ['class' => 'embed-container embed-video embed-' . $class ];

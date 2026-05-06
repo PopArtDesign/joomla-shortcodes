@@ -3,6 +3,7 @@
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Test\Unit\Helper;
 
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\UrlHelper;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Value\ParsedUrl;
 use PHPUnit\Framework\TestCase;
 
 class UrlHelperTest extends TestCase
@@ -12,7 +13,14 @@ class UrlHelperTest extends TestCase
      */
     public function testParseUrl(string $url, $expected): void
     {
-        $this->assertEquals($expected, UrlHelper::parseUrl($url));
+        $result = UrlHelper::parseUrl($url);
+
+        if (\is_array($expected)) {
+            $this->assertInstanceOf(ParsedUrl::class, $result);
+            $this->assertEquals(new ParsedUrl($expected), $result);
+        } else {
+            $this->assertEquals($expected, $result);
+        }
     }
 
     public static function parseUrlProvider(): array

@@ -3,6 +3,7 @@
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Test\Unit\Helper;
 
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\UrlHelper;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Value\ParsedUrl;
 use PHPUnit\Framework\TestCase;
 
 class UrlHelperValidateUrlTest extends TestCase
