@@ -174,6 +174,14 @@ class UrlHelperTest extends TestCase
                     'type'      => 'protocol-relative',
                 ],
             ],
+            'URL with invalid scheme' => [
+                '1http://example.com',
+                false,
+            ],
+            'URL with forbidden characters' => [
+                'http://example.com/path{with_invalid_chars}',
+                false,
+            ],
         ];
     }
 }

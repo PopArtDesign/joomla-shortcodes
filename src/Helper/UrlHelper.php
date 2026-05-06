@@ -36,20 +36,11 @@ final class UrlHelper
             return false;
         }
 
-        // Forbidden characters (control characters, spaces, angle brackets, backticks, etc.)
-        if (\preg_match('/[\x00-\x1F\x7F<>"{}|\\^`]/', $url)) {
-            return false;
-        }
-
         $parsedUrl = self::parseUrl($url);
 
-        // If parseUrl returns false, it means it's fundamentally unparseable (e.g., malformed URL)
+        // If parseUrl returns false, it means it's fundamentally unparseable
+        // e.g., malformed URL, forbidden characters, or invalid scheme
         if ($parsedUrl === false) {
-            return false;
-        }
-
-        // Re-validate scheme syntax if present (parseUrl extracts, but doesn't strictly validate content)
-        if (isset($parsedUrl['scheme']) && !\preg_match('/^[a-zA-Z][a-zA-Z0-9+.-]*$/', $parsedUrl['scheme'])) {
             return false;
         }
 
@@ -87,9 +78,19 @@ final class UrlHelper
      */
     public static function parseUrl(string $url)
     {
+        // Forbidden characters (control characters, spaces, angle brackets, backticks, etc.)
+        if (\preg_match('/[\x00-\x1F\x7F<>"{}|\\^`]/', $url)) {
+            return false;
+        }
+
         $parts = \parse_url($url);
 
         if ($parts === false) {
+            return false;
+        }
+
+        // Validate scheme syntax if present (RFC 3986: scheme = ALPHA *( ALPHA / DIGIT / "+" / "-" / "." ))
+        if (isset($parts['scheme']) && !\preg_match('/^[a-zA-Z][a-zA-Z0-9+.-]*$/', $parts['scheme'])) {
             return false;
         }
 
