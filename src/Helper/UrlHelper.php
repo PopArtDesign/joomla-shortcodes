@@ -19,61 +19,6 @@ final class UrlHelper
     public const ANY               = 'any';
 
     /**
-     * Strictly validates a URL against absolute, relative, or any type.
-     *
-     * @param string                   $url  The URL string to validate.
-     * @param string|string[]|null     $type Expected URL type(s).
-     *                                       Can be a string ('absolute', 'relative', 'protocol-relative', 'any'),
-     *                                       an array of types, or null/empty for 'any'.
-     *
-     * @return bool True if the URL matches the specified type, false otherwise.
-     *
-     * @throws \InvalidArgumentException If an unknown $type is provided.
-     */
-    public static function validateUrl(string $url, $type = self::ANY): bool
-    {
-        $parsedUrl = self::parseUrl($url);
-
-        // If parseUrl returns false, it means it's fundamentally unparseable
-        // e.g., malformed URL, forbidden characters, or invalid scheme
-        if ($parsedUrl === false) {
-            return false;
-        }
-
-        if (empty($type)) {
-            $type = self::ANY;
-        }
-
-        if (\is_string($type)) {
-            $type = [$type];
-        }
-
-        if (!\is_array($type)) {
-            throw new \InvalidArgumentException('Type must be a string, an array of strings, or null.');
-        }
-
-        $allowedTypes = [self::ABSOLUTE, self::RELATIVE, self::PROTOCOL_RELATIVE, self::ANY];
-
-        foreach ($type as $t) {
-            if (!\in_array($t, $allowedTypes, true)) {
-                throw new \InvalidArgumentException(
-                    \sprintf(
-                        'Unknown URL type "%s". Allowed types: "%s".',
-                        $t,
-                        \implode('", ', $allowedTypes),
-                    )
-                );
-            }
-        }
-
-        if (\in_array(self::ANY, $type, true)) {
-            return true;
-        }
-
-        return \in_array($parsedUrl->type, $type, true);
-    }
-
-    /**
      * Parses a URL and returns a ParsedUrl object.
      *
      * @param string $url The URL to parse.
