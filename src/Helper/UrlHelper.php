@@ -41,66 +41,29 @@ final class UrlHelper
             return false;
         }
 
-        $parts = \parse_url($url);
-        if ($parts === false) {
+        $parsedUrl = self::parseUrl($url);
+
+        // If parseUrl returns false, it means it's fundamentally unparseable (e.g., malformed URL)
+        if ($parsedUrl === false) {
             return false;
         }
 
-        $hasScheme = isset($parts['scheme']);
-        $hasHost   = isset($parts['host']);
-        $scheme    = $parts['scheme'] ?? '';
-
-        // Validate scheme syntax if present (RFC 3986: scheme = ALPHA *( ALPHA / DIGIT / "+" / "-" / "." ))
-        if ($hasScheme && !\preg_match('/^[a-zA-Z][a-zA-Z0-9+.-]*$/', $scheme)) {
+        // Re-validate scheme syntax if present (parseUrl extracts, but doesn't strictly validate content)
+        if (isset($parsedUrl['scheme']) && !\preg_match('/^[a-zA-Z][a-zA-Z0-9+.-]*$/', $parsedUrl['scheme'])) {
             return false;
         }
-
-        // Detect protocol-relative URLs (start with "//" and no scheme)
-        $isProtocolRelative = (\strpos($url, '//') === 0) && !$hasScheme;
 
         switch ($type) {
-            case 'absolute':
-                // Absolute URL must have both scheme and host
-                if (!$hasScheme || !$hasHost) {
-                    return false;
-                }
+            case self::ABSOLUTE:
+                return $parsedUrl['type'] === 'absolute';
 
-                // Protocol-relative is not considered absolute
-                if ($isProtocolRelative) {
-                    return false;
-                }
+            case self::RELATIVE:
+                return $parsedUrl['type'] === 'relative';
 
-                return true;
-
-            case 'relative':
-                // Relative URL: no scheme, no host, and must not start with "//"
-                if ($hasScheme || $hasHost || $isProtocolRelative) {
-                    return false;
-                }
-
-                return true;
-
-            case 'any':
-                // Accepts:
-                // - absolute (scheme + host)
-                // - relative (no scheme, no host, not starting with //)
-                // - protocol-relative (starts with //, no scheme, but has host)
-                if ($isProtocolRelative) {
-                    // Must have a host, e.g., "//example.com" is valid, "//" is not
-                    return $hasHost;
-                }
-
-                // If scheme is present, host must also exist (e.g., "http:" or "http://" are invalid)
-                if ($hasScheme && !$hasHost) {
-                    return false;
-                }
-
-                // If no scheme, host must also be absent (it would be a relative URL)
-                if (!$hasScheme && $hasHost) {
-                    return false;
-                }
-
-                // Remaining cases: absolute with scheme+host, or relative without scheme/host
+            case self::ANY:
+                // 'any' accepts absolute, relative, or protocol-relative
+                // If we reached here, parseUrl succeeded and determined a type.
+                // All types determined by parseUrl are considered valid for 'any'.
                 return true;
 
             default:
