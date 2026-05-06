@@ -184,7 +184,7 @@ final class AttributeHelper
      *
      * @throws \InvalidArgumentException If the URL is missing or invalid.
      */
-    public static function getAbsoluteUrl(array $attributes, string $content): string
+    public static function getAbsoluteUrl(array $attributes, string $content): array
     {
         return self::getUrl($attributes, $content, UrlHelper::ABSOLUTE);
     }
@@ -192,22 +192,23 @@ final class AttributeHelper
     /**
      * Extracts the URL from the attributes array or content.
      *
-     * @param array  $attributes The attributes array.
-     * @param string $content    The content string, used as a fallback for the URL.
-    * @param  string $type       Expected URL type: any, absolute, relative
+     * @param array                $attributes The attributes array.
+     * @param string               $content    The content string, used as a fallback for the URL.
+     * @param string|string[]|null $type       Expected URL type(s).
      *
-     * @return string The extracted and validated URL.
+     * @return array The parsed URL components, including an 'original' field.
      *
      * @throws \InvalidArgumentException If the URL is missing or invalid.
      */
-    public static function getUrl(array $attributes, string $content, string $type = UrlHelper::ANY): string
+    public static function getUrl(array $attributes, string $content, $type = UrlHelper::ANY): array
     {
         // Attempt 1: Explicit `url` attribute
         if (isset($attributes['url'])) {
             $url = $attributes['url'];
+            $parsedUrl = UrlHelper::parseUrl($url);
 
-            if (UrlHelper::validateUrl($url, $type)) {
-                return $url;
+            if ($parsedUrl !== false && UrlHelper::isUrlTypeValid($parsedUrl['type'], $type)) {
+                return $parsedUrl;
             }
 
             throw new \InvalidArgumentException(\sprintf(
@@ -219,8 +220,10 @@ final class AttributeHelper
         // Attempt 2: Content
         $trimmedContent = \trim($content);
         if ($trimmedContent !== '') {
-            if (UrlHelper::validateUrl($trimmedContent, $type)) {
-                return $trimmedContent;
+            $parsedUrl = UrlHelper::parseUrl($trimmedContent);
+
+            if ($parsedUrl !== false && UrlHelper::isUrlTypeValid($parsedUrl['type'], $type)) {
+                return $parsedUrl;
             }
 
             throw new \InvalidArgumentException(\sprintf(
@@ -232,9 +235,10 @@ final class AttributeHelper
         // Attempt 3: Positional attribute at index 0
         if (isset($attributes[0])) {
             $url = $attributes[0];
+            $parsedUrl = UrlHelper::parseUrl($url);
 
-            if (UrlHelper::validateUrl($url, $type)) {
-                return $url;
+            if ($parsedUrl !== false && UrlHelper::isUrlTypeValid($parsedUrl['type'], $type)) {
+                return $parsedUrl;
             }
 
             throw new \InvalidArgumentException(\sprintf(

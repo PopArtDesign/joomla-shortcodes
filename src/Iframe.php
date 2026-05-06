@@ -24,7 +24,8 @@ class Iframe
      */
     public function __invoke(array $attributes, string $content): string
     {
-        $url = AttributeHelper::getUrl($attributes, $content);
+        $urlParts = AttributeHelper::getUrl($attributes, $content);
+        $url = $urlParts['original'];
 
         $baseWrapperAttributes = [
             'class' => 'embed-container embed-iframe',

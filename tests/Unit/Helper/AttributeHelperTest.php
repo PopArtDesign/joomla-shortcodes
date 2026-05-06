@@ -4,6 +4,7 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Test\Unit\Helper;
 
 use PHPUnit\Framework\TestCase;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\UrlHelper;
 
 class AttributeHelperTest extends TestCase
 {
@@ -255,19 +256,28 @@ class AttributeHelperTest extends TestCase
      */
     public function testGetUrlFromUrlAttribute(): void
     {
-        $attributes = ['url' => 'https://example.com/doc.pdf'];
-        $this->assertEquals('https://example.com/doc.pdf', AttributeHelper::getUrl($attributes, ''));
+        $url = 'https://example.com/doc.pdf';
+        $attributes = ['url' => $url];
+        $expectedParsedUrl = UrlHelper::parseUrl($url);
+        $expectedParsedUrl['original'] = $url;
+        $this->assertEquals($expectedParsedUrl, AttributeHelper::getUrl($attributes, ''));
     }
 
     public function testGetUrlFromContent(): void
     {
-        $this->assertEquals('https://example.com/doc.pdf', AttributeHelper::getUrl([], 'https://example.com/doc.pdf'));
+        $url = 'https://example.com/doc.pdf';
+        $expectedParsedUrl = UrlHelper::parseUrl($url);
+        $expectedParsedUrl['original'] = $url;
+        $this->assertEquals($expectedParsedUrl, AttributeHelper::getUrl([], $url));
     }
 
     public function testGetUrlFromPositionalAttribute(): void
     {
-        $attributes = ['https://example.com/doc.pdf'];
-        $this->assertEquals('https://example.com/doc.pdf', AttributeHelper::getUrl($attributes, ''));
+        $url = 'https://example.com/doc.pdf';
+        $attributes = [$url];
+        $expectedParsedUrl = UrlHelper::parseUrl($url);
+        $expectedParsedUrl['original'] = $url;
+        $this->assertEquals($expectedParsedUrl, AttributeHelper::getUrl($attributes, ''));
     }
 
     public function testGetUrlThrowsExceptionForInvalidUrlAttribute(): void
@@ -300,8 +310,19 @@ class AttributeHelperTest extends TestCase
 
     public function testGetUrlReturnsRelativeUrl(): void
     {
-        $this->assertEquals('/media/doc.pdf', AttributeHelper::getUrl(['url' => '/media/doc.pdf'], ''));
-        $this->assertEquals('doc.pdf', AttributeHelper::getUrl([], 'doc.pdf'));
-        $this->assertEquals('../doc.pdf', AttributeHelper::getUrl(['../doc.pdf'], ''));
+        $url1 = '/media/doc.pdf';
+        $expectedParsedUrl1 = UrlHelper::parseUrl($url1);
+        $expectedParsedUrl1['original'] = $url1;
+        $this->assertEquals($expectedParsedUrl1, AttributeHelper::getUrl(['url' => $url1], ''));
+
+        $url2 = 'doc.pdf';
+        $expectedParsedUrl2 = UrlHelper::parseUrl($url2);
+        $expectedParsedUrl2['original'] = $url2;
+        $this->assertEquals($expectedParsedUrl2, AttributeHelper::getUrl([], $url2));
+
+        $url3 = '../doc.pdf';
+        $expectedParsedUrl3 = UrlHelper::parseUrl($url3);
+        $expectedParsedUrl3['original'] = $url3;
+        $this->assertEquals($expectedParsedUrl3, AttributeHelper::getUrl([$url3], ''));
     }
 }

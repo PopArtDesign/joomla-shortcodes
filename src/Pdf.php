@@ -5,6 +5,7 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HandlerHelper;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HtmlHelper;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\UrlHelper;
 
 \defined('_JEXEC') or die;
 
@@ -25,7 +26,8 @@ class Pdf
      */
     public function __invoke(array $attributes, string $content): string
     {
-        $url = AttributeHelper::getUrl($attributes, $content, 'any');
+        $urlParts = AttributeHelper::getUrl($attributes, $content, UrlHelper::ANY);
+        $url = $urlParts['original'];
 
         $path = \parse_url($url, \PHP_URL_PATH);
         if (!$path || \strtolower(\pathinfo($path, \PATHINFO_EXTENSION)) !== 'pdf') {

@@ -28,6 +28,7 @@ class UrlHelperTest extends TestCase
                     'fragment'  => 'fragment',
                     'extension' => 'pdf',
                     'type'      => 'absolute',
+                    'original'  => 'http://www.example.com/path/to/file.pdf?query=string#fragment',
                 ],
             ],
             'URL with path and extension' => [
@@ -36,6 +37,7 @@ class UrlHelperTest extends TestCase
                     'path'      => '/path/to/image.jpg',
                     'extension' => 'jpg',
                     'type'      => 'relative',
+                    'original'  => '/path/to/image.jpg',
                 ],
             ],
             'URL with no extension' => [
@@ -45,6 +47,7 @@ class UrlHelperTest extends TestCase
                     'host'   => 'www.example.com',
                     'path'   => '/path/to/page',
                     'type'   => 'absolute',
+                    'original' => 'https://www.example.com/path/to/page',
                 ],
             ],
             'URL with query but no extension' => [
@@ -55,6 +58,7 @@ class UrlHelperTest extends TestCase
                     'path'   => '/search',
                     'query'  => 'q=test',
                     'type'   => 'absolute',
+                    'original' => 'https://www.example.com/search?q=test',
                 ],
             ],
             'URL with complex path and query' => [
@@ -70,6 +74,7 @@ class UrlHelperTest extends TestCase
                     'fragment'  => 'something',
                     'extension' => 'zip',
                     'type'      => 'absolute',
+                    'original'  => 'ftp://user:pass@host.com:21/etc/passwd.zip?a=b&c=d#something',
                 ],
             ],
             'URL with only host' => [
@@ -78,6 +83,7 @@ class UrlHelperTest extends TestCase
                     'path'      => 'www.example.com',
                     'extension' => 'com',
                     'type'      => 'relative',
+                    'original'  => 'www.example.com',
                 ],
             ],
             'URL with only path (no host)' => [
@@ -86,6 +92,7 @@ class UrlHelperTest extends TestCase
                     'path'      => '/another/file.xml',
                     'extension' => 'xml',
                     'type'      => 'relative',
+                    'original'  => '/another/file.xml',
                 ],
             ],
             'URL with no path but query' => [
@@ -93,6 +100,7 @@ class UrlHelperTest extends TestCase
                 [
                     'query' => 'foo=bar',
                     'type'  => 'relative',
+                    'original'  => '?foo=bar',
                 ],
             ],
             'empty URL' => [
@@ -106,6 +114,7 @@ class UrlHelperTest extends TestCase
                     'host'   => 'example.com',
                     'path'   => '/my.folder/file',
                     'type'   => 'absolute',
+                    'original' => 'https://example.com/my.folder/file',
                 ],
             ],
             'URL with dot in path and extension' => [
@@ -116,6 +125,7 @@ class UrlHelperTest extends TestCase
                     'path'      => '/my.folder/file.js',
                     'extension' => 'js',
                     'type'      => 'absolute',
+                    'original'  => 'https://example.com/my.folder/file.js',
                 ],
             ],
             'URL with filename only' => [
@@ -124,6 +134,7 @@ class UrlHelperTest extends TestCase
                     'path'      => 'image.png',
                     'extension' => 'png',
                     'type'      => 'relative',
+                    'original'  => 'image.png',
                 ],
             ],
             'URL with no path but fragment' => [
@@ -131,6 +142,7 @@ class UrlHelperTest extends TestCase
                 [
                     'fragment' => 'top',
                     'type'     => 'relative',
+                    'original'  => '#top',
                 ],
             ],
             'URL with trailing slash' => [
@@ -140,6 +152,7 @@ class UrlHelperTest extends TestCase
                     'host'   => 'example.com',
                     'path'   => '/path/',
                     'type'   => 'absolute',
+                    'original' => 'http://example.com/path/',
                 ],
             ],
             'URL with multiple dots in filename' => [
@@ -150,6 +163,7 @@ class UrlHelperTest extends TestCase
                     'path'      => '/archive.tar.gz',
                     'extension' => 'gz',
                     'type'      => 'absolute',
+                    'original'  => 'http://example.com/archive.tar.gz',
                 ],
             ],
             'URL with query param as extension' => [
@@ -160,6 +174,7 @@ class UrlHelperTest extends TestCase
                     'path'   => '/file',
                     'query'  => 'format=pdf',
                     'type'   => 'absolute',
+                    'original' => 'http://example.com/file?format=pdf',
                 ],
             ],
             'protocol-relative URL' => [
@@ -169,6 +184,7 @@ class UrlHelperTest extends TestCase
                     'path'      => '/path/to/file.js',
                     'extension' => 'js',
                     'type'      => 'protocol-relative',
+                    'original'  => '//example.com/path/to/file.js',
                 ],
             ],
             'URL with invalid scheme' => [

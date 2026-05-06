@@ -24,7 +24,8 @@ class GoogleDocs
      */
     public function __invoke(array $attributes, string $content): string
     {
-        $url = AttributeHelper::getAbsoluteUrl($attributes, $content);
+        $urlParts = AttributeHelper::getAbsoluteUrl($attributes, $content);
+        $url = $urlParts['original'];
 
         $embedUrl = $this->getEmbedUrl($url, $attributes);
 
