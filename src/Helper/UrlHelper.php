@@ -112,4 +112,26 @@ final class UrlHelper
                 );
         }
     }
+
+    /**
+     * Parses a URL and adds an 'extension' field based on the path.
+     *
+     * @param string $url The URL to parse.
+     *
+     * @return array|false An associative array of the URL's components, or false on failure.
+     */
+    public static function parseUrl(string $url)
+    {
+        $parts = \parse_url($url);
+
+        if ($parts !== false && isset($parts['path'])) {
+            $extension = \pathinfo($parts['path'], \PATHINFO_EXTENSION);
+            if (!empty($extension)) {
+                $parts['extension'] = $extension;
+            }
+        }
+
+        return $parts;
+    }
 }
+
