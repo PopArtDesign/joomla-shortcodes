@@ -11,25 +11,24 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Helper;
  */
 final class UrlHelper
 {
-    public const ABSOLUTE = 'absolute';
-    public const RELATIVE = 'absolute';
-    public const ANY      = 'any';
+    public const ABSOLUTE          = 'absolute';
+    public const RELATIVE          = 'relative';
+    public const PROTOCOL_RELATIVE = 'protocol-relative';
+    public const ANY               = 'any';
 
     /**
-    * Strictly validates a URL against absolute, relative, or any type.
-    *
-    * @param string $url  The URL string to validate.
-    * @param string $type Expected URL type:
-    *                     - 'absolute': must have scheme and host (e.g., https://example.com).
-    *                     - 'relative': must not have scheme or host, and must not start with "//".
-    *                     - 'any': accepts any syntactically valid URL: absolute (with scheme),
-    *                              relative, or protocol-relative (//example.com).
-    *
-    * @return bool True if the URL matches the specified type, false otherwise.
-    *
-    * @throws InvalidArgumentException If an unknown $type is provided.
-    */
-    public static function validateUrl(string $url, string $type = self::ANY): bool
+     * Strictly validates a URL against absolute, relative, or any type.
+     *
+     * @param string                   $url  The URL string to validate.
+     * @param string|string[]|null     $type Expected URL type(s).
+     *                                       Can be a string ('absolute', 'relative', 'protocol-relative', 'any'),
+     *                                       an array of types, or null/empty for 'any'.
+     *
+     * @return bool True if the URL matches the specified type, false otherwise.
+     *
+     * @throws \InvalidArgumentException If an unknown $type is provided.
+     */
+    public static function validateUrl(string $url, $type = self::ANY): bool
     {
         // Empty string is not a valid URI per RFC 3986
         if ($url === '') {
@@ -44,27 +43,37 @@ final class UrlHelper
             return false;
         }
 
-        switch ($type) {
-            case self::ABSOLUTE:
-                return $parsedUrl['type'] === 'absolute';
+        if (empty($type)) {
+            $type = self::ANY;
+        }
 
-            case self::RELATIVE:
-                return $parsedUrl['type'] === 'relative';
+        if (\is_string($type)) {
+            $type = [$type];
+        }
 
-            case self::ANY:
-                // 'any' accepts absolute, relative, or protocol-relative
-                // If we reached here, parseUrl succeeded and determined a type.
-                // All types determined by parseUrl are considered valid for 'any'.
-                return true;
+        if (!\is_array($type)) {
+            throw new \InvalidArgumentException('Type must be a string, an array of strings, or null.');
+        }
 
-            default:
+        $allowedTypes = [self::ABSOLUTE, self::RELATIVE, self::PROTOCOL_RELATIVE, self::ANY];
+
+        foreach ($type as $t) {
+            if (!\in_array($t, $allowedTypes, true)) {
                 throw new \InvalidArgumentException(
                     \sprintf(
-                        'Unknown URL type "%s". Allowed types: "absolute", "relative", "any".',
-                        $type,
+                        'Unknown URL type "%s". Allowed types: "%s".',
+                        $t,
+                        \implode('", ', $allowedTypes),
                     )
                 );
+            }
         }
+
+        if (\in_array(self::ANY, $type, true)) {
+            return true;
+        }
+
+        return \in_array($parsedUrl['type'], $type, true);
     }
 
     /**
@@ -105,14 +114,13 @@ final class UrlHelper
         $hasHost   = isset($parts['host']);
 
         if ($hasScheme && $hasHost) {
-            $parts['type'] = 'absolute';
+            $parts['type'] = self::ABSOLUTE;
         } elseif (!$hasScheme && \strpos($url, '//') === 0) {
-            $parts['type'] = 'protocol-relative';
+            $parts['type'] = self::PROTOCOL_RELATIVE;
         } else {
-            $parts['type'] = 'relative';
+            $parts['type'] = self::RELATIVE;
         }
 
         return $parts;
     }
 }
-
