@@ -30,11 +30,6 @@ final class UrlHelper
      */
     public static function validateUrl(string $url, $type = self::ANY): bool
     {
-        // Empty string is not a valid URI per RFC 3986
-        if ($url === '') {
-            return false;
-        }
-
         $parsedUrl = self::parseUrl($url);
 
         // If parseUrl returns false, it means it's fundamentally unparseable
@@ -87,6 +82,11 @@ final class UrlHelper
      */
     public static function parseUrl(string $url)
     {
+        // Empty string is not a valid URI per RFC 3986
+        if ($url === '') {
+            return false;
+        }
+
         // Forbidden characters (control characters, spaces, angle brackets, backticks, etc.)
         if (\preg_match('/[\x00-\x1F\x7F<>"{}|\\^`]/', $url)) {
             return false;

@@ -97,10 +97,7 @@ class UrlHelperTest extends TestCase
             ],
             'empty URL' => [
                 '',
-                [
-                    'path' => '',
-                    'type' => 'relative',
-                ],
+                false,
             ],
             'URL with dot in path but not extension' => [
                 'https://example.com/my.folder/file',
