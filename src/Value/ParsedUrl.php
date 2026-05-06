@@ -96,7 +96,7 @@ final class ParsedUrl
      *
      * @return bool True if the host matches, false otherwise.
      */
-    public function hasDomain(string|array $domains): bool
+    public function hasDomain($domains): bool
     {
         if ($this->getHost() === null) {
             return false;
@@ -117,7 +117,7 @@ final class ParsedUrl
      *
      * @return bool True if the extension matches, false otherwise.
      */
-    public function hasExtension(string|array $extensions): bool
+    public function hasExtension($extensions): bool
     {
         if ($this->getExtension() === null) {
             return false;
@@ -137,7 +137,7 @@ final class ParsedUrl
      *
      * @return bool True if the type matches, false otherwise.
      */
-    public function hasType(string|array $types): bool
+    public function hasType($types): bool
     {
         if (empty($types)) {
             $types = UrlHelper::ANY;
