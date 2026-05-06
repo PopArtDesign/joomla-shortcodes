@@ -142,7 +142,7 @@ final class ParsedUrl
     public function hasType($types): bool
     {
         if (empty($types)) {
-            return true;
+            return false;
         }
 
         if (\is_string($types)) {

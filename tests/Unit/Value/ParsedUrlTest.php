@@ -54,7 +54,7 @@ class ParsedUrlTest extends TestCase
         $this->assertTrue($parsedUrl->hasType(ParsedUrl::ABSOLUTE));
         $this->assertTrue($parsedUrl->hasType([ParsedUrl::ABSOLUTE, ParsedUrl::RELATIVE]));
         $this->assertFalse($parsedUrl->hasType(ParsedUrl::RELATIVE));
-        $this->assertTrue($parsedUrl->hasType([]));
-        $this->assertTrue($parsedUrl->hasType(null));
+        $this->assertFalse($parsedUrl->hasType([]));
+        $this->assertFalse($parsedUrl->hasType(null));
     }
 }

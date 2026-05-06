@@ -5,7 +5,6 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HandlerHelper;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HtmlHelper;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Value\ParsedUrl;
 
 \defined('_JEXEC') or die;
 

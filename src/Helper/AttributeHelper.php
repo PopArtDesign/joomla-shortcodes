@@ -204,6 +204,12 @@ final class AttributeHelper
      */
     public static function getUrl(array $attributes, string $content, $type = null): ParsedUrl
     {
+        $type = $type ?? [
+            ParsedUrl::ABSOLUTE,
+            ParsedUrl::RELATIVE,
+            ParsedUrl::PROTOCOL_RELATIVE,
+        ];
+
         // Attempt 1: Explicit `url` attribute
         if (isset($attributes['url'])) {
             $url = $attributes['url'];
