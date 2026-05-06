@@ -25,6 +25,7 @@ Embeds YouTube videos.
 -   `id`: A CSS id for the container `div`.
 -   `class`: A CSS class for the container `div`.
 -   `autoplay`: Automatically starts playing the video. Set to `true` or `1` to enable.
+-   `mute`: Mutes the video. Set to `true` or `1` to enable. Autoplayed videos are always muted by default.
 -   `start`: The time in seconds (or `MM:SS` format) from which playback will begin.
 -   `end`: The time in seconds (or `MM:SS` format) at which playback will end.
 -   `aspect-ratio`: The aspect ratio of the embed when `height` is set to `auto` (e.g., `16 / 9`, `4 / 3`). Defaults to `16 / 9`.
@@ -59,6 +60,7 @@ Embeds Vimeo videos.
 -   `id`: A CSS id for the container `div`.
 -   `class`: A CSS class for the container `div`.
 -   `autoplay`: Automatically starts playing the video. Set to `true` or `1` to enable.
+-   `mute`: Mutes the video. Set to `true` or `1` to enable. Autoplayed videos are always muted by default.
 -   `start`: The time in seconds (or `MM:SS` format) from which playback will begin.
 -   `end`: The time in seconds (or `MM:SS` format) at which playback will end.
 -   `aspect-ratio`: The aspect ratio of the embed when `height` is set to `auto` (e.g., `16 / 9`, `4 / 3`). Defaults to `16 / 9`.
@@ -83,6 +85,7 @@ Embeds Rutube videos.
 -   `id`: A CSS id for the container `div`.
 -   `class`: A CSS class for the container `div`.
 -   `autoplay`: Automatically starts playing the video. Set to `true` or `1` to enable.
+-   `mute`: Mutes the video. Set to `true` or `1` to enable. Autoplayed videos are always muted by default.
 -   `start`: The time in seconds (or `MM:SS` format) from which playback will begin.
 -   `end`: The time in seconds (or `MM:SS` format) at which playback will end.
 -   `aspect-ratio`: The aspect ratio of the embed when `height` is set to `auto` (e.g., `16 / 9`, `4 / 3`). Defaults to `16 / 9`.

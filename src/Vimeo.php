@@ -34,12 +34,14 @@ class Vimeo extends AbstractVideohostingHandler
 
         $autoplay = $this->getAutoplay($attributes);
         $loop = AttributeHelper::isEnabled('loop', $attributes);
+        $mute = $this->getMute($attributes) || $autoplay;
 
         $src = sprintf(
-            'https://player.vimeo.com/video/%s?autoplay=%d&loop=%d',
+            'https://player.vimeo.com/video/%s?autoplay=%d&loop=%d&muted=%d',
             htmlspecialchars($videoId),
             (int) $autoplay,
             (int) $loop,
+            (int) $mute
         );
 
         if (!empty($fragment)) {

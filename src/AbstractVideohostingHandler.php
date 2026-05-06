@@ -73,6 +73,18 @@ abstract class AbstractVideohostingHandler
     }
 
     /**
+     * Check if mute is enabled for the video.
+     *
+     * @param array $attributes The shortcode attributes.
+     *
+     * @return bool True if mute is enabled, false otherwise.
+     */
+    protected function getMute(array $attributes): bool
+    {
+        return AttributeHelper::isEnabled('mute', $attributes);
+    }
+
+    /**
      * Get the start time from the attributes.
      *
      * @param array   $attributes The shortcode attributes.

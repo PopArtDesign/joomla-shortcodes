@@ -30,4 +30,28 @@ class RutubeTest extends TestCase
         $shortcode = new Rutube();
         $shortcode(['url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'], '');
     }
+
+    public function testRutubeUrlWithAutoplay(): void
+    {
+        $shortcode = new Rutube();
+        $result = $shortcode(['url' => 'https://rutube.ru/video/12345/', 'autoplay' => 'true'], '');
+        $this->assertStringContainsString('autoplay=true', $result);
+        $this->assertStringContainsString('mute=true', $result);
+    }
+
+    public function testRutubeUrlWithMute(): void
+    {
+        $shortcode = new Rutube();
+        $result = $shortcode(['url' => 'https://rutube.ru/video/12345/', 'mute' => 'true'], '');
+        $this->assertStringContainsString('mute=true', $result);
+        $this->assertStringNotContainsString('autoplay=', $result);
+    }
+
+    public function testRutubeUrlWithAutoplayAndMute(): void
+    {
+        $shortcode = new Rutube();
+        $result = $shortcode(['url' => 'https://rutube.ru/video/12345/', 'autoplay' => 'true', 'mute' => 'true'], '');
+        $this->assertStringContainsString('autoplay=true', $result);
+        $this->assertStringContainsString('mute=true', $result);
+    }
 }

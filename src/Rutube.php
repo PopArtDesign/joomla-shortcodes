@@ -23,7 +23,10 @@ class Rutube extends AbstractVideohostingHandler
         $autoplay = $this->getAutoplay($attributes);
         if ($autoplay) {
             $queryParams['autoplay'] = 'true';
-            $queryParams['autostartmute'] = 'true';
+        }
+
+        if ($this->getMute($attributes) || $autoplay) {
+            $queryParams['mute'] = 'true';
         }
 
         $start = $this->getStart($attributes, 0);

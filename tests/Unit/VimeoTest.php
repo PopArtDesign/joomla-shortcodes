@@ -39,4 +39,25 @@ class VimeoTest extends TestCase
         $this->assertStringContainsString('width="100%"', $result);
         $this->assertStringContainsString('height="100%"', $result);
     }
+
+    public function testVimeoUrlWithAutoplay(): void
+    {
+        $shortcode = new Vimeo();
+        $result = $shortcode(['url' => 'https://vimeo.com/12345', 'autoplay' => 'true'], '');
+        $this->assertStringContainsString('autoplay=1&amp;loop=0&amp;muted=1', $result);
+    }
+
+    public function testVimeoUrlWithMute(): void
+    {
+        $shortcode = new Vimeo();
+        $result = $shortcode(['url' => 'https://vimeo.com/12345', 'mute' => 'true'], '');
+        $this->assertStringContainsString('autoplay=0&amp;loop=0&amp;muted=1', $result);
+    }
+
+    public function testVimeoUrlWithAutoplayAndMute(): void
+    {
+        $shortcode = new Vimeo();
+        $result = $shortcode(['url' => 'https://vimeo.com/12345', 'autoplay' => 'true', 'mute' => 'true'], '');
+        $this->assertStringContainsString('autoplay=1&amp;loop=0&amp;muted=1', $result);
+    }
 }
