@@ -175,7 +175,7 @@ final class AttributeHelper
     }
 
     /**
-     * Extracts the URL from the attributes array or content.
+     * Extracts the absolute URL from the attributes array or content.
      *
      * @param array  $attributes The attributes array.
      * @param string $content    The content string, used as a fallback for the URL.
@@ -184,49 +184,63 @@ final class AttributeHelper
      *
      * @throws \InvalidArgumentException If the URL is missing or invalid.
      */
-    public static function getUrl(array $attributes, string $content, bool $relative = false): string
+    public static function getAbsoluteUrl(array $attributes, string $content): string
+    {
+        return self::getUrl($attributes, $content, UrlHelper::ABSOLUTE);
+    }
+
+    /**
+     * Extracts the URL from the attributes array or content.
+     *
+     * @param array  $attributes The attributes array.
+     * @param string $content    The content string, used as a fallback for the URL.
+    * @param  string $type       Expected URL type: any, absolute, relative
+     *
+     * @return string The extracted and validated URL.
+     *
+     * @throws \InvalidArgumentException If the URL is missing or invalid.
+     */
+    public static function getUrl(array $attributes, string $content, string $type = UrlHelper::ANY): string
     {
         // Attempt 1: Explicit `url` attribute
         if (isset($attributes['url'])) {
             $url = $attributes['url'];
 
-            if ($relative) {
+            if (UrlHelper::validateUrl($url, $type)) {
                 return $url;
             }
 
-            if (\filter_var($url, FILTER_VALIDATE_URL) !== false) {
-                return $url;
-            } else {
-                throw new \InvalidArgumentException('Invalid URL provided in "url" attribute: ' . $url);
-            }
+            throw new \InvalidArgumentException(\sprintf(
+                'Invalid URL provided in "url" attribute: %s.',
+                $url,
+            ));
         }
 
         // Attempt 2: Content
         $trimmedContent = \trim($content);
         if ($trimmedContent !== '') {
-            if ($relative) {
+            if (UrlHelper::validateUrl($trimmedContent, $type)) {
                 return $trimmedContent;
             }
 
-            if (\filter_var($trimmedContent, FILTER_VALIDATE_URL) !== false) {
-                return $trimmedContent;
-            } else {
-                throw new \InvalidArgumentException('Invalid URL provided in content: ' . $trimmedContent);
-            }
+            throw new \InvalidArgumentException(\sprintf(
+                'Invalid URL provided in content: %s.',
+                $trimmedContent
+            ));
         }
 
         // Attempt 3: Positional attribute at index 0
         if (isset($attributes[0])) {
             $url = $attributes[0];
-            if ($relative) {
+
+            if (UrlHelper::validateUrl($url, $type)) {
                 return $url;
             }
 
-            if (\filter_var($url, FILTER_VALIDATE_URL) !== false) {
-                return $url;
-            } else {
-                throw new \InvalidArgumentException('Invalid URL provided as positional attribute: ' . $url);
-            }
+            throw new \InvalidArgumentException(\sprintf(
+                'Invalid URL provided as positional attribute: %s.',
+                $url
+            ));
         }
 
         // If no valid URL was found after checking all candidates

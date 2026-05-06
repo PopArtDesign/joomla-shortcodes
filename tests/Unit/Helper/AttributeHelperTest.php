@@ -273,22 +273,22 @@ class AttributeHelperTest extends TestCase
     public function testGetUrlThrowsExceptionForInvalidUrlAttribute(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid URL provided in "url" attribute: invalid-url');
-        AttributeHelper::getUrl(['url' => 'invalid-url'], '');
+        $this->expectExceptionMessage('Invalid URL provided in "url" attribute: invalid url <script>.');
+        AttributeHelper::getUrl(['url' => 'invalid url <script>'], '');
     }
 
     public function testGetUrlThrowsExceptionForInvalidUrlInContent(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid URL provided in content: invalid-url');
-        AttributeHelper::getUrl([], 'invalid-url');
+        $this->expectExceptionMessage('Invalid URL provided in content: invalid url <script>.');
+        AttributeHelper::getUrl([], 'invalid url <script>');
     }
 
     public function testGetUrlThrowsExceptionForInvalidUrlAsPositionalAttribute(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid URL provided as positional attribute: invalid-url');
-        AttributeHelper::getUrl(['invalid-url'], '');
+        $this->expectExceptionMessage('Invalid URL provided as positional attribute: invalid url <script>.');
+        AttributeHelper::getUrl(['invalid url <script>'], '');
     }
 
     public function testGetUrlThrowsExceptionWhenNoUrlFound(): void
@@ -298,17 +298,10 @@ class AttributeHelperTest extends TestCase
         AttributeHelper::getUrl([], '');
     }
 
-    public function testGetUrlReturnsRelativeUrlWhenRelativeIsTrue(): void
+    public function testGetUrlReturnsRelativeUrl(): void
     {
-        $this->assertEquals('/media/doc.pdf', AttributeHelper::getUrl(['url' => '/media/doc.pdf'], '', true));
-        $this->assertEquals('doc.pdf', AttributeHelper::getUrl([], 'doc.pdf', true));
-        $this->assertEquals('../doc.pdf', AttributeHelper::getUrl(['../doc.pdf'], '', true));
-    }
-
-    public function testGetUrlThrowsExceptionForRelativeUrlWhenRelativeIsFalse(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid URL provided in "url" attribute: /media/doc.pdf');
-        AttributeHelper::getUrl(['url' => '/media/doc.pdf'], '', false);
+        $this->assertEquals('/media/doc.pdf', AttributeHelper::getUrl(['url' => '/media/doc.pdf'], ''));
+        $this->assertEquals('doc.pdf', AttributeHelper::getUrl([], 'doc.pdf'));
+        $this->assertEquals('../doc.pdf', AttributeHelper::getUrl(['../doc.pdf'], ''));
     }
 }

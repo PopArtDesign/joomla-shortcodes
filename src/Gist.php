@@ -25,9 +25,9 @@ class Gist
      */
     public function __invoke(array $attributes, string $content): string
     {
-        $url = AttributeHelper::getUrl($attributes, $content);
+        $url = AttributeHelper::getAbsoluteUrl($attributes, $content);
 
-        if (\parse_url($url, PHP_URL_HOST) !== 'gist.github.com') {
+        if (\parse_url($url, \PHP_URL_HOST) !== 'gist.github.com') {
             throw new \InvalidArgumentException('The provided URL is not a valid Gist URL.');
         }
 

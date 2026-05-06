@@ -25,7 +25,7 @@ class Pdf
      */
     public function __invoke(array $attributes, string $content): string
     {
-        $url = AttributeHelper::getUrl($attributes, $content, true);
+        $url = AttributeHelper::getUrl($attributes, $content, 'any');
 
         $path = \parse_url($url, \PHP_URL_PATH);
         if (!$path || \strtolower(\pathinfo($path, \PATHINFO_EXTENSION)) !== 'pdf') {

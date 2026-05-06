@@ -27,7 +27,7 @@ abstract class AbstractVideohostingHandler
      */
     public function __invoke(array $attributes, string $content): string
     {
-        $url = AttributeHelper::getUrl($attributes, $content);
+        $url = AttributeHelper::getAbsoluteUrl($attributes, $content);
 
         $src = $this->getEmbedUrl($url, $attributes);
 
