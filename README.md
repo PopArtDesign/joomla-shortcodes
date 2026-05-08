@@ -30,7 +30,7 @@ Embeds YouTube videos.
 -   `end`: The time in seconds (or `MM:SS` format) at which playback will end.
 -   `aspect-ratio`: The aspect ratio of the embed when `height` is set to `auto` (e.g., `16 / 9`, `4 / 3`). Defaults to `16 / 9`.
 
-In addition to the specific attributes listed, this shortcode also supports all standard [iframe](#iframe) attributes like `title`, `frameborder`, `allow`, `allowfullscreen`, `referrerpolicy`, and `loading`.
+In addition to the attributes listed, any other standard `<iframe>` attributes (e.g., `title`, `loading`, `sandbox`, `referrerpolicy`) can be provided and will be passed directly to the generated `<iframe>` element. Note that `width`, `height`, `id`, and `class` are applied to the wrapper `div` and not the iframe itself.
 
 **Examples:**
 
@@ -65,7 +65,7 @@ Embeds Vimeo videos.
 -   `end`: The time in seconds (or `MM:SS` format) at which playback will end.
 -   `aspect-ratio`: The aspect ratio of the embed when `height` is set to `auto` (e.g., `16 / 9`, `4 / 3`). Defaults to `16 / 9`.
 
-In addition to the specific attributes listed, this shortcode also supports all standard [iframe](#iframe) attributes like `title`, `frameborder`, `allow`, `allowfullscreen`, `referrerpolicy`, and `loading`.
+In addition to the attributes listed, any other standard `<iframe>` attributes (e.g., `title`, `loading`, `sandbox`, `referrerpolicy`) can be provided and will be passed directly to the generated `<iframe>` element. Note that `width`, `height`, `id`, and `class` are applied to the wrapper `div` and not the iframe itself.
 
 **Example:**
 
@@ -90,7 +90,7 @@ Embeds Rutube videos.
 -   `end`: The time in seconds (or `MM:SS` format) at which playback will end.
 -   `aspect-ratio`: The aspect ratio of the embed when `height` is set to `auto` (e.g., `16 / 9`, `4 / 3`). Defaults to `16 / 9`.
 
-In addition to the specific attributes listed, this shortcode also supports all standard [iframe](#iframe) attributes like `title`, `frameborder`, `allow`, `allowfullscreen`, `referrerpolicy`, and `loading`.
+In addition to the attributes listed, any other standard `<iframe>` attributes (e.g., `title`, `loading`, `sandbox`, `referrerpolicy`) can be provided and will be passed directly to the generated `<iframe>` element. Note that `width`, `height`, `id`, and `class` are applied to the wrapper `div` and not the iframe itself.
 
 **Example:**
 
@@ -110,7 +110,7 @@ Embeds Google Docs, Sheets, Slides, and other files from Google Drive.
 -   `id`: A CSS id for the container `div`.
 -   `class`: A CSS class for the container `div`.
 
-In addition to the specific attributes listed, this shortcode also supports all standard [iframe](#iframe) attributes like `title`, `frameborder`, `allow`, `allowfullscreen`, `referrerpolicy`, and `loading`.
+In addition to the attributes listed, any other standard `<iframe>` attributes (e.g., `title`, `loading`, `sandbox`, `referrerpolicy`) can be provided and will be passed directly to the generated `<iframe>` element. Note that `width`, `height`, `id`, and `class` are applied to the wrapper `div` and not the iframe itself.
 
 **Examples:**
 
@@ -168,33 +168,7 @@ Embeds PDF documents.
 {pdf url="/another.pdf" width="600" height="800"}
 ```
 
-### `iframe`
 
-Embeds any URL as a generic [iframe](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/iframe). Use this for URLs not covered by other specific embed shortcodes.
-
-`{iframe url [attr="value"] ...}`
-
--   `url`: The URL to embed. Required if not using nested content.
--   `width`: The width of the embed. Defaults to `100%`.
--   `height`: The height of the embed. Defaults to `600px`.
--   `id`: A CSS id for the container `div`.
--   `class`: A CSS class for the container `div`.
--   `title`: The `title` attribute for the `iframe`.
--   `frameborder`: Specifies whether to display a border around the `iframe`. Defaults to `0`.
--   `allow`: Sets feature policy for the iframe, e.g., `accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture`.
--   `allowfullscreen`: Set to `true` to allow the `iframe` content to be displayed in fullscreen mode.
--   `referrerpolicy`: Specifies which referrer information to send with the network request. Defaults to `strict-origin-when-cross-origin`.
--   `loading`: Indicates how the browser should load the `iframe`. Defaults to `lazy`.
-
-**Example:**
-
-```
-{iframe}https://example.com/article{/iframe}
-```
-
-```
-{iframe url="https://example.com" width="800" height="600" class="my-embed"}
-```
 
 ### `lorem`
 

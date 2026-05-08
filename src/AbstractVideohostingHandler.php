@@ -20,7 +20,9 @@ abstract class AbstractVideohostingHandler
     /**
      * The main shortcode invokation method.
      *
-     * @param array  $attributes The shortcode attributes.
+     * @param array  $attributes The shortcode attributes. In addition to video-specific attributes,
+     *                           all standard iframe attributes (e.g., `title`, `loading`, `referrerpolicy`,
+     *                           `sandbox`, etc.) are supported and passed through to the generated iframe.
      * @param string $content    The content between shortcode tags.
      *
      * @return string The full HTML output for the embed.

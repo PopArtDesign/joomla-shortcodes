@@ -11,7 +11,6 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Vimeo;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Rutube;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\GoogleDocs;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Pdf;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Iframe;
 use JoomlaShortcoder\Plugin\Content\Shortcoder\Event\LoadShortcodesEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\DI\Container;
@@ -95,11 +94,6 @@ final class Shortcodes extends CMSPlugin implements SubscriberInterface
             'pdf',
             fn (...$args) =>
             $this->container->get(Pdf::class)(...$args)
-        );
-        $event->addShortcode(
-            'iframe',
-            fn (...$args) =>
-            $this->container->get(Iframe::class)(...$args)
         );
         $event->addShortcode(
             'lorem',

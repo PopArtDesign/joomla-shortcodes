@@ -15,7 +15,6 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Vimeo;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Rutube;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\GoogleDocs;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Pdf;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Iframe;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Extension\Shortcodes;
 
 return new class () implements ServiceProviderInterface {
@@ -35,7 +34,6 @@ return new class () implements ServiceProviderInterface {
         $container->share(Rutube::class, fn() => new Rutube(), true);
         $container->share(GoogleDocs::class, fn() => new GoogleDocs(), true);
         $container->share(Pdf::class, fn() => new Pdf(), true);
-        $container->share(Iframe::class, fn() => new Iframe(), true);
         $container->share(Lorem::class, fn() => new Lorem(), true);
         $container->share(Repeat::class, fn() => new Repeat(), true);
     }

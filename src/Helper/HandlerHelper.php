@@ -92,6 +92,9 @@ final class HandlerHelper
     /**
      * Builds and processes iframe attributes for shortcode embeds.
      *
+     * Attributes like `id`, `class`, `whdth` and `height` are handled by
+     * the wrapper element, not the iframe tag directly.
+     *
      * @param array $attributes     The original shortcode attributes.
      * @param array $baseAttributes An initial set of iframe attributes.
      *
@@ -99,23 +102,10 @@ final class HandlerHelper
      */
     public static function buildIframeAttributes(array $attributes, array $baseAttributes): array
     {
-        // Ignore width and height because they are used by wrapper
-        unset($attributes['width'], $attributes['height']);
+        // Ignore width, height, id, and class because they are used by wrapper
+        unset($attributes['width'], $attributes['height'], $attributes['id'], $attributes['class']);
 
-        // Merge base and user-provided attributes
-        $iframeAttributes = \array_merge($baseAttributes, $attributes);
-
-        // Filter and return only the recognized iframe attributes
-        return [
-            'title' => $iframeAttributes['title'] ?? '',
-            'width' => $iframeAttributes['width'] ?? '',
-            'height' => $iframeAttributes['height'] ?? '',
-            'frameborder' => $iframeAttributes['frameborder'] ?? '',
-            'allowfullscreen' => $iframeAttributes['allowfullscreen'] ?? '',
-            'allow' => $iframeAttributes['allow'] ?? '',
-            'referrerpolicy' => $iframeAttributes['referrerpolicy'] ?? '',
-            'loading' => $iframeAttributes['loading'] ?? '',
-            'style' => $iframeAttributes['style'] ?? '',
-        ];
+        // Merge base and user-provided attributes. User attributes will override base attributes.
+        return \array_merge($baseAttributes, $attributes);
     }
 }

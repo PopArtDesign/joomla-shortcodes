@@ -28,8 +28,7 @@ final class HtmlHelper
      * Render an iframe with the given attributes.
      *
      * @param string $url        The iframe source URL.
-     * @param array  $attributes The iframe attributes: width, height, title, allow,
-     *                           referrerpolicy, frameborder, allowfullscreen.
+     * @param array  $attributes All standard iframe attributes.
      *
      * @return string The rendered iframe HTML.
      */
