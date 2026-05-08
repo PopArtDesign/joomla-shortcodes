@@ -30,7 +30,9 @@ Embeds YouTube videos.
 -   `end`: The time in seconds (or `MM:SS` format) at which playback will end.
 -   `aspect-ratio`: The aspect ratio of the embed when `height` is set to `auto` (e.g., `16 / 9`, `4 / 3`). Defaults to `16 / 9`.
 
-In addition to the attributes listed, any other standard `<iframe>` attributes (e.g., `title`, `loading`, `sandbox`, `referrerpolicy`) can be provided and will be passed directly to the generated `<iframe>` element. Note that `width`, `height`, `id`, and `class` are applied to the wrapper `div` and not the iframe itself.
+In addition to the attributes listed, any other standard `<iframe>` attributes (e.g., `title`, `loading`, `sandbox`, `referrerpolicy`) can be provided and will be passed directly to the generated `<iframe>` element.
+
+Note that `width`, `height`, `id`, and `class` are applied to the wrapper `div` and not the iframe itself.
 
 **Examples:**
 
@@ -65,7 +67,9 @@ Embeds Vimeo videos.
 -   `end`: The time in seconds (or `MM:SS` format) at which playback will end.
 -   `aspect-ratio`: The aspect ratio of the embed when `height` is set to `auto` (e.g., `16 / 9`, `4 / 3`). Defaults to `16 / 9`.
 
-In addition to the attributes listed, any other standard `<iframe>` attributes (e.g., `title`, `loading`, `sandbox`, `referrerpolicy`) can be provided and will be passed directly to the generated `<iframe>` element. Note that `width`, `height`, `id`, and `class` are applied to the wrapper `div` and not the iframe itself.
+In addition to the attributes listed, any other standard `<iframe>` attributes (e.g., `title`, `loading`, `sandbox`, `referrerpolicy`) can be provided and will be passed directly to the generated `<iframe>` element.
+
+Note that `width`, `height`, `id`, and `class` are applied to the wrapper `div` and not the iframe itself.
 
 **Example:**
 
@@ -90,7 +94,9 @@ Embeds Rutube videos.
 -   `end`: The time in seconds (or `MM:SS` format) at which playback will end.
 -   `aspect-ratio`: The aspect ratio of the embed when `height` is set to `auto` (e.g., `16 / 9`, `4 / 3`). Defaults to `16 / 9`.
 
-In addition to the attributes listed, any other standard `<iframe>` attributes (e.g., `title`, `loading`, `sandbox`, `referrerpolicy`) can be provided and will be passed directly to the generated `<iframe>` element. Note that `width`, `height`, `id`, and `class` are applied to the wrapper `div` and not the iframe itself.
+In addition to the attributes listed, any other standard `<iframe>` attributes (e.g., `title`, `loading`, `sandbox`, `referrerpolicy`) can be provided and will be passed directly to the generated `<iframe>` element.
+
+Note that `width`, `height`, `id`, and `class` are applied to the wrapper `div` and not the iframe itself.
 
 **Example:**
 
@@ -110,7 +116,9 @@ Embeds Google Docs, Sheets, Slides, and other files from Google Drive.
 -   `id`: A CSS id for the container `div`.
 -   `class`: A CSS class for the container `div`.
 
-In addition to the attributes listed, any other standard `<iframe>` attributes (e.g., `title`, `loading`, `sandbox`, `referrerpolicy`) can be provided and will be passed directly to the generated `<iframe>` element. Note that `width`, `height`, `id`, and `class` are applied to the wrapper `div` and not the iframe itself.
+In addition to the attributes listed, any other standard `<iframe>` attributes (e.g., `title`, `loading`, `sandbox`, `referrerpolicy`) can be provided and will be passed directly to the generated `<iframe>` element.
+
+Note that `width`, `height`, `id`, and `class` are applied to the wrapper `div` and not the iframe itself.
 
 **Examples:**
 
@@ -167,8 +175,6 @@ Embeds PDF documents.
 ```
 {pdf url="/another.pdf" width="600" height="800"}
 ```
-
-
 
 ### `lorem`
 
