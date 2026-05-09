@@ -46,6 +46,11 @@ class Youtube extends AbstractVideohostingHandler
             $queryParams['mute'] = 1;
         }
 
+        $controls = $this->getControls($attributes);
+        if (!$controls) { // YouTube default is to show controls, so only add if hiding them
+            $queryParams['controls'] = 0;
+        }
+
         $src = sprintf('https://www.youtube.com/embed/%s', htmlspecialchars($videoId));
 
         if (!empty($queryParams)) {

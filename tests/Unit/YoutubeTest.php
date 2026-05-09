@@ -62,4 +62,20 @@ class YoutubeTest extends TestCase
         $this->assertStringContainsString('loop=1', $result);
         $this->assertStringContainsString('playlist=dQw4w9WgXcQ', $result);
     }
+
+    public function testYoutubeUrlWithControls(): void
+    {
+        $shortcode = new Youtube();
+        // Test with controls explicitly set to false (should add controls=0)
+        $result = $shortcode(['url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', 'controls' => 'false'], '');
+        $this->assertStringContainsString('controls=0', $result);
+
+        // Test with controls explicitly set to true (should not add controls=0 as it's default)
+        $result = $shortcode(['url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', 'controls' => 'true'], '');
+        $this->assertStringNotContainsString('controls=0', $result);
+
+        // Test without controls attribute (should not add controls=0 as it's default)
+        $result = $shortcode(['url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'], '');
+        $this->assertStringNotContainsString('controls=0', $result);
+    }
 }

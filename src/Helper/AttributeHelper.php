@@ -163,17 +163,17 @@ final class AttributeHelper
      *
      * @return bool True if the attribute is considered enabled, false otherwise.
      */
-    public static function isEnabled(string $key, array $attributes): bool
+    public static function isEnabled(string $key, array $attributes, bool $default = false): bool
     {
         if (array_key_exists($key, $attributes)) {
-            return (bool) self::parseBoolean((string) $attributes[$key], false);
+            return (bool) self::parseBoolean((string) $attributes[$key], $default);
         }
 
         if (isset($attributes['_']) && is_array($attributes['_']) && in_array($key, $attributes['_'], true)) {
             return true;
         }
 
-        return false;
+        return $default;
     }
 
     /**

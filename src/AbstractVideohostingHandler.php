@@ -151,4 +151,16 @@ abstract class AbstractVideohostingHandler
     {
         return AttributeHelper::isEnabled('loop', $attributes);
     }
+
+    /**
+     * Check if controls are enabled for the video.
+     *
+     * @param array $attributes The shortcode attributes.
+     *
+     * @return bool True if controls are enabled, false otherwise.
+     */
+    protected function getControls(array $attributes): bool
+    {
+        return AttributeHelper::isEnabled('controls', $attributes, true);
+    }
 }
