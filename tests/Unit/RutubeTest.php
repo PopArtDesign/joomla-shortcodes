@@ -61,4 +61,20 @@ class RutubeTest extends TestCase
         $result = $shortcode(['url' => 'https://rutube.ru/video/12345/', 'loop' => 'true'], '');
         $this->assertStringContainsString('loop=true', $result);
     }
+
+    public function testRutubeUrlWithControls(): void
+    {
+        $shortcode = new Rutube();
+        // Test with controls explicitly set to false (should add controls=false)
+        $result = $shortcode(['url' => 'https://rutube.ru/video/12345/', 'controls' => 'false'], '');
+        $this->assertStringContainsString('controls=false', $result);
+
+        // Test with controls explicitly set to true (should not add controls=false as it's default)
+        $result = $shortcode(['url' => 'https://rutube.ru/video/12345/', 'controls' => 'true'], '');
+        $this->assertStringNotContainsString('controls=false', $result);
+
+        // Test without controls attribute (should not add controls=false as it's default)
+        $result = $shortcode(['url' => 'https://rutube.ru/video/12345/'], '');
+        $this->assertStringNotContainsString('controls=false', $result);
+    }
 }

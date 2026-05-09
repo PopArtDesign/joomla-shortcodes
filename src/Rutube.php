@@ -47,6 +47,14 @@ class Rutube extends AbstractVideohostingHandler
             $queryParams['loop'] = 'true';
         }
 
+        $controls = $this->getControls($attributes);
+        if (!$controls) { // Rutube player default is assumed to be show controls, only add if hiding them
+            // Note: Rutube's embed API documentation for a 'controls' parameter is not explicit.
+            // We are adding 'controls=false' for API consistency, assuming the player might
+            // respond to it or for future compatibility.
+            $queryParams['controls'] = 'false';
+        }
+
         $src = sprintf('https://rutube.ru/play/embed/%s', htmlspecialchars($videoId));
 
         if (!empty($queryParams)) {
