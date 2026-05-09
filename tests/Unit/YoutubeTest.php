@@ -54,4 +54,12 @@ class YoutubeTest extends TestCase
         $this->assertStringContainsString('mute=1', $result);
         $this->assertStringNotContainsString('autoplay=', $result);
     }
+
+    public function testYoutubeUrlWithLoop(): void
+    {
+        $shortcode = new Youtube();
+        $result = $shortcode(['url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', 'loop' => 'true'], '');
+        $this->assertStringContainsString('loop=1', $result);
+        $this->assertStringContainsString('playlist=dQw4w9WgXcQ', $result);
+    }
 }

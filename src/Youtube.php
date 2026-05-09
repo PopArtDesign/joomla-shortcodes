@@ -35,6 +35,12 @@ class Youtube extends AbstractVideohostingHandler
             $queryParams['autoplay'] = 1;
         }
 
+        $loop = $this->getLoop($attributes);
+        if ($loop) {
+            $queryParams['loop'] = 1;
+            $queryParams['playlist'] = $videoId;
+        }
+
         // Most browsers require videos to be muted for autoplay to work.
         if ($autoplay || $this->getMute($attributes)) {
             $queryParams['mute'] = 1;

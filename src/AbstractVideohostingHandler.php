@@ -139,4 +139,16 @@ abstract class AbstractVideohostingHandler
      * @return array An associative array of iframe attributes.
      */
     abstract protected function getIframeAttributes(array $attributes): array;
+
+    /**
+     * Check if loop is enabled for the video.
+     *
+     * @param array $attributes The shortcode attributes.
+     *
+     * @return bool True if loop is enabled, false otherwise.
+     */
+    protected function getLoop(array $attributes): bool
+    {
+        return AttributeHelper::isEnabled('loop', $attributes);
+    }
 }
