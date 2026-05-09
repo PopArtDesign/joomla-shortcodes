@@ -35,13 +35,15 @@ class Vimeo extends AbstractVideohostingHandler
         $autoplay = $this->getAutoplay($attributes);
         $loop = $this->getLoop($attributes);
         $mute = $this->getMute($attributes) || $autoplay;
+        $controls = $this->getControls($attributes);
 
         $src = sprintf(
-            'https://player.vimeo.com/video/%s?autoplay=%d&loop=%d&muted=%d',
+            'https://player.vimeo.com/video/%s?autoplay=%d&loop=%d&muted=%d&controls=%d',
             htmlspecialchars($videoId),
             (int) $autoplay,
             (int) $loop,
-            (int) $mute
+            (int) $mute,
+            (int) $controls
         );
 
         if (!empty($fragment)) {

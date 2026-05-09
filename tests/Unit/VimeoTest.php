@@ -67,4 +67,20 @@ class VimeoTest extends TestCase
         $result = $shortcode(['url' => 'https://vimeo.com/12345', 'loop' => 'true'], '');
         $this->assertStringContainsString('loop=1', $result);
     }
+
+    public function testVimeoUrlWithControls(): void
+    {
+        $shortcode = new Vimeo();
+        // Test with controls explicitly set to false (should add controls=0)
+        $result = $shortcode(['url' => 'https://vimeo.com/12345', 'controls' => 'false'], '');
+        $this->assertStringContainsString('controls=0', $result);
+
+        // Test with controls explicitly set to true (should add controls=1)
+        $result = $shortcode(['url' => 'https://vimeo.com/12345', 'controls' => 'true'], '');
+        $this->assertStringContainsString('controls=1', $result);
+
+        // Test without controls attribute (should add controls=1 as it's default)
+        $result = $shortcode(['url' => 'https://vimeo.com/12345'], '');
+        $this->assertStringContainsString('controls=1', $result);
+    }
 }
