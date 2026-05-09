@@ -60,4 +60,11 @@ class VimeoTest extends TestCase
         $result = $shortcode(['url' => 'https://vimeo.com/12345', 'autoplay' => 'true', 'mute' => 'true'], '');
         $this->assertStringContainsString('autoplay=1&amp;loop=0&amp;muted=1', $result);
     }
+
+    public function testVimeoUrlWithLoop(): void
+    {
+        $shortcode = new Vimeo();
+        $result = $shortcode(['url' => 'https://vimeo.com/12345', 'loop' => 'true'], '');
+        $this->assertStringContainsString('loop=1', $result);
+    }
 }

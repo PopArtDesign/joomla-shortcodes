@@ -33,7 +33,7 @@ class Vimeo extends AbstractVideohostingHandler
         }
 
         $autoplay = $this->getAutoplay($attributes);
-        $loop = AttributeHelper::isEnabled('loop', $attributes);
+        $loop = $this->getLoop($attributes);
         $mute = $this->getMute($attributes) || $autoplay;
 
         $src = sprintf(
