@@ -39,6 +39,14 @@ class Rutube extends AbstractVideohostingHandler
             $queryParams['stopTime'] = $end;
         }
 
+        $loop = $this->getLoop($attributes);
+        if ($loop) {
+            // Note: Rutube's embed API documentation for a 'loop' parameter is not explicit.
+            // We are adding 'loop=true' for API consistency, assuming the player might
+            // respond to it or for future compatibility.
+            $queryParams['loop'] = 'true';
+        }
+
         $src = sprintf('https://rutube.ru/play/embed/%s', htmlspecialchars($videoId));
 
         if (!empty($queryParams)) {
