@@ -36,3 +36,19 @@ https://vimeo.com/123456789
 ```
 {vimeo https://vimeo.com/123456789 aspect-ratio=4/3}
 ```
+
+## Styling `aspect-ratio`
+
+The `aspect-ratio` is controlled by the CSS variable `var(--embed-video-aspect-ratio, 16 / 9)`. You can override this variable in your stylesheet:
+
+```css
+/* Custom aspect ratio for all embedded videos */
+:root {
+  --embed-video-aspect-ratio: 4 / 3;
+}
+
+/* Or target specific videos by their container class or ID */
+.embed-vimeo {
+  --embed-video-aspect-ratio: 16 / 9;
+}
+```

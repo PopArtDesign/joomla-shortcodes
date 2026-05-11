@@ -20,3 +20,19 @@ Embeds PDF documents.
 ```
 {pdf /another.pdf width=600 height=800}
 ```
+
+## Styling `height`
+
+The `height` attribute defaults to `var(--embed-pdf-height, 75vh)`, allowing for easy customization via CSS. You can override this variable in your stylesheet:
+
+```css
+/* Custom height for all embedded PDFs */
+:root {
+  --embed-pdf-height: 400px;
+}
+
+/* Or target specific PDFs by their container class or ID */
+.embed-pdf {
+  --embed-pdf-height: 75vh;
+}
+```

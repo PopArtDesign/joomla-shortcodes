@@ -36,3 +36,19 @@ https://rutube.ru/video/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c/
 ```
 {rutube https://rutube.ru/video/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c/ aspect-ratio=4/3}
 ```
+
+## Styling `aspect-ratio`
+
+The `aspect-ratio` is controlled by the CSS variable `var(--embed-video-aspect-ratio, 16 / 9)`. You can override this variable in your stylesheet:
+
+```css
+/* Custom aspect ratio for all embedded videos */
+:root {
+  --embed-video-aspect-ratio: 4 / 3;
+}
+
+/* Or target specific videos by their container class or ID */
+.embed-rutube {
+  --embed-video-aspect-ratio: 16 / 9;
+}
+```
