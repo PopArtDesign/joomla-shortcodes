@@ -29,14 +29,6 @@ class GoogleMapsTest extends TestCase
         $this->assertStringContainsString('class="embed-container embed-map embed-googlemaps"', $result);
     }
 
-    public function testInvokeWithLatLon(): void
-    {
-        $attributes = ['lat' => '37.422', 'lon' => '-122.084'];
-        $result = ($this->shortcode)($attributes, '');
-
-        $this->assertStringContainsString('src="https://maps.google.com/maps?output=embed&amp;q=37.422%2C-122.084', $result);
-    }
-
     public function testInvokeWithZoomAndType(): void
     {
         $attributes = ['address' => 'Eiffel Tower', 'zoom' => '18', 'type' => 'satellite'];
@@ -46,10 +38,18 @@ class GoogleMapsTest extends TestCase
         $this->assertStringContainsString('t=k', $result);
     }
 
+    public function testInvokeWithCoordinates(): void
+    {
+        $attributes = ['coordinates' => '37.422,-122.084'];
+        $result = ($this->shortcode)($attributes, '');
+
+        $this->assertStringContainsString('src="https://maps.google.com/maps?output=embed&amp;q=37.422%2C-122.084', $result);
+    }
+
     public function testInvokeNoLocation(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Google Maps: Address or lat/lon attribute required.');
+        $this->expectExceptionMessage('Google Maps: Address or coordinates attribute required.');
 
         $attributes = [];
         ($this->shortcode)($attributes, '');

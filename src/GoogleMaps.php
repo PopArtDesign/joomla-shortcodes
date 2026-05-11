@@ -33,12 +33,12 @@ final class GoogleMaps
         $q = '';
         if (!empty($attributes['address'])) {
             $q = $attributes['address'];
-        } elseif (!empty($attributes['lat']) && !empty($attributes['lon'])) {
-            $q = $attributes['lat'] . ',' . $attributes['lon'];
+        } elseif (!empty($attributes['coordinates'])) {
+            $q = $attributes['coordinates'];
         }
 
         if (empty($q)) {
-            throw new \InvalidArgumentException('Google Maps: Address or lat/lon attribute required.');
+            throw new \InvalidArgumentException('Google Maps: Address or coordinates attribute required.');
         }
 
         $queryParams = [
