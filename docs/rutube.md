@@ -28,8 +28,6 @@ Note that `width`, `height`, `id`, and `class` are applied to the wrapper `div` 
 https://rutube.ru/video/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c/
 {/rutube}
 ```
-```
-```
 
 ```
 {rutube https://rutube.ru/video/0a7e6d2a7c2b5f6a5b1c3d0b1e0a7b1c/ width=800 height=600}
