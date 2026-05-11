@@ -22,7 +22,7 @@ When `tag` is `img`, the shortcode generates an inline Base64-encoded placeholde
 -   `class`: (Optional) A CSS class to apply to the `<img>` tag.
 -   `alt`: (Optional) The `alt` text for the `<img>` tag.
 
-**Examples:**
+## Examples
 
 Generate the full default Lorem Ipsum text without any wrapping tags:
 ```

@@ -21,7 +21,7 @@ In addition to the attributes listed, any other standard `<iframe>` attributes (
 
 Note that `width`, `height`, `id`, and `class` are applied to the wrapper `div` and not the `iframe` itself.
 
-**Examples:**
+## Examples
 
 ```
 {youtube autoplay start=1:00 end=3:00}

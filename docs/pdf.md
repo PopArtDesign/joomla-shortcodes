@@ -11,7 +11,7 @@ Embeds PDF documents.
 -   `class`: A CSS class for the container `div`.
 -   `title`: The `title` attribute for the `object`.
 
-**Examples:**
+## Examples
 
 ```
 {pdf https://example.com/document.pdf}

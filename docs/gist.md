@@ -11,7 +11,7 @@ Embeds [GitHub Gists](gist.github.com).
 -   `id`: A CSS id for the container `div`.
 -   `class`: A CSS class for the container `div`.
 
-**Examples:**
+## Examples
 
 ```
 {gist https://gist.github.com/user/12345}
