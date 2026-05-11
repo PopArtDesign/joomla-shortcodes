@@ -13,6 +13,11 @@ Shortcodes are implemented as invokable PHP classes.
 - **Shortcodes**: `src/Lorem.php`, `src/Repeat.php` etc. - Standalone shortcode classes
 - **Shortcode Registration**: `src/Extension/Shortcodes.php` - Registers all shortcodes
 - `src/AbstractVideohostingHandler.php` - Provides common functionality for video-specific attributes like autoplay, start/end times, and aspect ratio.
+- **Helpers**:
+  - `src/Helper/AttributeHelper.php` - Provides utility methods for parsing and handling shortcode attributes, such as converting string values to specific data types (e.g., boolean, integer ranges, time formats) and extracting URLs.
+  - `src/Helper/HandlerHelper.php` - A helper for shortcode handlers, used for rendering responsive iframes and content wrappers.
+  - `src/Helper/HtmlHelper.php` - A helper for generating HTML tags like `div`, `iframe`, `object`, and `script`.
+  - `src/Helper/UrlHelper.php` - A helper for parsing URLs.
 
 ### Adding a New Shortcode
 
