@@ -11,7 +11,7 @@ A shortcodes pack for [Joomla Shortcoder](https://github.com/PopArtDesign/joomla
 3.  Upload the downloaded `.zip` file.
 4.  Enable the "Content - Shortcodes" plugin by going to `System` -> `Manage` -> `Plugins`.
 
-## Usage
+## Available Shortcodes
 
 -   [`gist`](docs/gist.md)
 -   [`googledocs`](docs/googledocs.md)
