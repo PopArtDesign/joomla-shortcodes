@@ -19,7 +19,7 @@ In addition to the attributes listed, any other standard `<iframe>` attributes (
 
 Note that `width`, `height`, `id`, and `class` are applied to the wrapper `div` and not the `iframe` itself.
 
-**Examples:**
+## Examples
 
 ```
 {googlemaps address="Eiffel Tower"}
@@ -27,4 +27,20 @@ Note that `width`, `height`, `id`, and `class` are applied to the wrapper `div` 
 
 ```
 {googlemaps coordinates=48.8584,2.2945 zoom=15 type=hybrid}
+```
+
+## Styling `height`
+
+The `height` attribute defaults to `var(--embed-map-height, 50vh)`, allowing for easy customization via CSS. You can override this variable in your stylesheet:
+
+```css
+/* Custom height for all embedded maps */
+:root {
+  --embed-map-height: 400px;
+}
+
+/* Or target specific maps by their container class or ID */
+.embed-googlemaps {
+  --embed-map-height: 75vh;
+}
 ```
