@@ -1,4 +1,4 @@
-### `pdf`
+# pdf
 
 Embeds PDF documents.
 
@@ -14,9 +14,9 @@ Embeds PDF documents.
 **Examples:**
 
 ```
-{pdf}https://example.com/document.pdf{/pdf}
+{pdf https://example.com/document.pdf}
 ```
 
 ```
-{pdf url="/another.pdf" width="600" height="800"}
+{pdf /another.pdf width=600 height=800}
 ```

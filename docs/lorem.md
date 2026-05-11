@@ -1,6 +1,6 @@
-### `lorem`
+# lorem
 
-Generates "Lorem Ipsum" placeholder content.
+Generates ["Lorem Ipsum"](https://en.wikipedia.org/wiki/Lorem_ipsum) placeholder content.
 
 `{lorem [tag] [count] [attr="value"] ...}`
 

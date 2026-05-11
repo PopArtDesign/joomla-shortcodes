@@ -1,6 +1,6 @@
-### `googledocs`
+# googledocs
 
-Embeds Google Docs, Sheets, Slides, and other files from Google Drive.
+Embeds [Google Docs](https://docs.google.com), Sheets, Slides, and other files from [Google Drive](https://workspace.google.com/products/drive).
 
 `{googledocs url [attr="value"] ...}`
 
@@ -12,7 +12,7 @@ Embeds Google Docs, Sheets, Slides, and other files from Google Drive.
 
 In addition to the attributes listed, any other standard `<iframe>` attributes (e.g., `title`, `loading`, `sandbox`, `referrerpolicy`) can be provided and will be passed directly to the generated `<iframe>` element.
 
-Note that `width`, `height`, `id`, and `class` are applied to the wrapper `div` and not the iframe itself.
+Note that `width`, `height`, `id`, and `class` are applied to the wrapper `div` and not the `iframe` itself.
 
 **Examples:**
 
@@ -21,5 +21,7 @@ Note that `width`, `height`, `id`, and `class` are applied to the wrapper `div` 
 ```
 
 ```
-{googledocs url="https://docs.google.com/spreadsheets/d/a-valid-id/edit" width="800" height="600"}
+{googledocs width=800 height=600}
+https://docs.google.com/spreadsheets/d/a-valid-id/edit
+{/googledocs}
 ```

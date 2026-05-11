@@ -1,6 +1,6 @@
-### `gist`
+# gist
 
-Embeds GitHub Gists.
+Embeds [GitHub Gists](gist.github.com).
 
 `{gist url [attr="value"] ...}`
 
@@ -18,5 +18,5 @@ Embeds GitHub Gists.
 ```
 
 ```
-{gist url="https://gist.github.com/user/12345" file="example.php"}
+{gist https://gist.github.com/user/12345 file=example.php}
 ```

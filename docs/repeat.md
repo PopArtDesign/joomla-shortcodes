@@ -1,4 +1,4 @@
-### `repeat`
+# repeat
 
 Repeats the enclosed content a specified number of times.
 
