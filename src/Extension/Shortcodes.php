@@ -2,16 +2,16 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Extension;
 
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Embed;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Lorem;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Repeat;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Youtube;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Gist;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Vimeo;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Rutube;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\GoogleDocs;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Pdf;
 use JoomlaShortcoder\Plugin\Content\Shortcoder\Event\LoadShortcodesEvent;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Gist;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\GoogleDocs;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\GoogleMaps;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Lorem;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Pdf;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Repeat;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Rutube;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Vimeo;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Youtube;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\DI\Container;
 use Joomla\Event\DispatcherInterface;
@@ -66,24 +66,9 @@ final class Shortcodes extends CMSPlugin implements SubscriberInterface
     public function loadShortcodes(LoadShortcodesEvent $event): void
     {
         $event->addShortcode(
-            'youtube',
-            fn (...$args) =>
-            $this->container->get(Youtube::class)(...$args)
-        );
-        $event->addShortcode(
             'gist',
             fn (...$args) =>
             $this->container->get(Gist::class)(...$args)
-        );
-        $event->addShortcode(
-            'vimeo',
-            fn (...$args) =>
-            $this->container->get(Vimeo::class)(...$args)
-        );
-        $event->addShortcode(
-            'rutube',
-            fn (...$args) =>
-            $this->container->get(Rutube::class)(...$args)
         );
         $event->addShortcode(
             'googledocs',
@@ -91,9 +76,9 @@ final class Shortcodes extends CMSPlugin implements SubscriberInterface
             $this->container->get(GoogleDocs::class)(...$args)
         );
         $event->addShortcode(
-            'pdf',
+            'googlemaps',
             fn (...$args) =>
-            $this->container->get(Pdf::class)(...$args)
+            $this->container->get(GoogleMaps::class)(...$args)
         );
         $event->addShortcode(
             'lorem',
@@ -101,9 +86,29 @@ final class Shortcodes extends CMSPlugin implements SubscriberInterface
             $this->container->get(Lorem::class)(...$args)
         );
         $event->addShortcode(
+            'pdf',
+            fn (...$args) =>
+            $this->container->get(Pdf::class)(...$args)
+        );
+        $event->addShortcode(
             'repeat',
             fn (...$args) =>
             $this->container->get(Repeat::class)(...$args)
+        );
+        $event->addShortcode(
+            'rutube',
+            fn (...$args) =>
+            $this->container->get(Rutube::class)(...$args)
+        );
+        $event->addShortcode(
+            'vimeo',
+            fn (...$args) =>
+            $this->container->get(Vimeo::class)(...$args)
+        );
+        $event->addShortcode(
+            'youtube',
+            fn (...$args) =>
+            $this->container->get(Youtube::class)(...$args)
         );
     }
 }

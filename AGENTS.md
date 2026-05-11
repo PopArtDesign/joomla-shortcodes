@@ -36,6 +36,7 @@ To add a new video shortcode (like YouTube, Vimeo, Rutube):
 
 -   **`gist`** - Embeds GitHub Gists
 -   **`googledocs`** - Embeds Google Docs
+-   **`googlemaps`** - Embeds Google Maps
 -   **`lorem`** - Generates Lorem Ipsum placeholder text
 -   **`pdf`** - Embeds PDF documents
 -   **`repeat`** - Repeats enclosed content
