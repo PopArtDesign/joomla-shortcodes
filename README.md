@@ -19,8 +19,8 @@ A shortcodes pack for [Joomla Shortcoder](https://github.com/PopArtDesign/joomla
 -   [`lorem`](docs/lorem.md)
 -   [`pdf`](docs/pdf.md)
 -   [`repeat`](docs/repeat.md)
--   [`tweet`](docs/tweet.md)
 -   [`rutube`](docs/rutube.md)
+-   [`tweet`](docs/tweet.md)
 -   [`vimeo`](docs/vimeo.md)
 -   [`youtube`](docs/youtube.md)
 
