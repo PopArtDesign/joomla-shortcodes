@@ -10,6 +10,7 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Lorem;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Pdf;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Repeat;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Rutube;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Tweet;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Vimeo;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Youtube;
 use Joomla\CMS\Extension\PluginInterface;
@@ -34,6 +35,7 @@ return new class () implements ServiceProviderInterface {
         $container->share(Lorem::class, fn() => new Lorem(), true);
         $container->share(Pdf::class, fn() => new Pdf(), true);
         $container->share(Repeat::class, fn() => new Repeat(), true);
+        $container->share(Tweet::class, fn() => new Tweet(), true);
         $container->share(Rutube::class, fn() => new Rutube(), true);
         $container->share(Vimeo::class, fn() => new Vimeo(), true);
         $container->share(Youtube::class, fn() => new Youtube(), true);

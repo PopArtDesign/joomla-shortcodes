@@ -10,6 +10,7 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Lorem;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Pdf;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Repeat;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Rutube;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Tweet;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Vimeo;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Youtube;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -94,6 +95,11 @@ final class Shortcodes extends CMSPlugin implements SubscriberInterface
             'repeat',
             fn (...$args) =>
             $this->container->get(Repeat::class)(...$args)
+        );
+        $event->addShortcode(
+            'tweet',
+            fn (...$args) =>
+            $this->container->get(Tweet::class)(...$args)
         );
         $event->addShortcode(
             'rutube',
