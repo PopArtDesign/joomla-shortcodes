@@ -12,7 +12,7 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-class GoogleDocs
+final class GoogleDocs
 {
     /**
      * The main shortcode invokation method.

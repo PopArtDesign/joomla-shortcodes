@@ -9,7 +9,7 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-class Rutube extends AbstractVideohostingHandler
+final class Rutube extends AbstractVideohostingHandler
 {
     /**
      * @inheritdoc

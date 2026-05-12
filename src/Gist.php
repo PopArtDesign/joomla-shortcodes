@@ -13,7 +13,7 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HtmlHelper;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-class Gist
+final class Gist
 {
     /**
      * The main shortcode invokation method.

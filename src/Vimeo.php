@@ -2,8 +2,6 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes;
 
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
-
 \defined('_JEXEC') or die;
 
 /**
@@ -11,7 +9,7 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-class Vimeo extends AbstractVideohostingHandler
+final class Vimeo extends AbstractVideohostingHandler
 {
     /**
      * @inheritdoc

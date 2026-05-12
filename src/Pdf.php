@@ -13,7 +13,7 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HtmlHelper;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-class Pdf
+final class Pdf
 {
     /**
      * The main shortcode invokation method.

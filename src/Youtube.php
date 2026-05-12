@@ -9,7 +9,7 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-class Youtube extends AbstractVideohostingHandler
+final class Youtube extends AbstractVideohostingHandler
 {
     /**
      * @inheritdoc

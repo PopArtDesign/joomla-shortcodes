@@ -11,7 +11,7 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-class Repeat
+final class Repeat
 {
     /**
      * Invoke the shortcode.

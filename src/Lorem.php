@@ -11,7 +11,7 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-class Lorem
+final class Lorem
 {
     public const LOREMIPSUM = <<<LOREMIPSUM
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
