@@ -100,4 +100,24 @@
     <targetplatform name="joomla" version="(4\.|5\.|6\.)"/>
     <php_minimum>7.4</php_minimum>
   </update>
+  <update>
+    <name>Joomla Shortcodes</name>
+    <description>A shortcodes pack for Joomla Shortcoder</description>
+    <element>shortcodes</element>
+    <type>plugin</type>
+    <folder>content</folder>
+    <client>site</client>
+    <maintainer>popartdesign.ru</maintainer>
+    <maintainerurl>https://popartdesign.ru</maintainerurl>
+    <version>1.5.0</version>
+    <downloads>
+      <downloadurl type="full" format="zip">https://github.com/PopArtDesign/joomla-shortcodes/archive/refs/tags/v1.5.0.zip</downloadurl>
+    </downloads>
+    <sha512>27ef66b8def8c87c075f5ac4dc9d566ac1f91e605a248ba6d1ad1c01cf59d9b376b1be340de189a3fb130dc8027c3e769351ed722130d411e594fe9a0f29553b</sha512>
+    <sha384>062c34fbacecb166f8f140482731091f8ea590a9cf51026f3790ea0bbb0b68545934d453a6e2dde7691758d33168b790</sha384>
+    <sha256>d232563cd45f6d36d0e9c50132a3b36d1efd824a3ae50b33c21bcce604390f84</sha256>
+    <infourl title="Joomla Shortcodes">https://github.com/PopArtDesign/joomla-shortcodes/releases/tag/v1.5.0</infourl>
+    <targetplatform name="joomla" version="(4\.|5\.|6\.)"/>
+    <php_minimum>7.4</php_minimum>
+  </update>
 </updates>
