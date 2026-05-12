@@ -182,11 +182,9 @@ final class AttributeHelper
      * @param array  $attributes The attributes array.
      * @param string $content    The content string, used as a fallback for the URL.
      *
-     * @return ParsedUrl The extracted and validated URL.
-     *
-     * @throws \InvalidArgumentException If the URL is missing or invalid.
+     * @return ParsedUrl|null The extracted and validated URL, or null if invalid.
      */
-    public static function getAbsoluteUrl(array $attributes, string $content): ParsedUrl
+    public static function getAbsoluteUrl(array $attributes, string $content): ?ParsedUrl
     {
         return self::getUrl($attributes, $content, ParsedUrl::ABSOLUTE);
     }
@@ -198,11 +196,9 @@ final class AttributeHelper
      * @param string               $content    The content string, used as a fallback for the URL.
      * @param string|string[]|null $type       Expected URL type(s).
      *
-     * @return ParsedUrl The parsed URL components.
-     *
-     * @throws \InvalidArgumentException If the URL is missing or invalid.
+     * @return ParsedUrl|null The parsed URL components, or null if missing or invalid.
      */
-    public static function getUrl(array $attributes, string $content, $type = null): ParsedUrl
+    public static function getUrl(array $attributes, string $content, $type = null): ?ParsedUrl
     {
         $type = $type ?? [
             ParsedUrl::ABSOLUTE,
@@ -219,10 +215,7 @@ final class AttributeHelper
                 return $parsedUrl;
             }
 
-            throw new \InvalidArgumentException(\sprintf(
-                'Invalid URL provided in "url" attribute: %s.',
-                $url,
-            ));
+            return null;
         }
 
         // Attempt 2: Content
@@ -234,10 +227,7 @@ final class AttributeHelper
                 return $parsedUrl;
             }
 
-            throw new \InvalidArgumentException(\sprintf(
-                'Invalid URL provided in content: %s.',
-                $trimmedContent
-            ));
+            return null;
         }
 
         // Attempt 3: Positional attribute at index 0
@@ -249,13 +239,10 @@ final class AttributeHelper
                 return $parsedUrl;
             }
 
-            throw new \InvalidArgumentException(\sprintf(
-                'Invalid URL provided as positional attribute: %s.',
-                $url
-            ));
+            return null;
         }
 
         // If no valid URL was found after checking all candidates
-        throw new \InvalidArgumentException('A valid embed URL was not found.');
+        return null;
     }
 }

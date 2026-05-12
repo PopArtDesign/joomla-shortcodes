@@ -278,32 +278,24 @@ class AttributeHelperTest extends TestCase
         $this->assertEquals($expectedParsedUrl, AttributeHelper::getUrl($attributes, ''));
     }
 
-    public function testGetUrlThrowsExceptionForInvalidUrlAttribute(): void
+    public function testGetUrlReturnsNullForInvalidUrlAttribute(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid URL provided in "url" attribute: invalid url <script>.');
-        AttributeHelper::getUrl(['url' => 'invalid url <script>'], '');
+        $this->assertNull(AttributeHelper::getUrl(['url' => 'invalid url <script>'], ''));
     }
 
-    public function testGetUrlThrowsExceptionForInvalidUrlInContent(): void
+    public function testGetUrlReturnsNullForInvalidUrlInContent(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid URL provided in content: invalid url <script>.');
-        AttributeHelper::getUrl([], 'invalid url <script>');
+        $this->assertNull(AttributeHelper::getUrl([], 'invalid url <script>'));
     }
 
-    public function testGetUrlThrowsExceptionForInvalidUrlAsPositionalAttribute(): void
+    public function testGetUrlReturnsNullForInvalidUrlAsPositionalAttribute(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid URL provided as positional attribute: invalid url <script>.');
-        AttributeHelper::getUrl(['invalid url <script>'], '');
+        $this->assertNull(AttributeHelper::getUrl(['invalid url <script>'], ''));
     }
 
-    public function testGetUrlThrowsExceptionWhenNoUrlFound(): void
+    public function testGetUrlReturnsNullWhenNoUrlFound(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('A valid embed URL was not found.');
-        AttributeHelper::getUrl([], '');
+        $this->assertNull(AttributeHelper::getUrl([], ''));
     }
 
     public function testGetUrlReturnsRelativeUrl(): void

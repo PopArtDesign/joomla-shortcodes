@@ -22,15 +22,17 @@ final class Tweet
      * @param string $content    The content between shortcode tags, used as a fallback for the URL.
      *
      * @return string The full HTML output for the Twitter embed.
-     *
-     * @throws \InvalidArgumentException If a valid URL is not provided.
      */
     public function __invoke(array $attributes, string $content): string
     {
-        $url = (string) AttributeHelper::getAbsoluteUrl($attributes, $content);
+        $parsedUrl = AttributeHelper::getAbsoluteUrl($attributes, $content);
+        if ($parsedUrl === null) {
+            return HandlerHelper::error('Tweet: A valid URL was not found.');
+        }
 
+        $url = (string) $parsedUrl;
         if (!$this->isTwitterUrl($url)) {
-            throw new \InvalidArgumentException('The provided URL is not a valid Twitter/X post URL.');
+            return HandlerHelper::error('Tweet: The provided URL is not a valid Twitter/X post URL.');
         }
 
         $anchor = HtmlHelper::tag('a', ['href' => $url], '');

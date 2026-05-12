@@ -23,12 +23,11 @@ class YoutubeTest extends TestCase
         $this->assertStringContainsString('youtube.com/embed/dQw4w9WgXcQ', $result);
     }
 
-    public function testNonYoutubeUrlIsNotProcessed(): void
+    public function testNonYoutubeUrlReturnsError(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Could not extract YouTube video ID from URL: https://vimeo.com/12345');
         $shortcode = new Youtube();
-        $shortcode(['url' => 'https://vimeo.com/12345'], '');
+        $result = $shortcode(['url' => 'https://vimeo.com/12345'], '');
+        $this->assertStringContainsString('Youtube: Could not generate embed URL.', $result);
     }
 
     public function testYoutubeUrlWithCustomDimensions(): void

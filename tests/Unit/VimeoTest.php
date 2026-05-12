@@ -23,12 +23,11 @@ class VimeoTest extends TestCase
         $this->assertStringContainsString('player.vimeo.com/video/12345', $result);
     }
 
-    public function testNonVimeoUrlIsNotProcessed(): void
+    public function testNonVimeoUrlReturnsError(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Could not extract Vimeo video ID from URL: https://www.youtube.com/watch?v=dQw4w9WgXcQ');
         $shortcode = new Vimeo();
-        $shortcode(['url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'], '');
+        $result = $shortcode(['url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'], '');
+        $this->assertStringContainsString('Vimeo: Could not generate embed URL.', $result);
     }
 
     public function testVimeoUrlWithCustomDimensions(): void

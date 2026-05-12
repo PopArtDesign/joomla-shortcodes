@@ -30,8 +30,18 @@ abstract class AbstractVideohostingHandler
     public function __invoke(array $attributes, string $content): string
     {
         $url = AttributeHelper::getAbsoluteUrl($attributes, $content);
+        if ($url === null) {
+            $shortcodeName = (new \ReflectionClass($this))->getShortName();
+
+            return HandlerHelper::error(\sprintf('%s: A valid video URL was not found.', $shortcodeName));
+        }
 
         $src = $this->getEmbedUrl((string) $url, $attributes);
+        if ($src === null) {
+            $shortcodeName = (new \ReflectionClass($this))->getShortName();
+
+            return HandlerHelper::error(\sprintf('%s: Could not generate embed URL.', $shortcodeName));
+        }
 
         $class = \strtolower((new \ReflectionClass($this))->getShortName());
         $baseWrapperAttributes = ['class' => 'embed-container embed-video embed-' . $class ];
@@ -126,9 +136,9 @@ abstract class AbstractVideohostingHandler
      * @param string $url        The original URL provided by the user.
      * @param array  $attributes The shortcode attributes.
      *
-     * @return string The URL to be used for the iframe src.
+     * @return string|null The URL to be used for the iframe src, or null if it cannot be constructed.
      */
-    abstract protected function getEmbedUrl(string $url, array $attributes): string;
+    abstract protected function getEmbedUrl(string $url, array $attributes): ?string;
 
     /**
      * Returns iframe attributes specific to the video service.

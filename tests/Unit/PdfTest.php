@@ -27,12 +27,11 @@ class PdfTest extends TestCase
         $this->assertStringContainsString('type="application/pdf"', $result);
     }
 
-    public function testNonPdfUrlIsNotProcessed(): void
+    public function testNonPdfUrlReturnsError(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('The provided URL is not a PDF file.');
         $shortcode = new Pdf();
-        $shortcode(['url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'], '');
+        $result = $shortcode(['url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'], '');
+        $this->assertStringContainsString('PDF: The provided URL is not a PDF file.', $result);
     }
 
     public function testFallbackMessageIsInsideObjectTag(): void

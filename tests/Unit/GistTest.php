@@ -26,10 +26,9 @@ class GistTest extends TestCase
 
     public function testNonGistUrlIsNotProcessed(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('The provided URL is not a valid Gist URL.');
         $shortcode = new Gist();
-        $shortcode(['url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'], '');
+        $result = $shortcode(['url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'], '');
+        $this->assertStringContainsString('Gist: The provided URL is not a valid Gist URL.', $result);
     }
 
     public function testGistUrlWithFile(): void
@@ -42,12 +41,11 @@ class GistTest extends TestCase
     /**
      * @dataProvider invalidGistUrlProvider
      */
-    public function testGistUrlWithInvalidPathIsNotProcessed(string $url): void
+    public function testGistUrlWithInvalidPathReturnsError(string $url): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('The provided Gist URL path is invalid. Expected format: /username/gist_id.');
         $shortcode = new Gist();
-        $shortcode(['url' => $url], '');
+        $result = $shortcode(['url' => $url], '');
+        $this->assertStringContainsString('Gist: The provided Gist URL path is invalid. Expected format: username/gistid.', $result);
     }
 
     public static function invalidGistUrlProvider(): array

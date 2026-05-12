@@ -23,12 +23,11 @@ class RutubeTest extends TestCase
         $this->assertStringContainsString('rutube.ru/play/embed/12345', $result);
     }
 
-    public function testNonRutubeUrlIsNotProcessed(): void
+    public function testNonRutubeUrlReturnsError(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Could not extract Rutube video ID from URL: https://www.youtube.com/watch?v=dQw4w9WgXcQ');
         $shortcode = new Rutube();
-        $shortcode(['url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'], '');
+        $result = $shortcode(['url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'], '');
+        $this->assertStringContainsString('Rutube: Could not generate embed URL.', $result);
     }
 
     public function testRutubeUrlWithAutoplay(): void

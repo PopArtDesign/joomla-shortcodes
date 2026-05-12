@@ -52,24 +52,21 @@ final class TweetTest extends TestCase
         $this->assertStringContainsString('href="https://twitter.com/user/status/12345"', $result);
     }
 
-    public function testInvokeWithInvalidUrlThrowsException(): void
+    public function testInvokeWithInvalidUrlReturnsError(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('The provided URL is not a valid Twitter/X post URL.');
-        ($this->tweet)(['url' => 'https://example.com'], '');
+        $result = ($this->tweet)(['url' => 'https://example.com'], '');
+        $this->assertStringContainsString('Tweet: The provided URL is not a valid Twitter/X post URL.', $result);
     }
 
-    public function testInvokeWithEmptyUrlThrowsException(): void
+    public function testInvokeWithEmptyUrlReturnsError(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid URL provided in "url" attribute: ');
-        ($this->tweet)(['url' => ''], '');
+        $result = ($this->tweet)(['url' => ''], '');
+        $this->assertStringContainsString('Tweet: A valid URL was not found.', $result);
     }
 
-    public function testInvokeWithMissingUrlAttributeThrowsException(): void
+    public function testInvokeWithMissingUrlAttributeReturnsError(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('A valid embed URL was not found.');
-        ($this->tweet)(['foo' => 'bar'], '');
+        $result = ($this->tweet)(['foo' => 'bar'], '');
+        $this->assertStringContainsString('Tweet: A valid URL was not found.', $result);
     }
 }

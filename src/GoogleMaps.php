@@ -38,7 +38,7 @@ final class GoogleMaps
         }
 
         if (empty($q)) {
-            throw new \InvalidArgumentException('Google Maps: Address or coordinates attribute required.');
+            return HandlerHelper::error('GoogleMaps: Address or coordinates attribute required.');
         }
 
         $queryParams = [

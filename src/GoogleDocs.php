@@ -26,9 +26,15 @@ final class GoogleDocs
      */
     public function __invoke(array $attributes, string $content): string
     {
-        $url = (string) AttributeHelper::getAbsoluteUrl($attributes, $content);
+        $parsedUrl = AttributeHelper::getAbsoluteUrl($attributes, $content);
+        if ($parsedUrl === null) {
+            return HandlerHelper::error('GoogleDocs: A valid URL was not found.');
+        }
 
-        $embedUrl = $this->getEmbedUrl($url, $attributes);
+        $embedUrl = $this->getEmbedUrl((string) $parsedUrl);
+        if ($embedUrl === null) {
+            return HandlerHelper::error('GoogleDocs: Unable to build embed URL. Unsupported file type or invalid details.');
+        }
 
         $baseWrapperAttributes = [
             'class' => 'embed-container embed-googledocs',
@@ -53,7 +59,7 @@ final class GoogleDocs
         );
     }
 
-    protected function getEmbedUrl(string $url): string
+    protected function getEmbedUrl(string $url): ?string
     {
         if ($this->isEmbeddableUrl($url)) {
             $embedUrl = $url;
@@ -89,16 +95,14 @@ final class GoogleDocs
      *
      * @param string $url The original Google Docs/Drive URL.
      *
-     * @return string The constructed embed URL.
-     *
-     * @throws \InvalidArgumentException If the file type is unsupported or details cannot be extracted.
+     * @return string|null The constructed embed URL, or null if file details cannot be extracted or the type is unsupported.
      */
-    private function buildEmbedUrl(string $url): string
+    private function buildEmbedUrl(string $url): ?string
     {
         $fileDetails = $this->extractFileDetails($url);
 
         if (empty($fileDetails)) {
-            throw new \InvalidArgumentException('Could not extract Google Docs/Drive file details from URL: ' . $url);
+            return null;
         }
 
         $fileId = $fileDetails['fileId'];
@@ -112,7 +116,7 @@ final class GoogleDocs
         ];
 
         if (!isset($embedTemplates[$type])) {
-            throw new \InvalidArgumentException('Unsupported Google Docs/Drive file type: ' . $type);
+            return null;
         }
 
         return sprintf($embedTemplates[$type], $fileId);

@@ -14,9 +14,12 @@ final class Youtube extends AbstractVideohostingHandler
     /**
      * @inheritdoc
      */
-    protected function getEmbedUrl(string $url, array $attributes): string
+    protected function getEmbedUrl(string $url, array $attributes): ?string
     {
         $videoId = $this->getVideoId($url);
+        if ($videoId === null) {
+            return null;
+        }
 
         $queryParams = [];
 
@@ -65,11 +68,9 @@ final class Youtube extends AbstractVideohostingHandler
      *
      * @param string $url The YouTube video URL.
      *
-     * @return string The extracted video ID.
-     *
-     * @throws \InvalidArgumentException If the video ID cannot be extracted.
+     * @return string|null The extracted video ID, or null if it cannot be extracted.
      */
-    protected function getVideoId(string $url): string
+    protected function getVideoId(string $url): ?string
     {
         $pattern = '%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i';
 
@@ -77,7 +78,7 @@ final class Youtube extends AbstractVideohostingHandler
             return $matches[1];
         }
 
-        throw new \InvalidArgumentException('Could not extract YouTube video ID from URL: ' . $url);
+        return null;
     }
 
     /**

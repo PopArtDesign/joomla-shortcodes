@@ -26,13 +26,16 @@ final class Gist
     public function __invoke(array $attributes, string $content): string
     {
         $parsedUrl = AttributeHelper::getAbsoluteUrl($attributes, $content);
+        if ($parsedUrl === null) {
+            return HandlerHelper::error('Gist: A valid URL was not found.');
+        }
 
         if (!$parsedUrl->hasDomain('gist.github.com')) {
-            throw new \InvalidArgumentException('The provided URL is not a valid Gist URL.');
+            return HandlerHelper::error('Gist: The provided URL is not a valid Gist URL.');
         }
 
         if (!\preg_match('/^\/([a-zA-Z0-9_-]+)\/([a-f0-9]+)$/', $parsedUrl->getPath(), $matches)) {
-            throw new \InvalidArgumentException('The provided Gist URL path is invalid. Expected format: /username/gist_id.');
+            return HandlerHelper::error('Gist: The provided Gist URL path is invalid. Expected format: username/gistid.');
         }
 
         $username = $matches[1];

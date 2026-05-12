@@ -46,12 +46,10 @@ class GoogleMapsTest extends TestCase
         $this->assertStringContainsString('src="https://maps.google.com/maps?output=embed&amp;q=37.422%2C-122.084', $result);
     }
 
-    public function testInvokeNoLocation(): void
+    public function testInvokeReturnsErrorForNoLocation(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Google Maps: Address or coordinates attribute required.');
-
         $attributes = [];
-        ($this->shortcode)($attributes, '');
+        $result = ($this->shortcode)($attributes, '');
+        $this->assertStringContainsString('GoogleMaps: Address or coordinates attribute required.', $result);
     }
 }

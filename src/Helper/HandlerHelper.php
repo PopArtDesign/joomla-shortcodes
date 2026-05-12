@@ -2,6 +2,8 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Helper;
 
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HtmlHelper;
+
 \defined('_JEXEC') or die;
 
 /**
@@ -107,5 +109,26 @@ final class HandlerHelper
 
         // Merge base and user-provided attributes. User attributes will override base attributes.
         return \array_merge($baseAttributes, $attributes);
+    }
+
+    /**
+     * Renders a styled div containing an error message.
+     *
+     * @param string $message The error message to display.
+     *
+     * @return string The rendered HTML for the error message.
+     */
+    public static function error(string $message): string
+    {
+        $styles = [
+            'color: red',
+            'font-weight: bold',
+            'border: 1px solid red',
+            'padding: 10px',
+            'margin: 1em 0',
+            'background-color: #ffecec',
+        ];
+
+        return HtmlHelper::div(['class' => 'shortcode-error', 'style' => \implode(';', $styles)], $message);
     }
 }

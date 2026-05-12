@@ -23,11 +23,10 @@ class GoogleDocsTest extends TestCase
         $this->assertStringContainsString('docs.google.com/document/d/12345/preview', $result);
     }
 
-    public function testNonGoogleDocsUrlIsNotProcessed(): void
+    public function testNonGoogleDocsUrlReturnsError(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Could not extract Google Docs/Drive file details from URL: https://www.youtube.com/watch?v=dQw4w9WgXcQ');
         $shortcode = new GoogleDocs();
-        $shortcode(['url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'], '');
+        $result = $shortcode(['url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'], '');
+        $this->assertStringContainsString('GoogleDocs: Unable to build embed URL. Unsupported file type or invalid details.', $result);
     }
 }
