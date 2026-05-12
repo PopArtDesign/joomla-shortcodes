@@ -4,7 +4,7 @@ Repeats the enclosed content a specified number of times.
 
 `{repeat N|min,max} ... {/repeat}`
 
--   `N|min,max`: The number of times to repeat the content. You can specify a single number or a range for a random number of repetitions (e.g., `3,5`). Defaults to `1`.
+- `N|min,max`: The number of times to repeat the content. You can specify a single number or a range for a random number of repetitions (e.g., `3,5`). Defaults to `1`.
 
 ## Examples
 
