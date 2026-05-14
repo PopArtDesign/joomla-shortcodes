@@ -312,4 +312,99 @@ class AttributeHelperTest extends TestCase
         $expectedParsedUrl3 = UrlHelper::parseUrl($url3);
         $this->assertEquals($expectedParsedUrl3, AttributeHelper::getUrl([$url3], ''));
     }
+
+    /**
+     * Test cases for getValue method.
+     */
+    public function testGetValueFromNamedAttribute(): void
+    {
+        $attributes = ['foo' => 'bar', 'url' => 'https://example.com'];
+        $this->assertEquals('bar', AttributeHelper::getValue($attributes, '', 'foo'));
+        $this->assertEquals('https://example.com', AttributeHelper::getValue($attributes, '', 'url'));
+    }
+
+    public function testGetValueFromContent(): void
+    {
+        $attributes = ['foo' => ''];
+        $this->assertEquals('some content', AttributeHelper::getValue($attributes, 'some content', 'foo'));
+        $this->assertEquals('another content', AttributeHelper::getValue([], 'another content'));
+    }
+
+    public function testGetValueFromPositionalAttribute(): void
+    {
+        $attributes = ['foo' => '', 'bar'];
+        $this->assertEquals('bar', AttributeHelper::getValue($attributes, '', 'foo'));
+        $this->assertEquals('baz', AttributeHelper::getValue(['baz'], ''));
+    }
+
+    public function testGetValuePrecedenceNamedAttributeTakesPrecedence(): void
+    {
+        // Named attribute 'foo' exists and is not empty, should return its value
+        $attributes = ['foo' => 'named_value', '0' => 'positional_value'];
+        $content = 'content_value';
+        $this->assertEquals('named_value', AttributeHelper::getValue($attributes, $content, 'foo'));
+    }
+
+    public function testGetValuePrecedenceContentTakesPrecedenceOverPositionalWhenNamedIsEmpty(): void
+    {
+        // Named attribute 'foo' is empty, content is not empty, should return content
+        $attributes = ['foo' => '', '0' => 'positional_value'];
+        $content = 'content_value';
+        $this->assertEquals('content_value', AttributeHelper::getValue($attributes, $content, 'foo'));
+    }
+
+    public function testGetValuePrecedencePositionalTakesPrecedenceWhenNamedAndContentAreEmpty(): void
+    {
+        // Named attribute 'foo' is empty, content is empty, positional is not empty, should return positional
+        $attributes = ['foo' => '', '0' => 'positional_value'];
+        $content = '';
+        $this->assertEquals('positional_value', AttributeHelper::getValue($attributes, $content, 'foo'));
+    }
+
+    public function testGetValuePrecedenceContentTakesPrecedenceWhenNoKeyAndNotEmpty(): void
+    {
+        // No explicit key, content not empty, should return content
+        $attributes = ['0' => 'positional_value'];
+        $content = 'content_value';
+        $this->assertEquals('content_value', AttributeHelper::getValue($attributes, $content, null));
+    }
+
+    public function testGetValuePrecedencePositionalTakesPrecedenceWhenNoKeyAndContentIsEmpty(): void
+    {
+        // No explicit key, content empty, positional not empty, should return positional
+        $attributes = ['0' => 'positional_value'];
+        $content = '';
+        $this->assertEquals('positional_value', AttributeHelper::getValue($attributes, $content, null));
+    }
+
+    public function testGetValueReturnsNullWhenNothingFound(): void
+    {
+        $attributes = ['foo' => ''];
+        $this->assertNull(AttributeHelper::getValue($attributes, '', 'foo')); // Empty named, empty content, no positional
+        $this->assertNull(AttributeHelper::getValue([], '')); // Empty everywhere
+    }
+
+    public function testGetValueWithWhitespace(): void
+    {
+        $attributes = ['key' => '  value with spaces  '];
+        $this->assertEquals('value with spaces', AttributeHelper::getValue($attributes, '', 'key'));
+
+        $this->assertEquals('content with spaces', AttributeHelper::getValue([], '  content with spaces  '));
+
+        $attributes = ['  positional with spaces  '];
+        $this->assertEquals('positional with spaces', AttributeHelper::getValue($attributes, ''));
+    }
+
+    public function testGetValueWithNonStringAttributeValue(): void
+    {
+        $attributes = ['key' => 123];
+        $this->assertEquals('123', AttributeHelper::getValue($attributes, '', 'key'));
+
+        $attributes = ['key' => true];
+        $this->assertEquals('1', AttributeHelper::getValue($attributes, '', 'key'));
+
+        $attributes = ['key' => false];
+        $this->assertEquals('', AttributeHelper::getValue($attributes, '', 'key'));
+    }
 }
+
