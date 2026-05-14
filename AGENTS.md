@@ -46,5 +46,6 @@ To add a new video shortcode (like YouTube, Vimeo, Rutube):
 -   **`pdf`** - Embeds PDF documents
 -   **`repeat`** - Repeats enclosed content
 -   **`rutube`** - Embeds Rutube videos
+-   **`telegram`** - Embeds Telegram posts
 -   **`vimeo`** - Embeds Vimeo videos
 -   **`youtube`** - Embeds YouTube videos

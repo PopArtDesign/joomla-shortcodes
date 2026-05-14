@@ -20,6 +20,7 @@ A shortcodes pack for [Joomla Shortcoder](https://github.com/PopArtDesign/joomla
 -   [`pdf`](docs/pdf.md)
 -   [`repeat`](docs/repeat.md)
 -   [`rutube`](docs/rutube.md)
+-   [`telegram`](docs/telegram.md)
 -   [`tweet`](docs/tweet.md)
 -   [`vimeo`](docs/vimeo.md)
 -   [`youtube`](docs/youtube.md)
