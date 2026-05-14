@@ -20,7 +20,7 @@ class TelegramTest extends TestCase
         $attributes = ['url' => $url];
         $content = '';
 
-        $expected = '<script src="https://telegram.org/js/telegram-widget.js?23" async data-telegram-post="durov/89" data-width="100%"></script>';
+        $expected = '<div class="embed-container embed-telegram"><script src="https://telegram.org/js/telegram-widget.js?23" async data-telegram-post="durov/89" data-width="100%"></script></div>';
         $this->assertEquals($expected, ($this->handler)($attributes, $content));
     }
 
@@ -30,7 +30,7 @@ class TelegramTest extends TestCase
         $attributes = [];
         $content = $url;
 
-        $expected = '<script src="https://telegram.org/js/telegram-widget.js?23" async data-telegram-post="durov/89" data-width="100%"></script>';
+        $expected = '<div class="embed-container embed-telegram"><script src="https://telegram.org/js/telegram-widget.js?23" async data-telegram-post="durov/89" data-width="100%"></script></div>';
         $this->assertEquals($expected, ($this->handler)($attributes, $content));
     }
 

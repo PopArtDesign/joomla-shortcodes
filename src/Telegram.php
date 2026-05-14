@@ -44,7 +44,11 @@ final class Telegram
             'data-width' => '100%',
         ];
 
-        return HtmlHelper::script('', $scriptAttributes);
+        $output = HtmlHelper::script('', $scriptAttributes);
+
+        return HandlerHelper::wrapper($output, $attributes, [
+            'class' => 'embed-container embed-telegram'
+        ]);
     }
 
     private function getTelegramPost(ParsedUrl $parsedUrl): ?string
