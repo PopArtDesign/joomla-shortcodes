@@ -245,4 +245,31 @@ final class AttributeHelper
         // If no valid URL was found after checking all candidates
         return null;
     }
+
+    public static function getValue(array $attributes, string $content, ?string $key = null): ?string
+    {
+        // Attempt 1: Explicit attribute
+        if ($key && isset($attributes[$key])) {
+            $value = \trim((string) $attributes[$key]);
+            if ($value !== '') {
+                return $value;
+            }
+        }
+
+        // Attempt 2: Content
+        $trimmedContent = \trim($content);
+        if ($trimmedContent !== '') {
+            return $trimmedContent;
+        }
+
+        // Attempt 3: Positional attribute at index 0
+        if (isset($attributes[0])) {
+            $value = \trim((string) $attributes[0]);
+            if ($value !== '') {
+                return $value;
+            }
+        }
+
+        return null;
+    }
 }

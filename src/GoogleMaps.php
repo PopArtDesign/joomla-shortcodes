@@ -2,6 +2,7 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes;
 
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HandlerHelper;
 
 \defined('_JEXEC') or die;
@@ -30,15 +31,10 @@ final class GoogleMaps
      */
     public function __invoke(array $attributes, string $content): string
     {
-        $q = '';
-        if (!empty($attributes['address'])) {
-            $q = $attributes['address'];
-        } elseif (!empty($attributes['coordinates'])) {
-            $q = $attributes['coordinates'];
-        }
+        $q = AttributeHelper::getValue($attributes, $content, 'query');
 
         if (empty($q)) {
-            return HandlerHelper::error('GoogleMaps: Address or coordinates attribute required.');
+            return HandlerHelper::error('GoogleMaps: Query is required. It can be provided as a `query` attribute, content, or a positional argument.');
         }
 
         $type = \strtolower($attributes['type'] ?? 'roadmap');

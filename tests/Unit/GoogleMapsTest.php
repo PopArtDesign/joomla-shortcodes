@@ -20,42 +20,46 @@ class GoogleMapsTest extends TestCase
         $this->shortcode = new GoogleMaps();
     }
 
-    public function testInvokeWithAddress(): void
+    public function testInvokeWithQueryAttribute(): void
     {
-        $attributes = ['address' => '1600 Amphitheatre Parkway, Mountain View, CA'];
+        $attributes = ['query' => '1600 Amphitheatre Parkway, Mountain View, CA'];
         $result = ($this->shortcode)($attributes, '');
 
         $this->assertStringContainsString('src="https://maps.google.com/maps?output=embed&amp;q=1600+Amphitheatre+Parkway%2C+Mountain+View%2C+CA', $result);
         $this->assertStringContainsString('class="embed-container embed-map embed-googlemaps"', $result);
     }
 
-    public function testInvokeWithZoomAndType(): void
+    public function testInvokeWithQueryContent(): void
     {
-        $attributes = ['address' => 'Eiffel Tower', 'zoom' => '18', 'type' => 'satellite'];
-        $result = ($this->shortcode)($attributes, '');
-
-        $this->assertStringContainsString('z=18', $result);
-        $this->assertStringContainsString('t=k', $result);
-    }
-
-    public function testInvokeWithCoordinates(): void
-    {
-        $attributes = ['coordinates' => '37.422,-122.084'];
-        $result = ($this->shortcode)($attributes, '');
+        $attributes = [];
+        $content = '37.422,-122.084';
+        $result = ($this->shortcode)($attributes, $content);
 
         $this->assertStringContainsString('src="https://maps.google.com/maps?output=embed&amp;q=37.422%2C-122.084', $result);
     }
 
-    public function testInvokeReturnsErrorForNoLocation(): void
+    public function testInvokeWithQueryPositionalArgument(): void
+    {
+        $attributes = ['0' => 'Eiffel Tower', 'zoom' => '18', 'type' => 'satellite'];
+        $content = '';
+        $result = ($this->shortcode)($attributes, $content);
+
+        $this->assertStringContainsString('src="https://maps.google.com/maps?output=embed&amp;q=Eiffel+Tower', $result);
+        $this->assertStringContainsString('z=18', $result);
+        $this->assertStringContainsString('t=k', $result);
+    }
+
+    public function testInvokeReturnsErrorForNoQuery(): void
     {
         $attributes = [];
-        $result = ($this->shortcode)($attributes, '');
-        $this->assertStringContainsString('GoogleMaps: Address or coordinates attribute required.', $result);
+        $content = '';
+        $result = ($this->shortcode)($attributes, $content);
+        $this->assertStringContainsString('GoogleMaps: Query is required. It can be provided as a `query` attribute, content, or a positional argument.', $result);
     }
 
     public function testInvokeReturnsErrorForInvalidMapType(): void
     {
-        $attributes = ['address' => 'Eiffel Tower', 'type' => 'invalid-type'];
+        $attributes = ['query' => 'Eiffel Tower', 'type' => 'invalid-type'];
         $result = ($this->shortcode)($attributes, '');
         $this->assertStringContainsString('GoogleMaps: Invalid map type specified. Available types: roadmap, satellite, hybrid, terrain', $result);
     }
