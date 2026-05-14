@@ -407,4 +407,3 @@ class AttributeHelperTest extends TestCase
         $this->assertEquals('', AttributeHelper::getValue($attributes, '', 'key'));
     }
 }
-
