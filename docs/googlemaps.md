@@ -2,7 +2,7 @@
 
 Embeds [Google Maps](https://maps.google.com).
 
-`{googlemaps [attr="value"] ...}`
+`{googlemaps query [attr="value"] ...}`
 
 - `query`: The address or coordinates to display on the map (e.g., "1600 Amphitheatre Parkway, Mountain View, CA" or "48.8584,2.2945"). This attribute can also be provided as the content between the shortcode tags or as a positional argument. This attribute is required.
 - `zoom`: The zoom level of the map. Defaults to `21`.
@@ -23,11 +23,15 @@ Note that `width`, `height`, `id`, and `class` are applied to the wrapper `div` 
 ```
 
 ```
-{googlemaps}Eiffel Tower{/googlemaps}
+{googlemaps "Eiffel Tower" zoom=15 type=hybrid}
 ```
 
 ```
-{googlemaps "Eiffel Tower" zoom=15 type=hybrid}
+{googlemaps 48.8584,2.2945 zoom=20}
+```
+
+```
+{googlemaps type=satellite}1600 Amphitheatre Parkway, Mountain View, CA{/googlemaps}
 ```
 
 ## Styling `height`
