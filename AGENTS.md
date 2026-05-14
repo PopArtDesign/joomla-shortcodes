@@ -47,5 +47,6 @@ To add a new video shortcode (like YouTube, Vimeo, Rutube):
 -   **`repeat`** - Repeats enclosed content
 -   **`rutube`** - Embeds Rutube videos
 -   **`telegram`** - Embeds Telegram posts
+-   **`tweet`** - Embeds posts from X (formerly Twitter).
 -   **`vimeo`** - Embeds Vimeo videos
 -   **`youtube`** - Embeds YouTube videos
