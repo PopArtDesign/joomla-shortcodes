@@ -206,46 +206,35 @@ final class AttributeHelper
             ParsedUrl::PROTOCOL_RELATIVE,
         ];
 
-        // Attempt 1: Explicit `url` attribute
-        if (isset($attributes['url'])) {
-            $url = $attributes['url'];
-            $parsedUrl = UrlHelper::parseUrl($url);
+        $url = self::getValue($attributes, $content, 'url');
 
-            if ($parsedUrl !== false && $parsedUrl->hasType($type)) {
-                return $parsedUrl;
-            }
-
+        if ($url === null) {
             return null;
         }
 
-        // Attempt 2: Content
-        $trimmedContent = \trim($content);
-        if ($trimmedContent !== '') {
-            $parsedUrl = UrlHelper::parseUrl($trimmedContent);
+        $parsedUrl = UrlHelper::parseUrl($url);
 
-            if ($parsedUrl !== false && $parsedUrl->hasType($type)) {
-                return $parsedUrl;
-            }
-
-            return null;
+        if ($parsedUrl !== false && $parsedUrl->hasType($type)) {
+            return $parsedUrl;
         }
 
-        // Attempt 3: Positional attribute at index 0
-        if (isset($attributes[0])) {
-            $url = $attributes[0];
-            $parsedUrl = UrlHelper::parseUrl($url);
-
-            if ($parsedUrl !== false && $parsedUrl->hasType($type)) {
-                return $parsedUrl;
-            }
-
-            return null;
-        }
-
-        // If no valid URL was found after checking all candidates
         return null;
     }
 
+    /**
+     * Extracts a value from attributes or content, checking in a specific order.
+     *
+     * The order of precedence is:
+     * 1. An explicit attribute key (e.g., `key="some_value"`).
+     * 2. The enclosed content of the shortcode.
+     * 3. A positional attribute at index 0 (the first unnamed attribute).
+     *
+     * @param array       $attributes The attributes array.
+     * @param string      $content    The content string, used as a fallback.
+     * @param string|null $key        The explicit attribute key to check for.
+     *
+     * @return string|null The found value, or null if no value is found.
+     */
     public static function getValue(array $attributes, string $content, ?string $key = null): ?string
     {
         // Attempt 1: Explicit attribute
