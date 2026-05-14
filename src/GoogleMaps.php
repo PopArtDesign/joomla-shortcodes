@@ -41,11 +41,16 @@ final class GoogleMaps
             return HandlerHelper::error('GoogleMaps: Address or coordinates attribute required.');
         }
 
+        $type = \strtolower($attributes['type'] ?? 'roadmap');
+        if (!\array_key_exists($type, self::MAP_TYPES)) {
+            return HandlerHelper::error('GoogleMaps: Invalid map type specified. Available types: ' . \implode(', ', \array_keys(self::MAP_TYPES)));
+        }
+
         $queryParams = [
             'output' => 'embed',
             'q' => $q,
             'z' => $attributes['zoom'] ?? '21',
-            't' => self::MAP_TYPES[\strtolower($attributes['type'] ?? 'roadmap')],
+            't' => self::MAP_TYPES[$type],
         ];
 
         $src = 'https://maps.google.com/maps?' . \http_build_query($queryParams);

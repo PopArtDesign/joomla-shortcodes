@@ -52,4 +52,11 @@ class GoogleMapsTest extends TestCase
         $result = ($this->shortcode)($attributes, '');
         $this->assertStringContainsString('GoogleMaps: Address or coordinates attribute required.', $result);
     }
+
+    public function testInvokeReturnsErrorForInvalidMapType(): void
+    {
+        $attributes = ['address' => 'Eiffel Tower', 'type' => 'invalid-type'];
+        $result = ($this->shortcode)($attributes, '');
+        $this->assertStringContainsString('GoogleMaps: Invalid map type specified. Available types: roadmap, satellite, hybrid, terrain', $result);
+    }
 }
