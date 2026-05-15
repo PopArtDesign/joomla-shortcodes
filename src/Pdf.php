@@ -2,9 +2,10 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes;
 
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HandlerHelper;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HandlerHelper;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HtmlHelper;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\AbstractShortcodeHandler;
 
 \defined('_JEXEC') or die;
 
@@ -13,7 +14,7 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HtmlHelper;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-final class Pdf
+final class Pdf extends AbstractShortcodeHandler
 {
     /**
      * The main shortcode invokation method.
@@ -23,15 +24,15 @@ final class Pdf
      *
      * @return string The full HTML output for the embed.
      */
-    public function __invoke(array $attributes, string $content): string
+    protected function process(array $attributes, string $content): string
     {
         $parsedUrl = AttributeHelper::getUrl($attributes, $content);
         if ($parsedUrl === null) {
-            return HandlerHelper::error('PDF: A valid URL was not found.');
+            $this->error('A valid URL was not found.');
         }
 
         if (!$parsedUrl->hasExtension('pdf')) {
-            return HandlerHelper::error('PDF: The provided URL is not a PDF file.');
+            $this->error('The provided URL is not a PDF file.');
         }
 
         $url = (string) $parsedUrl;

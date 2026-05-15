@@ -118,17 +118,18 @@ final class HandlerHelper
      *
      * @return string The rendered HTML for the error message.
      */
-    public static function error(string $message): string
+    public static function error(string $shortcodeName, string $message): string
     {
         $styles = [
             'color: red',
-            'font-weight: bold',
             'border: 1px solid red',
             'padding: 10px',
             'margin: 1em 0',
             'background-color: #ffecec',
         ];
 
-        return HtmlHelper::div(['class' => 'shortcode-error', 'style' => \implode(';', $styles)], $message);
+        $prefixedMessage = HtmlHelper::tag('b', [], $shortcodeName) . ': ' . $message;
+
+        return HtmlHelper::div(['class' => 'shortcode-error', 'style' => \implode(';', $styles)], $prefixedMessage);
     }
 }

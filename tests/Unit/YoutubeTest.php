@@ -27,7 +27,8 @@ class YoutubeTest extends TestCase
     {
         $shortcode = new Youtube();
         $result = $shortcode(['url' => 'https://vimeo.com/12345'], '');
-        $this->assertStringContainsString('Youtube: Could not generate embed URL.', $result);
+        $this->assertStringContainsString('<div class="shortcode-error"', $result);
+        $this->assertStringContainsString('<b>Youtube</b>: Could not extract video ID from URL.', $result);
     }
 
     public function testYoutubeUrlWithCustomDimensions(): void

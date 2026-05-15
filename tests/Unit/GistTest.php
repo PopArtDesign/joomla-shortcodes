@@ -4,7 +4,6 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes\Test\Unit;
 
 use PHPUnit\Framework\TestCase;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Gist;
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Value\ParsedUrl;
 
 \defined('_JEXEC') or die;
 
@@ -28,7 +27,8 @@ class GistTest extends TestCase
     {
         $shortcode = new Gist();
         $result = $shortcode(['url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'], '');
-        $this->assertStringContainsString('Gist: The provided URL is not a valid Gist URL.', $result);
+        $this->assertStringContainsString('<div class="shortcode-error"', $result);
+        $this->assertStringContainsString('<b>Gist</b>: The provided URL is not a valid Gist URL.', $result);
     }
 
     public function testGistUrlWithFile(): void
@@ -45,7 +45,8 @@ class GistTest extends TestCase
     {
         $shortcode = new Gist();
         $result = $shortcode(['url' => $url], '');
-        $this->assertStringContainsString('Gist: The provided Gist URL path is invalid. Expected format: username/gistid.', $result);
+        $this->assertStringContainsString('<div class="shortcode-error"', $result);
+        $this->assertStringContainsString('<b>Gist</b>: The provided Gist URL path is invalid. Expected format: username/gistid.', $result);
     }
 
     public static function invalidGistUrlProvider(): array

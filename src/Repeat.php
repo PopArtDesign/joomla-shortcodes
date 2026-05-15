@@ -3,6 +3,7 @@
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes;
 
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\AbstractShortcodeHandler;
 
 \defined('_JEXEC') or die;
 
@@ -11,7 +12,7 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-final class Repeat
+final class Repeat extends AbstractShortcodeHandler
 {
     /**
      * Invoke the shortcode.
@@ -22,7 +23,7 @@ final class Repeat
      * @return string
      * @throws \InvalidArgumentException
      */
-    public function __invoke(array $attributes, string $content): string
+    protected function process(array $attributes, string $content): string
     {
         $repeatAttr = $attributes[0] ?? '1';
 
@@ -31,7 +32,7 @@ final class Repeat
         $numberOfRepeats = \rand($minRepeats, $maxRepeats);
 
         if ($numberOfRepeats <= 0) {
-            throw new \InvalidArgumentException('Number of repeats must be a positive integer.');
+            $this->error('Number of repeats must be a positive integer.');
         }
 
         return \str_repeat($content, $numberOfRepeats);

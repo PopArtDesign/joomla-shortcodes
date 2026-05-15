@@ -55,8 +55,9 @@ class RepeatTest extends TestCase
 
     public function testRepeatShortcodeWithZero(): void
     {
-        $this->expectException(ShortcodeProcessingException::class);
-        $this->processShortcodes('{repeat 0}test{/repeat}');
+        $result = $this->processShortcodes('{repeat 0}test{/repeat}');
+        $this->assertStringContainsString('<div class="shortcode-error"', $result);
+        $this->assertStringContainsString('<b>Repeat</b>: Number of repeats must be a positive integer.', $result);
     }
 
     public function testRepeatWithNestedContent(): void

@@ -3,6 +3,7 @@
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes;
 
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\AbstractShortcodeHandler;
 
 \defined('_JEXEC') or die;
 
@@ -11,7 +12,7 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-final class Lorem
+final class Lorem extends AbstractShortcodeHandler
 {
     public const LOREMIPSUM = <<<LOREMIPSUM
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
@@ -38,7 +39,7 @@ LOREMIPSUM;
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-    public function __invoke(array $attributes): string
+    protected function process(array $attributes, string $content): string
     {
         $tag = isset($attributes[0]) ? \strtolower($attributes[0]) : '';
 
@@ -49,6 +50,7 @@ LOREMIPSUM;
         [$minCount, $maxCount] = AttributeHelper::parseRange($attributes[1] ?? '', [1, 1]);
         $count = $minCount < $maxCount ? \rand($minCount, $maxCount) : $minCount;
 
+        $wordsAttributeProvided = isset($attributes['words']);
         [$minWords, $maxWords] = AttributeHelper::parseRange($attributes['words'] ?? '', [0, 0]);
 
         $class = $attributes['class'] ?? '';
@@ -56,7 +58,13 @@ LOREMIPSUM;
         // If no tag is specified and no class attribute is provided, return plain text.
         // If a class is provided without a tag, it implies a default 'p' tag.
         if (empty($tag) && empty($class)) {
-            return $this->generateLoremText($minWords, $maxWords);
+            if (!isset($attributes['words'])) {
+                // No 'words' attribute provided, return full LOREMIPSUM as per original behavior
+                return $this->ensureEndsWithDot(self::LOREMIPSUM);
+            } else {
+                // 'words' attribute was provided, let generateLoremText handle calculation and words() handle validation.
+                return $this->generateLoremText($minWords, $maxWords, $wordsAttributeProvided);
+            }
         }
 
         // If no tag is specified but a class is, default to 'p'
@@ -68,13 +76,13 @@ LOREMIPSUM;
         if ($tag === 'ul' || $tag === 'ol') {
             $output[] = "<{$tag}{$classAttr}>";
             for ($i = 0; $i < $count; $i++) {
-                $loremText = $this->generateLoremText($minWords, $maxWords);
+                $loremText = $this->generateLoremText($minWords, $maxWords, $wordsAttributeProvided);
                 $output[] = "<li>{$loremText}</li>";
             }
             $output[] = "</{$tag}>";
         } else {
             for ($i = 0; $i < $count; $i++) {
-                $loremText = $this->generateLoremText($minWords, $maxWords);
+                $loremText = $this->generateLoremText($minWords, $maxWords, $wordsAttributeProvided);
                 $output[] = "<{$tag}{$classAttr}>{$loremText}</{$tag}>";
             }
         }
@@ -92,7 +100,7 @@ LOREMIPSUM;
     private function generateImage(array $attributes): string
     {
         if (!\extension_loaded('gd')) {
-            throw new \RuntimeException('GD library is not installed. Cannot generate image.');
+            $this->error('GD library is not installed. Cannot generate image.');
         }
 
         $width = (int) ($attributes['width'] ?? 150);
@@ -140,12 +148,17 @@ LOREMIPSUM;
      *
      * @return string The generated Lorem Ipsum text.
      */
-    private function generateLoremText(int $minWords, int $maxWords): string
+    private function generateLoremText(int $minWords, int $maxWords, bool $wordsAttributeProvided): string
     {
-        if ($minWords === 0 && $maxWords === 0) {
+        if (!$wordsAttributeProvided && $minWords === 0 && $maxWords === 0) {
+            // This is the case where 'words' attribute was not provided,
+            // and parseRange returned its default [0,0].
+            // In this scenario, we restore the original behavior of returning the full LOREMIPSUM.
             return $this->ensureEndsWithDot(self::LOREMIPSUM);
         }
 
+        // Otherwise, a 'words' attribute was either provided (even if 0 or negative)
+        // or a positive default was passed. Let words() handle validation.
         $chosenWords = \rand($minWords, $maxWords);
 
         return $this->words($chosenWords);
@@ -164,14 +177,14 @@ LOREMIPSUM;
     private function words(int $words = 1): string
     {
         if ($words <= 0) {
-            throw new \InvalidArgumentException('Word count must be a positive integer.');
+            $this->error('Word count must be a positive integer.');
         }
 
         $this->extractWords();
 
         $wordCount = \count(self::$words);
         if ($wordCount === 0) {
-            throw new \RuntimeException('Lorem Ipsum word source is empty.');
+            $this->error('Lorem Ipsum word source is empty.');
         }
 
         $textWords = [];

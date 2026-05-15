@@ -27,6 +27,7 @@ class GoogleDocsTest extends TestCase
     {
         $shortcode = new GoogleDocs();
         $result = $shortcode(['url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'], '');
-        $this->assertStringContainsString('GoogleDocs: Unable to build embed URL. Unsupported file type or invalid details.', $result);
+        $this->assertStringContainsString('<div class="shortcode-error"', $result);
+        $this->assertStringContainsString('<b>GoogleDocs</b>: Could not extract Google Docs file ID from URL.', $result);
     }
 }

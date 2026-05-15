@@ -54,13 +54,15 @@ class GoogleMapsTest extends TestCase
         $attributes = [];
         $content = '';
         $result = ($this->shortcode)($attributes, $content);
-        $this->assertStringContainsString('GoogleMaps: Query is required. It can be provided as a `query` attribute, content, or a positional argument.', $result);
+        $this->assertStringContainsString('<div class="shortcode-error"', $result);
+        $this->assertStringContainsString('<b>GoogleMaps</b>: Query is required. It can be provided as a `query` attribute, content, or a positional argument.', $result);
     }
 
     public function testInvokeReturnsErrorForInvalidMapType(): void
     {
         $attributes = ['query' => 'Eiffel Tower', 'type' => 'invalid-type'];
         $result = ($this->shortcode)($attributes, '');
-        $this->assertStringContainsString('GoogleMaps: Invalid map type specified. Available types: roadmap, satellite, hybrid, terrain', $result);
+        $this->assertStringContainsString('<div class="shortcode-error"', $result);
+        $this->assertStringContainsString('<b>GoogleMaps</b>: Invalid map type specified. Available types: roadmap, satellite, hybrid, terrain', $result);
     }
 }

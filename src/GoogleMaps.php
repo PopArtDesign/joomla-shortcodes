@@ -4,6 +4,7 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes;
 
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HandlerHelper;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\AbstractShortcodeHandler;
 
 \defined('_JEXEC') or die;
 
@@ -12,7 +13,7 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HandlerHelper;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-final class GoogleMaps
+final class GoogleMaps extends AbstractShortcodeHandler
 {
     public const MAP_TYPES = [
         'roadmap' => 'm',
@@ -29,17 +30,17 @@ final class GoogleMaps
      *
      * @return string The full HTML output for the embed.
      */
-    public function __invoke(array $attributes, string $content): string
+    protected function process(array $attributes, string $content): string
     {
         $q = AttributeHelper::getValue($attributes, $content, 'query');
 
         if (empty($q)) {
-            return HandlerHelper::error('GoogleMaps: Query is required. It can be provided as a `query` attribute, content, or a positional argument.');
+            $this->error('Query is required. It can be provided as a `query` attribute, content, or a positional argument.');
         }
 
         $type = \strtolower($attributes['type'] ?? 'roadmap');
         if (!\array_key_exists($type, self::MAP_TYPES)) {
-            return HandlerHelper::error('GoogleMaps: Invalid map type specified. Available types: ' . \implode(', ', \array_keys(self::MAP_TYPES)));
+            $this->error('Invalid map type specified. Available types: ' . \implode(', ', \array_keys(self::MAP_TYPES)));
         }
 
         $queryParams = [

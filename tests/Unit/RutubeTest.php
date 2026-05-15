@@ -27,7 +27,8 @@ class RutubeTest extends TestCase
     {
         $shortcode = new Rutube();
         $result = $shortcode(['url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'], '');
-        $this->assertStringContainsString('Rutube: Could not generate embed URL.', $result);
+        $this->assertStringContainsString('<div class="shortcode-error"', $result);
+        $this->assertStringContainsString('<b>Rutube</b>: Could not extract video ID from URL.', $result);
     }
 
     public function testRutubeUrlWithAutoplay(): void

@@ -2,9 +2,10 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes;
 
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HandlerHelper;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HandlerHelper;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HtmlHelper;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\AbstractShortcodeHandler;
 
 \defined('_JEXEC') or die;
 
@@ -13,7 +14,7 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HtmlHelper;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-final class Gist
+final class Gist extends AbstractShortcodeHandler
 {
     /**
      * The main shortcode invokation method.
@@ -23,19 +24,19 @@ final class Gist
      *
      * @return string The full HTML output for the embed.
      */
-    public function __invoke(array $attributes, string $content): string
+    protected function process(array $attributes, string $content): string
     {
         $parsedUrl = AttributeHelper::getAbsoluteUrl($attributes, $content);
         if ($parsedUrl === null) {
-            return HandlerHelper::error('Gist: A valid URL was not found.');
+            $this->error('A valid URL was not found.');
         }
 
         if (!$parsedUrl->hasDomain('gist.github.com')) {
-            return HandlerHelper::error('Gist: The provided URL is not a valid Gist URL.');
+            $this->error('The provided URL is not a valid Gist URL.');
         }
 
         if (!\preg_match('/^\/([a-zA-Z0-9_-]+)\/([a-f0-9]+)$/', $parsedUrl->getPath(), $matches)) {
-            return HandlerHelper::error('Gist: The provided Gist URL path is invalid. Expected format: username/gistid.');
+            $this->error('The provided Gist URL path is invalid. Expected format: username/gistid.');
         }
 
         $username = $matches[1];

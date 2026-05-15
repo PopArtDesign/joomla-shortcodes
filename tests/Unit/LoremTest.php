@@ -171,51 +171,70 @@ class LoremTest extends TestCase
     public function testImageGeneration(): void
     {
         $text = '{lorem img width=100 height=50}';
-        $result = $this->processShortcodes($text);
 
         if (!\extension_loaded('gd')) {
-            $this->assertEquals('<!-- GD library is not installed -->', $result);
-            $this->markTestSkipped('GD library is not installed.');
+            $result = $this->processShortcodes($text);
+            $this->assertStringContainsString('<div class="shortcode-error"', $result);
+            $this->assertStringContainsString('Lorem: GD library is not installed. Cannot generate image.', $result);
+        } else {
+            $result = $this->processShortcodes($text);
+            $this->assertStringStartsWith('<img src="data:image/png;base64,', $result);
+            $this->assertStringContainsString('width="100"', $result);
+            $this->assertStringContainsString('height="50"', $result);
+            $this->assertStringEndsWith('" />', $result);
         }
-
-        $this->assertStringStartsWith('<img src="data:image/png;base64,', $result);
-        $this->assertStringContainsString('width="100"', $result);
-        $this->assertStringContainsString('height="50"', $result);
-        $this->assertStringEndsWith('" />', $result);
     }
 
     public function testImageGenerationWithClass(): void
     {
         $text = '{lorem img width=100 height=50 class="my-image"}';
-        $result = $this->processShortcodes($text);
 
         if (!\extension_loaded('gd')) {
-            $this->assertEquals('<!-- GD library is not installed -->', $result);
-            $this->markTestSkipped('GD library is not installed.');
+            $result = $this->processShortcodes($text);
+            $this->assertStringContainsString('<div class="shortcode-error"', $result);
+            $this->assertStringContainsString('Lorem: GD library is not installed. Cannot generate image.', $result);
+        } else {
+            $result = $this->processShortcodes($text);
+            $this->assertStringContainsString('class="my-image"', $result);
+            $this->assertStringStartsWith('<img src="data:image/png;base64,', $result);
+            $this->assertStringContainsString('width="100"', $result);
+            $this->assertStringContainsString('height="50"', $result);
+            $this->assertStringEndsWith('" />', $result);
         }
-
-        $this->assertStringContainsString('class="my-image"', $result);
-        $this->assertStringStartsWith('<img src="data:image/png;base64,', $result);
-        $this->assertStringContainsString('width="100"', $result);
-        $this->assertStringContainsString('height="50"', $result);
-        $this->assertStringEndsWith('" />', $result);
     }
 
     public function testImageGenerationWithAlt(): void
     {
         $text = '{lorem img width=100 height=50 alt="My placeholder image"}';
-        $result = $this->processShortcodes($text);
 
         if (!\extension_loaded('gd')) {
-            $this->assertEquals('<!-- GD library is not installed -->', $result);
-            $this->markTestSkipped('GD library is not installed.');
+            $result = $this->processShortcodes($text);
+            $this->assertStringContainsString('<div class="shortcode-error"', $result);
+            $this->assertStringContainsString('Lorem: GD library is not installed. Cannot generate image.', $result);
+        } else {
+            $result = $this->processShortcodes($text);
+            $this->assertStringContainsString('alt="My placeholder image"', $result);
+            $this->assertStringStartsWith('<img src="data:image/png;base64,', $result);
+            $this->assertStringContainsString('width="100"', $result);
+            $this->assertStringContainsString('height="50"', $result);
+            $this->assertStringEndsWith('" />', $result);
         }
+    }
 
-        $this->assertStringContainsString('alt="My placeholder image"', $result);
-        $this->assertStringStartsWith('<img src="data:image/png;base64,', $result);
-        $this->assertStringContainsString('width="100"', $result);
-        $this->assertStringContainsString('height="50"', $result);
-        $this->assertStringEndsWith('" />', $result);
+    public function testLoremIpsumWithZeroWords(): void
+    {
+        $text = '{lorem p words="0"}';
+        $result = $this->processShortcodes($text);
+        $this->assertStringContainsString('<div class="shortcode-error"', $result);
+        $this->assertStringContainsString('<b>Lorem</b>: Word count must be a positive integer.', $result);
+    }
+
+    public function testLoremIpsumWithNegativeWords(): void
+    {
+        $text = '{lorem p words="-5"}';
+        $result = $this->processShortcodes($text);
+        $this->assertStringContainsString('<div class="shortcode-error"', $result);
+        $this->assertStringContainsString('<b>Lorem</b>: Word count must be a positive integer.', $result);
     }
 
     public function testParagraphWithClassAndNoExplicitTag(): void

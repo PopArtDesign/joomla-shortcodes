@@ -39,8 +39,9 @@ class TelegramTest extends TestCase
         $attributes = ['url' => 'https://example.com'];
         $content = '';
 
-        $expected = 'Telegram: The provided URL is not a valid Telegram post URL.';
-        $this->assertStringContainsString($expected, ($this->handler)($attributes, $content));
+        $result = ($this->handler)($attributes, $content);
+        $this->assertStringContainsString('<div class="shortcode-error"', $result);
+        $this->assertStringContainsString('<b>Telegram</b>: The provided URL is not a valid Telegram post URL.', $result);
     }
 
     public function testInvokeWithoutUrl(): void
@@ -48,7 +49,8 @@ class TelegramTest extends TestCase
         $attributes = [];
         $content = '';
 
-        $expected = 'Telegram: A valid URL was not found.';
-        $this->assertStringContainsString($expected, ($this->handler)($attributes, $content));
+        $result = ($this->handler)($attributes, $content);
+        $this->assertStringContainsString('<div class="shortcode-error"', $result);
+        $this->assertStringContainsString('<b>Telegram</b>: A valid URL was not found.', $result);
     }
 }

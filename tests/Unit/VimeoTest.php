@@ -27,7 +27,8 @@ class VimeoTest extends TestCase
     {
         $shortcode = new Vimeo();
         $result = $shortcode(['url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'], '');
-        $this->assertStringContainsString('Vimeo: Could not generate embed URL.', $result);
+        $this->assertStringContainsString('<div class="shortcode-error"', $result);
+        $this->assertStringContainsString('<b>Vimeo</b>: Could not extract video ID from URL.', $result);
     }
 
     public function testVimeoUrlWithCustomDimensions(): void

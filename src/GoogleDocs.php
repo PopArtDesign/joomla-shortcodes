@@ -2,8 +2,9 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes;
 
-use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HandlerHelper;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HandlerHelper;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\AbstractShortcodeHandler;
 
 \defined('_JEXEC') or die;
 
@@ -12,7 +13,7 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-final class GoogleDocs
+final class GoogleDocs extends AbstractShortcodeHandler
 {
     /**
      * The main shortcode invokation method.
@@ -24,17 +25,14 @@ final class GoogleDocs
      *
      * @return string The full HTML output for the embed.
      */
-    public function __invoke(array $attributes, string $content): string
+    protected function process(array $attributes, string $content): string
     {
         $parsedUrl = AttributeHelper::getAbsoluteUrl($attributes, $content);
         if ($parsedUrl === null) {
-            return HandlerHelper::error('GoogleDocs: A valid URL was not found.');
+            $this->error('A valid URL was not found.');
         }
 
         $embedUrl = $this->getEmbedUrl((string) $parsedUrl);
-        if ($embedUrl === null) {
-            return HandlerHelper::error('GoogleDocs: Unable to build embed URL. Unsupported file type or invalid details.');
-        }
 
         $baseWrapperAttributes = [
             'class' => 'embed-container embed-googledocs',
@@ -59,7 +57,7 @@ final class GoogleDocs
         );
     }
 
-    protected function getEmbedUrl(string $url): ?string
+    protected function getEmbedUrl(string $url): string
     {
         if ($this->isEmbeddableUrl($url)) {
             $embedUrl = $url;
@@ -95,16 +93,11 @@ final class GoogleDocs
      *
      * @param string $url The original Google Docs/Drive URL.
      *
-     * @return string|null The constructed embed URL, or null if file details cannot be extracted or the type is unsupported.
+     * @return string The constructed embed URL.
      */
-    private function buildEmbedUrl(string $url): ?string
+    private function buildEmbedUrl(string $url): string
     {
         $fileDetails = $this->extractFileDetails($url);
-
-        if (empty($fileDetails)) {
-            return null;
-        }
-
         $fileId = $fileDetails['fileId'];
         $type   = $fileDetails['type'];
 
@@ -116,7 +109,7 @@ final class GoogleDocs
         ];
 
         if (!isset($embedTemplates[$type])) {
-            return null;
+            $this->error(sprintf("Unsupported Google Docs file type: '%s'.", $type));
         }
 
         return sprintf($embedTemplates[$type], $fileId);
@@ -127,10 +120,10 @@ final class GoogleDocs
      *
      * @param string $url The URL to extract details from.
      *
-     * @return array|null An associative array with 'fileId'
-     *                    and 'type' if found, null otherwise.
+     * @return array An associative array with 'fileId'
+     *               and 'type'.
      */
-    private function extractFileDetails(string $url): ?array
+    private function extractFileDetails(string $url): array
     {
         $patterns = [
             'document'     => '~docs\.google\.com/document/d/([a-zA-Z0-9_-]+)~i',
@@ -145,6 +138,6 @@ final class GoogleDocs
             }
         }
 
-        return null;
+        $this->error('Could not extract Google Docs file ID from URL.');
     }
 }

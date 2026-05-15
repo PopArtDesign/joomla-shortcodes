@@ -17,9 +17,6 @@ final class Youtube extends AbstractVideohostingHandler
     protected function getEmbedUrl(string $url, array $attributes): ?string
     {
         $videoId = $this->getVideoId($url);
-        if ($videoId === null) {
-            return null;
-        }
 
         $queryParams = [];
 
@@ -68,17 +65,17 @@ final class Youtube extends AbstractVideohostingHandler
      *
      * @param string $url The YouTube video URL.
      *
-     * @return string|null The extracted video ID, or null if it cannot be extracted.
+     * @return string|null The extracted video ID.
      */
-    protected function getVideoId(string $url): ?string
+    protected function getVideoId(string $url): string
     {
         $pattern = '%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i';
 
-        if (preg_match($pattern, $url, $matches)) {
+        if (\preg_match($pattern, $url, $matches)) {
             return $matches[1];
         }
 
-        return null;
+        $this->error('Could not extract video ID from URL.');
     }
 
     /**

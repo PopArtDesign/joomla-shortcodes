@@ -55,18 +55,21 @@ final class TweetTest extends TestCase
     public function testInvokeWithInvalidUrlReturnsError(): void
     {
         $result = ($this->tweet)(['url' => 'https://example.com'], '');
-        $this->assertStringContainsString('Tweet: The provided URL is not a valid Twitter/X post URL.', $result);
+        $this->assertStringContainsString('<div class="shortcode-error"', $result);
+        $this->assertStringContainsString('<b>Tweet</b>: The provided URL is not a valid Twitter/X post URL.', $result);
     }
 
     public function testInvokeWithEmptyUrlReturnsError(): void
     {
         $result = ($this->tweet)(['url' => ''], '');
-        $this->assertStringContainsString('Tweet: A valid URL was not found.', $result);
+        $this->assertStringContainsString('<div class="shortcode-error"', $result);
+        $this->assertStringContainsString('<b>Tweet</b>: A valid URL was not found.', $result);
     }
 
     public function testInvokeWithMissingUrlAttributeReturnsError(): void
     {
         $result = ($this->tweet)(['foo' => 'bar'], '');
-        $this->assertStringContainsString('Tweet: A valid URL was not found.', $result);
+        $this->assertStringContainsString('<div class="shortcode-error"', $result);
+        $this->assertStringContainsString('<b>Tweet</b>: A valid URL was not found.', $result);
     }
 }

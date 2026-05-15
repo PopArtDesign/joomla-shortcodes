@@ -5,6 +5,7 @@ namespace JoomlaShortcoder\Plugin\Content\Shortcodes;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HtmlHelper;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HandlerHelper;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\AbstractShortcodeHandler;
 
 \defined('_JEXEC') or die;
 
@@ -13,7 +14,7 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HandlerHelper;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-final class Tweet
+final class Tweet extends AbstractShortcodeHandler
 {
     /**
      * The main shortcode invokation method.
@@ -23,16 +24,16 @@ final class Tweet
      *
      * @return string The full HTML output for the Twitter embed.
      */
-    public function __invoke(array $attributes, string $content): string
+    protected function process(array $attributes, string $content): string
     {
         $parsedUrl = AttributeHelper::getAbsoluteUrl($attributes, $content);
         if ($parsedUrl === null) {
-            return HandlerHelper::error('Tweet: A valid URL was not found.');
+            $this->error('A valid URL was not found.');
         }
 
         $url = (string) $parsedUrl;
         if (!$this->isTwitterUrl($url)) {
-            return HandlerHelper::error('Tweet: The provided URL is not a valid Twitter/X post URL.');
+            $this->error('The provided URL is not a valid Twitter/X post URL.');
         }
 
         $anchor = HtmlHelper::tag('a', ['href' => $url], '');

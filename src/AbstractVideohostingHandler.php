@@ -2,8 +2,10 @@
 
 namespace JoomlaShortcoder\Plugin\Content\Shortcodes;
 
+use JoomlaShortcoder\Plugin\Content\Shortcodes\Exception\UserException;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\AttributeHelper;
 use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HandlerHelper;
+use JoomlaShortcoder\Plugin\Content\Shortcodes\AbstractShortcodeHandler;
 
 \defined('_JEXEC') or die;
 
@@ -15,7 +17,7 @@ use JoomlaShortcoder\Plugin\Content\Shortcodes\Helper\HandlerHelper;
  *
  * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  */
-abstract class AbstractVideohostingHandler
+abstract class AbstractVideohostingHandler extends AbstractShortcodeHandler
 {
     /**
      * The main shortcode invokation method.
@@ -27,20 +29,16 @@ abstract class AbstractVideohostingHandler
      *
      * @return string The full HTML output for the embed.
      */
-    public function __invoke(array $attributes, string $content): string
+    protected function process(array $attributes, string $content): string
     {
         $url = AttributeHelper::getAbsoluteUrl($attributes, $content);
         if ($url === null) {
-            $shortcodeName = (new \ReflectionClass($this))->getShortName();
-
-            return HandlerHelper::error(\sprintf('%s: A valid video URL was not found.', $shortcodeName));
+            $this->error('A valid video URL was not found.');
         }
 
         $src = $this->getEmbedUrl((string) $url, $attributes);
         if ($src === null) {
-            $shortcodeName = (new \ReflectionClass($this))->getShortName();
-
-            return HandlerHelper::error(\sprintf('%s: Could not generate embed URL.', $shortcodeName));
+            $this->error('Could not generate embed URL.');
         }
 
         $class = \strtolower((new \ReflectionClass($this))->getShortName());

@@ -31,7 +31,8 @@ class PdfTest extends TestCase
     {
         $shortcode = new Pdf();
         $result = $shortcode(['url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'], '');
-        $this->assertStringContainsString('PDF: The provided URL is not a PDF file.', $result);
+        $this->assertStringContainsString('<div class="shortcode-error"', $result);
+        $this->assertStringContainsString('<b>Pdf</b>: The provided URL is not a PDF file.', $result);
     }
 
     public function testFallbackMessageIsInsideObjectTag(): void
